@@ -316,9 +316,6 @@ const Portfolio = () => {
                 ))}
               </div>
             </div>
-            <div className="flex justify-center mt-12">
-              <LearnMoreButton path="/experience"/>
-            </div>
           </div>
         </section>
 
