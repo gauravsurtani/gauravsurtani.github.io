@@ -1,6 +1,7 @@
 # Gaurav Surtani
-Software Developer (AI/ML) | Full-Stack Engineer  
-San Jose, CA | gaurav.surtani.tech@gmail.com | [linkedin.com/in/gaurav-surtani](https://www.linkedin.com/in/gaurav-surtani) | [github.com/gauravsurtani](https://github.com/gauravsurtani)
+**Software Developer (AI/ML) | Full-Stack Engineer** | San Jose, CA | 
+
++1 408-690-5274 | gaurav.surtani.tech@gmail.com | [linkedin.com/in/gaurav-surtani](https://www.linkedin.com/in/gaurav-surtani) | [github.com/gauravsurtani](https://github.com/gauravsurtani)
 
 ## Core Skills & Technologies
 - **AI/ML:** Python, TensorFlow, PyTorch, Keras, Scikit-learn, NLP (BERT, GPT, LangChain), Knowledge Graphs, Agentic AI, Computer Vision (YOLO v8), GenAI, LLMs, ChromaDB, RAG
@@ -14,44 +15,43 @@ San Jose, CA | gaurav.surtani.tech@gmail.com | [linkedin.com/in/gaurav-surtani](
 **Full Stack Engineer Intern | Bexorg, Inc.** | _New Haven, CT_ | **May 2024 – May 2025**
 
 - Led cross-functional team initiatives, accelerating deployment cycles by 85% by streamlining CI/CD processes.
-- Built an async collaboration system, reducing meeting dependencies by 60% and cutting decision time from 7 days to under 4 hours.
-- Architected a real-time data viewer, resulting in 45% faster data retrieval and 60% improvement in scientific analysis.
-- Implemented ML-powered time series analysis and QC, reducing data issues by 70% and turnaround time by 80%.
-Engineered and integrated a Gemini API-driven chatbot trained on experiment data using ChromaDB to utilize vector embeddings for RAG based chatbot.
+- Architected an async collaboration system, reducing meeting dependencies by 60% and cutting decision time from 7 days to under 4 hours.
+- Designed a real-time data viewer, resulting in 45% faster data retrieval and 60% improvement in scientific analysis.
+- Integrated ML-powered time series analysis and QC, reducing data issues by 70% and turnaround time by 80%.
+- Developed a Gemini API-driven chatbot trained on experiment data using ChromaDB to utilize vector embeddings for RAG based chatbot.
 - Prototyped a GenAI query canvas that translates natural language to visualization pipelines, making analysis 75% faster.
 
 **Machine Learning Developer | NASA Ames Research Center** | _Mountain View, CA_ | **Dec 2023 – Mar 2024**  
 
-- Engineered a coordinate transformation pipeline (Pyproj) for flight path visualization, enabling accurate geospatial mapping in web dashboards (Folium).
+- Developed a coordinate transformation pipeline (Pyproj) for flight path visualization, enabling accurate geospatial mapping in web dashboards (Folium).
 - Containerized legacy systems, reducing researcher setup time from days to minutes and improving reproducibility.
-- Deployed a real-time time-series viewer for flight path adherence, supporting quick anomaly detection.
-- Automated validation for 1000+ flight paths, cutting manual review from 4 hours to 15 minutes.
+- Launched a real-time time-series viewer for flight path adherence, supporting quick anomaly detection.
+- Streamlined validation for 1000+ flight paths, cutting manual review from 4 hours to 15 minutes.
 
 **Research Assistant | San Jose State University** | _San Jose, CA_ | **Jul 2023 – Feb 2024**  
 
-- Developed a real-time sensor fusion pipeline (LiDAR & KITTI) to enhance object detection and 3D bounding box accuracy using YOLO v8.
-- Built OHANA, a web app for hurricane relief, integrating a Hugging Face LLM trained on multilingual mental health data—including Hawaiian—for crisis response and support center mapping.
+- Created a real-time sensor fusion pipeline (LiDAR & KITTI) to enhance object detection and 3D bounding box accuracy using YOLO v8.
+- Created OHANA, a web app for hurricane relief, integrating a Hugging Face LLM trained on multilingual mental health data—including Hawaiian—for crisis response and support center mapping.
 - Prototyped multilingual TTS (Coqui, Firefox Voice) to deliver accessible support in 25+ languages.
 
 **Senior Software Engineer | Ascendion** | _Basking Ridge, NJ_ | **Nov 2022 – Aug 2023**  
 
 - Led a team of 15+ engineers to deliver enterprise-grade projects on time and within budget.
 - Drove migration from AngularJS/13 to 15/16, reducing bundle size by 35% and improving app performance.
-- Developed a cloud economics dashboard, enabling teams to monitor VM usage/cost and achieve 30% cloud savings.
+- Built a cloud economics dashboard, enabling teams to monitor VM usage/cost and achieve 30% cloud savings.
 - Created an AI-powered VS Code extension for code quality using ChatGPT API, reducing documentation effort by 70%.
 - Improved performance, cutting page load time from 23s to 2.5s and API response time by 75%.
 
 **Software Engineer | Collabera Inc.** | _Basking Ridge, NJ_ | **Dec 2021 – Dec 2022**  
 
-- Built an SRE & DevOps assessment tool, reducing operational overhead by 20% through scoring calculations.
-- Developed a W3C-compliant Angular component library (40+ components) for rapid UI development.
-- Integrated Azure ML workflows into a web app, enabling real-time data synchronization and automated processing.
+- Crafted an SRE & DevOps assessment tool, reducing operational overhead by 20% through scoring calculations.
+- Designed a W3C-compliant Angular component library (40+ components) for rapid UI development.
+- Implemented Azure ML workflows into a web app, enabling real-time data synchronization and automated processing.
 
 **Software Developer | LIBS** | _Cotonou, Benin_ | **Jan 2021 – Nov 2021** 
 
 - Led a team of 10+ engineers to deliver a warehouse and sales management system deployed across Africa.
-- Built real-time inventory tracking and a multi-currency/language sales module for biz scalability.
-- Deployed the solution on AWS EC2 with enhanced security and compliance.
+- Orchestrated Tally cloud integration with warehouse management system using AWS Lambda for serverless data processing and EC2 for hosting core services, reducing manual intervention by 65%.
 
 **Software Engineer | Accenture** | _Pune, India_ | **Oct 2018 – Dec 2020**  
 
@@ -62,8 +62,7 @@ Engineered and integrated a Gemini API-driven chatbot trained on experiment data
 **Frontend Developer Intern | Enthralltech Pvt Ltd** | _Pune, India_ | **May 2018 – Oct 2018**  
 
 - Led frontend development for an EdTech platform using Angular and MongoDB.
-- Integrated a NoSQL chatbot for automated student support, enhancing user engagement.
-- Implemented IAM and AWS-based scalable content delivery for high availability.
+- Research a NoSQL/MongoDB chatbot for automated student support through Fuzzy Search, enhancing user engagement.
 
 ## Education
 
