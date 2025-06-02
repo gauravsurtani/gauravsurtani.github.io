@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/gaurav-portfolio-2025',
-  assetPrefix: '/gaurav-portfolio-2025',
+  basePath: process.env.NODE_ENV === 'development' ? '' : '/gaurav-portfolio-2025',
+  assetPrefix: process.env.NODE_ENV === 'development' ? '' : '/gaurav-portfolio-2025',
   images: {
     unoptimized: true,
   },
