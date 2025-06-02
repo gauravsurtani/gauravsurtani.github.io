@@ -88,7 +88,10 @@ const Portfolio = () => {
                       <span>Get in Touch</span>
                     </a>
                     <a 
-                      href="/resume.pdf"
+                      href={process.env.NODE_ENV === 'development' 
+                        ? "/resume.pdf"
+                        : "/gaurav-portfolio-2025/resume.pdf"
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 hover:-translate-y-0.5"
