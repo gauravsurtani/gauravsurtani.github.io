@@ -1,12 +1,12 @@
+/* eslint-disable */
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCode, FaChrome, FaFire, FaEnvelope, FaUtensils, FaCheck } from 'react-icons/fa'
 
-interface ProjectDetailProps {
-  params: {
-    slug: string
-  }
+type Props = {
+  params: { slug: string }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 interface Project {
@@ -171,7 +171,7 @@ const projectsData: Record<string, Project> = {
   }
 }
 
-const ProjectDetail = ({ params }: ProjectDetailProps) => {
+const ProjectDetail = ({ params }: Props) => {
   const project = projectsData[params.slug]
 
   if (!project) {

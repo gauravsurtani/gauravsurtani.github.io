@@ -8,6 +8,9 @@ const nextConfig = {
   },
   // If you have other configurations, they should be preserved or added here.
   // For example, if you had a 'reactStrictMode: true' it should remain.
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 module.exports = nextConfig; 

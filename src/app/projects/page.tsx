@@ -23,7 +23,7 @@ interface RepoListItem {
 }
 
 const ProjectsPage = () => {
-  const { stats, loading, error: _error } = useGitHubStats();
+  const { stats, loading } = useGitHubStats();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTechnology, setSelectedTechnology] = useState('');
   const [searchQuery, setSearchQuery] = useState('');

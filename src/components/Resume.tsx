@@ -1,32 +1,17 @@
 'use client'
 
-import React, { useState } from 'react'
-import { FaEnvelope, FaPhone, FaLinkedin, FaGithub, FaExternalLinkAlt, FaCode, FaGraduationCap, FaBriefcase, FaDownload, FaChevronDown, FaChevronUp } from 'react-icons/fa'
+import React from 'react'
+import { FaEnvelope, FaLinkedin, FaGithub, FaExternalLinkAlt, FaCode, FaDownload } from 'react-icons/fa'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useGitHubStats } from '@/lib/github'
 import { PORTFOLIO_CONFIG, ALL_REPOSITORIES, PROFESSIONAL_EXPERIENCE, EDUCATION } from '@/lib/constants'
 import Navigation from './Navigation'
-import DarkModeToggle from './DarkModeToggle'
 import LearnMoreButton from './LearnMoreButton'
 import SkillsSlider from './SkillsSlider'
 
 const Portfolio = () => {
   const { stats, loading, error } = useGitHubStats();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [expandedRoles, setExpandedRoles] = useState<number[]>([]);
-
-  const handleDrawerOpen = () => {
-    setIsDrawerOpen(true);
-  };
-
-  const toggleRole = (index: number) => {
-    setExpandedRoles(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
-    );
-  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -279,34 +264,6 @@ const Portfolio = () => {
                           </ul>
                         </div>
                       ))}
-                      {/* {exp.achievements && exp.achievements.length > 0 && (
-                        <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
-                          <h5 className="font-medium text-accent mb-1">General Achievements</h5>
-                          <ul className="space-y-1">
-                            {exp.achievements.slice(0, expandedRoles.includes(index) ? undefined : 3).map((achievement, achievementIndex) => (
-                              <li key={achievementIndex} className="flex items-start space-x-2 text-sm">
-                                <span className="text-accent">•</span>
-                                <span className="theme-transition">{achievement}</span>
-                              </li>
-                            ))}
-                          </ul>
-                          {exp.achievements.length > 3 && (
-                            <div className="mt-2 text-center">
-                              <button 
-                                onClick={() => toggleRole(index)}
-                                className="text-accent hover:text-accent-hover text-sm font-medium inline-flex items-center space-x-1 transition-colors"
-                              >
-                                <span>{expandedRoles.includes(index) ? 'Show Less' : 'Show More'}</span>
-                                {expandedRoles.includes(index) ? (
-                                  <FaChevronUp className="text-xs" />
-                                ) : (
-                                  <FaChevronDown className="text-xs" />
-                                )}
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )} */}
                     </div>
                   </div>
                 ))}
@@ -359,33 +316,6 @@ const Portfolio = () => {
                   </div>
                 ))}
               </div>
-              
-              {/* Certifications */}
-              {/* CERTIFICATIONS.length > 0 && (
-                <div className="mt-12">
-                  <h3 className="text-2xl font-bold text-center mb-8">Certifications & Awards</h3>
-                  <div className="space-y-4">
-                    {CERTIFICATIONS.map((cert, index) => (
-                      <div key={index} className="card p-4">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h4 className="font-semibold">{cert.name}</h4>
-                            <p className="text-accent">{cert.issuer}</p>
-                            {cert.details && (
-                              <ul className="mt-2 space-y-1">
-                                {cert.details.map((detail, detailIndex) => (
-                                  <li key={detailIndex} className="text-muted-foreground text-sm">• {detail}</li>
-                                ))}
-                              </ul>
-                            )}
-                          </div>
-                          <span className="text-muted-foreground text-sm">{cert.date}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ) */}
             </div>
           </div>
         </section>
