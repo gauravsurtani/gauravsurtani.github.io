@@ -97,7 +97,7 @@ export const PORTFOLIO_CONFIG = {
 // Professional Experience Data
 export const PROFESSIONAL_EXPERIENCE = [
   {
-    title: 'Full Stack Engineer Intern',
+    title: 'Full Stack AI Engineer',
     company: 'Bexorg, Inc.',
     period: 'May 2024 - May 2025',
     location: 'New Haven, Connecticut, United States',
@@ -108,6 +108,8 @@ export const PROFESSIONAL_EXPERIENCE = [
       'Docker', 'Kubernetes', 'REST APIs', 'GraphQL', 'Tailwind CSS'
     ],
     achievements: [
+      'Founding Engineer [React/Next.js, Node.js, Python, Flask, FastAPI, GPT]',
+      'AI-Powered Data Visualization Platform [ChromaDB, Gemini API, LangChain, GPT]',
       'Cross-functional team leadership (85% faster deployment) [React, Node.js, Python]',
       'Real-time data visualization (40+ users) [Plotly, D3.js, Neo4j]',
       'Async collaboration system (60% less meetings) [Next.js, TypeScript]',
@@ -187,7 +189,7 @@ export const PROFESSIONAL_EXPERIENCE = [
     ]
   },
   {
-    title: 'Research Assistant',
+    title: 'Graduate Research Assistant',
     company: 'San Jose State University',
     period: 'July 2023 - February 2024',
     location: 'San Jose, California, United States',

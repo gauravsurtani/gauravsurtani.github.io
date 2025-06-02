@@ -51,7 +51,8 @@ const Portfolio = () => {
                     {PORTFOLIO_CONFIG.title}
                   </p>
                   <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0 theme-transition">
-                    Full-Stack AI Developer with expertise in building intelligent solutions and contributing to cutting-edge research. Currently working with leading organizations across various domains. Passionate about creating impactful technology and exploring innovative solutions that drive progress.
+                    Full-Stack AI Engineer specializing in building intelligent systems and AI-powered solutions. Experienced in developing end-to-end AI applications. 
+                    Passionate about creating impactful technology that combines cutting-edge AI with robust software engineering practices.
                   </p>
 
                   {/* Social Links */}
@@ -260,7 +261,7 @@ const Portfolio = () => {
                       {exp.skills && (
                         <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
                           <h5 className="font-medium text-accent mb-3 flex items-center">
-                            <span className="mr-2">🛠️</span> Skills
+                            <span className="mr-2">🛠️</span> Technical Stack
                           </h5>
                           <div className="flex flex-wrap gap-2">
                             {exp.skills.map((skill, skillIndex) => (
