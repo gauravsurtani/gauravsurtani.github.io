@@ -1,26 +1,583 @@
 @import "tailwindcss";
 
 :root {
+  /* Light mode colors */
   --background: #ffffff;
   --foreground: #171717;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --muted: #f3f4f6;
+  --muted-foreground: #6b7280;
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --nav-bg: rgba(255, 255, 255, 0.95);
+  --shadow: rgba(0, 0, 0, 0.1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
+[data-theme="dark"], .dark {
+  /* Dark mode colors */
     --background: #0a0a0a;
     --foreground: #ededed;
-  }
+  --card-bg: #1f1f1f;
+  --card-border: #374151;
+  --muted: #111111;
+  --muted-foreground: #9ca3af;
+  --accent: #60a5fa;
+  --accent-hover: #3b82f6;
+  --nav-bg: rgba(26, 26, 26, 0.95);
+  --shadow: rgba(0, 0, 0, 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Add scroll snap points to main sections */
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+/* Custom scrollbar for dark mode */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted-foreground);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Force override Tailwind colors with CSS variables */
+  .bg-white {
+    background-color: var(--background) !important;
+  }
+  
+  .bg-gray-50 {
+    background-color: var(--muted) !important;
+  }
+  
+  .bg-gray-900 {
+    background-color: var(--card-bg) !important;
+  }
+  
+  .text-gray-900 {
+    color: var(--foreground) !important;
+  }
+  
+  .text-gray-600 {
+    color: var(--muted-foreground) !important;
+  }
+  
+  .border-gray-200 {
+    border-color: var(--card-border) !important;
+  }
+  
+  .border-gray-300 {
+    border-color: var(--card-border) !important;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 1px 2px 0 var(--shadow) !important;
+  }
+  
+  .shadow-lg {
+    box-shadow: 0 10px 15px -3px var(--shadow), 0 4px 6px -2px var(--shadow) !important;
+  }
+  
+  /* Dark mode specific overrides for Tailwind classes */
+  [data-theme="dark"] .bg-gradient-to-br {
+    background: linear-gradient(to bottom right, #1f2937, #111827) !important;
+  }
+  
+  [data-theme="dark"] .hover\:bg-gray-50:hover {
+    background-color: #374151 !important;
+  }
+  
+  [data-theme="dark"] .hover\:bg-gray-700:hover {
+    background-color: #4b5563 !important;
+  }
+  
+  [data-theme="dark"] .bg-gray-200 {
+    background-color: #374151 !important;
+  }
+  
+  [data-theme="dark"] .bg-gray-700 {
+    background-color: #4b5563 !important;
+  }
+  
+  [data-theme="dark"] .bg-gray-100 {
+    background-color: #1f2937 !important;
+  }
+  
+  [data-theme="dark"] .bg-gray-800 {
+    background-color: #111827 !important;
+  }
+  
+  [data-theme="dark"] .border-gray-600 {
+    border-color: #4b5563 !important;
+  }
+  
+  [data-theme="dark"] .text-gray-400 {
+    color: #9ca3af !important;
+  }
+  
+  [data-theme="dark"] .text-gray-500 {
+    color: #6b7280 !important;
+  }
+}
+
+@layer components {
+  .card {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 var(--shadow);
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 10px 15px -3px var(--shadow), 0 4px 6px -2px var(--shadow) !important;
+  }
+  
+  .nav-glass {
+    background-color: var(--nav-bg) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--card-border);
+  }
+  
+  .btn-primary {
+    background-color: var(--accent) !important;
+    color: white !important;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--accent-hover) !important;
+  }
+  
+  .text-accent {
+    color: var(--accent) !important;
+  }
+  
+  .bg-accent {
+    background-color: var(--accent) !important;
+  }
+  
+  .text-muted-foreground {
+    color: var(--muted-foreground) !important;
+  }
+  
+  .bg-muted {
+    background-color: var(--muted) !important;
+  }
+
+  /* Custom hero background that responds to manual dark mode toggle only */
+  .hero-bg {
+    background: linear-gradient(to bottom right, #dbeafe, #e0e7ff) !important;
+    transition: background 0.3s ease !important;
+  }
+  
+  .dark .hero-bg {
+    background: linear-gradient(to bottom right, #1f2937, #111827) !important;
+  }
+
+  /* Interest and hobby tags - manual dark mode only */
+  .tag-blue {
+    background-color: #dbeafe !important;
+    color: #1e40af !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .dark .tag-blue {
+    background-color: #1e3a8a !important;
+    color: #93c5fd !important;
+  }
+  
+  .tag-green {
+    background-color: #dcfce7 !important;
+    color: #166534 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .dark .tag-green {
+    background-color: #14532d !important;
+    color: #86efac !important;
+  }
+
+  /* Progress bar styles - manual dark mode only */
+  .progress-bg {
+    background-color: #e5e7eb !important;
+    transition: background-color 0.3s ease !important;
+  }
+  
+  .dark .progress-bg {
+    background-color: #374151 !important;
+  }
+
+  /* Featured tag styles - manual dark mode only */
+  .tag-yellow {
+    background-color: #fef3c7 !important;
+    color: #92400e !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .dark .tag-yellow {
+    background-color: #78350f !important;
+    color: #fbbf24 !important;
+  }
+
+  /* Technology tag styles - manual dark mode only */
+  .tag-gray {
+    background-color: #f3f4f6 !important;
+    color: #374151 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .dark .tag-gray {
+    background-color: #374151 !important;
+    color: #d1d5db !important;
+  }
+
+  /* Footer styles - manual dark mode only */
+  .footer-bg {
+    background-color: #111827 !important;
+    color: #ffffff !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .dark .footer-bg {
+    background-color: #030712 !important;
+  }
+
+  .footer-text-muted {
+    color: #9ca3af !important;
+    transition: color 0.3s ease !important;
+  }
+  
+  .dark .footer-text-muted {
+    color: #6b7280 !important;
+  }
+
+  /* Theme transition for text elements */
+  .theme-transition {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+  }
+
+  /* Text color transitions */
+  .text-gray-700 {
+    color: var(--muted-foreground) !important;
+    transition: color 0.3s ease !important;
+  }
+
+  .dark .text-gray-700 {
+    color: var(--muted-foreground) !important;
+  }
+
+  .text-gray-300 {
+    color: var(--muted-foreground) !important;
+    transition: color 0.3s ease !important;
+  }
+
+  .dark .text-gray-300 {
+    color: var(--muted-foreground) !important;
+  }
+
+  /* Navigation Styles */
+  .nav-container {
+    @apply fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[80%] max-w-6xl rounded-2xl transition-all duration-300;
+  }
+
+  .nav-container-scrolled {
+    @apply bg-[#f4f4e8] dark:bg-gray-900/90 backdrop-blur-md shadow-lg border border-gray-200 dark:border-gray-700;
+  }
+
+  .nav-container-default {
+    @apply bg-[#f4f4e8] dark:bg-gray-900/80 backdrop-blur-sm shadow-md border border-gray-200 dark:border-gray-700;
+  }
+
+  .nav-content {
+    @apply px-6;
+  }
+
+  .nav-header {
+    @apply flex items-center justify-between h-16;
+  }
+
+  .nav-brand {
+    @apply text-xl font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors;
+  }
+
+  .nav-items {
+    @apply hidden md:flex items-center space-x-2;
+  }
+
+  .nav-item {
+    @apply px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200;
+  }
+
+  .nav-item-active {
+    @apply bg-white/90 dark:bg-gray-800 text-gray-900 dark:text-white;
+  }
+
+  .nav-item-default {
+    @apply text-gray-600 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-gray-800;
+  }
+
+  .nav-mobile-button {
+    @apply md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-white/80 dark:hover:bg-gray-800 transition-colors;
+  }
+
+  .nav-mobile-menu {
+    @apply md:hidden overflow-hidden transition-all duration-300;
+  }
+
+  .nav-mobile-menu-open {
+    @apply max-h-64;
+  }
+
+  .nav-mobile-menu-closed {
+    @apply max-h-0;
+  }
+
+  .nav-mobile-items {
+    @apply px-4 py-2 space-y-1;
+  }
+
+  .nav-mobile-item {
+    @apply w-full text-left px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200;
+  }
+
+  /* Drawer Styles */
+  .drawer-container {
+    @apply fixed top-0 right-0 h-full w-80 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out z-50;
+  }
+
+  .drawer-open {
+    @apply translate-x-0;
+  }
+
+  .drawer-closed {
+    @apply translate-x-full;
+  }
+
+  .drawer-content {
+    @apply h-full flex flex-col;
+  }
+
+  .drawer-header {
+    @apply flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700;
+  }
+
+  .drawer-title {
+    @apply text-xl font-semibold text-gray-900 dark:text-white;
+  }
+
+  .drawer-close-button {
+    @apply p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800;
+  }
+
+  .drawer-close-icon {
+    @apply w-6 h-6 text-gray-600 dark:text-gray-300;
+  }
+
+  .drawer-items {
+    @apply space-y-4 p-4;
+  }
+
+  .drawer-item {
+    @apply block w-full text-left px-4 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors;
+  }
+
+  .drawer-overlay {
+    @apply fixed inset-0 bg-black/50 z-40 transition-opacity duration-300;
+  }
+
+  /* Learn More Button Styles */
+  .learn-more-button {
+    @apply inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200;
+  }
+
+  .learn-more-button-default {
+    @apply bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700;
+  }
+
+  .learn-more-button-hover {
+    @apply hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-300 dark:hover:border-gray-600;
+  }
+
+  .learn-more-text {
+    @apply mr-2;
+  }
+
+  .learn-more-icon {
+    @apply w-4 h-4;
+  }
+
+  /* LinkedIn Button Hover Effect */
+  .linkedin-hover {
+    @apply transition-all duration-300;
+    background-color: #f3f4f6 !important;
+  }
+
+  .linkedin-hover:hover {
+    background-color: #0077B5 !important;
+  }
+
+  .linkedin-hover svg {
+    color: #0077B5 !important;
+  }
+
+  .linkedin-hover span {
+    color: #1f2937 !important;
+  }
+
+  .linkedin-hover:hover svg,
+  .linkedin-hover:hover span {
+    color: white !important;
+  }
+
+  /* Dark mode overrides */
+  .dark .linkedin-hover {
+    background-color: #1f2937 !important;
+  }
+
+  .dark .linkedin-hover svg {
+    color: #60a5fa !important;
+  }
+
+  .dark .linkedin-hover span {
+    color: #f3f4f6 !important;
+  }
+
+  .dark .linkedin-hover:hover {
+    background-color: #0077B5 !important;
+  }
+
+  .dark .linkedin-hover:hover svg,
+  .dark .linkedin-hover:hover span {
+    color: white !important;
+  }
+
+  /* GitHub Button Hover Effect */
+  .github-hover {
+    @apply transition-all duration-300;
+    background-color: #f3f4f6 !important;
+  }
+
+  .github-hover:hover {
+    background-color: #2D333B !important;
+  }
+
+  .github-hover svg {
+    color: #1f2937 !important;
+  }
+
+  .github-hover span {
+    color: #1f2937 !important;
+  }
+
+  .github-hover:hover svg,
+  .github-hover:hover span {
+    color: white !important;
+  }
+
+  /* Dark mode overrides */
+  .dark .github-hover {
+    background-color: #1f2937 !important;
+  }
+
+  .dark .github-hover svg {
+    color: #f3f4f6 !important;
+  }
+
+  .dark .github-hover span {
+    color: #f3f4f6 !important;
+  }
+
+  .dark .github-hover:hover {
+    background-color: #2D333B !important;
+  }
+
+  .dark .github-hover:hover svg,
+  .dark .github-hover:hover span {
+    color: white !important;
+  }
+}
+
+@layer utilities {
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  
+  .theme-transition {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  /* Skills Slider Animation */
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll {
+    animation: scroll 20s linear infinite;
+  }
+
+  .animate-scroll:hover {
+    animation-play-state: paused;
+  }
+
+  /* Different speeds for different rows */
+  .animate-scroll:nth-child(1) {
+    animation-duration: 25s;
+  }
+
+  .animate-scroll:nth-child(2) {
+    animation-duration: 35s;
+  }
+
+  .animate-scroll:nth-child(3) {
+    animation-duration: 30s;
+  }
 }
