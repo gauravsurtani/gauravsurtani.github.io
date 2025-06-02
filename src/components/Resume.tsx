@@ -28,7 +28,10 @@ const Portfolio = () => {
                   <div className="relative group">
                     <div className="w-[400px] h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-gray-800 p-4 transition-all duration-300 hover:shadow-blue-500/20 hover:scale-[1.02] hover:p-0">
                       <Image 
-                        src="/portfolio_new_image_grad.jpg" 
+                        src={process.env.NODE_ENV === 'development' 
+                          ? "/portfolio_new_image_grad.jpg"
+                          : "/gaurav-portfolio-2025/portfolio_new_image_grad.jpg"
+                        }
                         alt="Gaurav Surtani" 
                         width={400}
                         height={600}
