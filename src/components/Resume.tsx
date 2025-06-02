@@ -19,14 +19,14 @@ const Portfolio = () => {
       
       <main className="flex-grow">
         {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 theme-transition">
-          <div className="container mx-auto px-6">
+        <section id="home" className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 theme-transition">
+          <div className="container mx-auto px-4 sm:px-6">
             <div className="max-w-6xl mx-auto">
-              <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
                 {/* Professional Image */}
                 <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
                   <div className="relative group">
-                    <div className="w-[400px] h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-gray-800 p-4 transition-all duration-300 hover:shadow-blue-500/20 hover:scale-[1.02] hover:p-0">
+                    <div className="w-[280px] sm:w-[320px] md:w-[360px] lg:w-[400px] h-[420px] sm:h-[480px] md:h-[540px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-gray-800 p-4 transition-all duration-300 hover:shadow-blue-500/20 hover:scale-[1.02] hover:p-0">
                       <Image 
                         src={process.env.NODE_ENV === 'development' 
                           ? "/portfolio_new_image_grad.jpg"
@@ -44,45 +44,43 @@ const Portfolio = () => {
 
                 {/* Content */}
                 <div className="order-1 lg:order-2 text-center lg:text-left">
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-300">
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 transition-colors duration-300 mt-12">
                     {PORTFOLIO_CONFIG.name}
                   </h1>
-                  <p className="text-xl md:text-2xl text-gray-900 dark:text-gray-100 mb-6 theme-transition">
+                  <p className="text-lg sm:text-xl md:text-2xl text-gray-900 dark:text-gray-100 mb-4 sm:mb-6 theme-transition">
                     {PORTFOLIO_CONFIG.title}
                   </p>
-                  <p className="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-lg mx-auto lg:mx-0 theme-transition">
+                  <p className="text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0 theme-transition">
                     Full-Stack AI Developer with expertise in building intelligent solutions and contributing to cutting-edge research. Currently working with leading organizations across various domains. Passionate about creating impactful technology and exploring innovative solutions that drive progress.
                   </p>
 
-                  
-
                   {/* Social Links */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                     <a 
                       href={PORTFOLIO_CONFIG.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="linkedin-hover px-8 py-4 rounded-lg flex items-center justify-center space-x-3 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 text-lg font-medium hover:-translate-y-0.5"
+                      className="linkedin-hover px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg flex items-center justify-center space-x-2 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 text-sm sm:text-base font-medium hover:-translate-y-0.5 w-full sm:w-auto"
                     >
-                      <FaLinkedin className="text-xl" />
+                      <FaLinkedin className="text-base sm:text-lg" />
                       <span>Connect on LinkedIn</span>
                     </a>
                     <a 
                       href={PORTFOLIO_CONFIG.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="github-hover px-8 py-4 rounded-lg flex items-center justify-center space-x-3 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 text-lg font-medium hover:-translate-y-0.5"
+                      className="github-hover px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg flex items-center justify-center space-x-2 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 text-sm sm:text-base font-medium hover:-translate-y-0.5 w-full sm:w-auto"
                     >
-                      <FaGithub className="text-xl" />
+                      <FaGithub className="text-base sm:text-lg" />
                       <span>Follow on GitHub</span>
                     </a>
                   </div>
 
                   {/* Primary Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mt-6">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start mt-4 sm:mt-6">
                     <a 
                       href={`mailto:${PORTFOLIO_CONFIG.email}`}
-                      className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 hover:-translate-y-0.5"
+                      className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 hover:-translate-y-0.5 w-full sm:w-auto"
                     >
                       <FaEnvelope className="text-gray-600 dark:text-gray-400" />
                       <span>Get in Touch</span>
@@ -94,7 +92,7 @@ const Portfolio = () => {
                       }
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-6 py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 hover:-translate-y-0.5"
+                      className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 hover:-translate-y-0.5 w-full sm:w-auto"
                     >
                       <FaDownload className="text-gray-600 dark:text-gray-400" />
                       <span>Download Resume</span>
@@ -102,24 +100,24 @@ const Portfolio = () => {
                   </div>
 
                   {/* Key Stats */}
-                  <div className="mt-8 grid grid-cols-3 gap-4 max-w-sm mx-auto lg:mx-0">
+                  <div className="mt-6 sm:mt-8 grid grid-cols-3 gap-3 sm:gap-4 max-w-sm mx-auto lg:mx-0">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-colors duration-300">
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400 transition-colors duration-300">
                         {loading ? '...' : error ? PORTFOLIO_CONFIG.fallbackStats.repositoryCount : stats?.repositoryCount || PORTFOLIO_CONFIG.fallbackStats.repositoryCount}
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">Projects</div>
+                      <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">Projects</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-colors duration-300">
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400 transition-colors duration-300">
                         {loading ? '...' : error ? PORTFOLIO_CONFIG.fallbackStats.organizationCount : stats?.organizationCount || PORTFOLIO_CONFIG.fallbackStats.organizationCount}
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">Organizations</div>
+                      <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">Organizations</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 transition-colors duration-300">
+                      <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400 transition-colors duration-300">
                         {loading ? '...' : error ? `${PORTFOLIO_CONFIG.fallbackStats.accountAge}+` : `${stats?.accountAge}+` || `${PORTFOLIO_CONFIG.fallbackStats.accountAge}+`}
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">Years Exp</div>
+                      <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 transition-colors duration-300">Years Exp</div>
                     </div>
                   </div>
                 </div>
@@ -129,48 +127,50 @@ const Portfolio = () => {
         </section>
 
         {/* About Section */}
-        <section id="about" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 theme-transition pt-32">
+        <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 theme-transition">
           <div className="container mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-8">About Me</h2>
+            <h2 className="text-3xl font-bold text-center mb-12">About Me</h2>
             
-            <div className="max-w-6xl mx-auto">
-              <p className="text-lg mb-12 theme-transition text-center">
-                I&apos;m a passionate Full-Stack AI Developer from {PORTFOLIO_CONFIG.location}, currently working with leading organizations including {PORTFOLIO_CONFIG.currentWork.join(', ')}. My journey spans from building intelligent solutions that solve real-world problems to contributing to cutting-edge research in space exploration and AI.
-              </p>
-              
-              {/* Current Focus Section */}
-              <div className="mb-12">
-                <h3 className="text-xl font-semibold mb-6 text-center">Current Focus</h3>
-                <div className="relative overflow-hidden">
-                  <div className="flex space-x-4 animate-scroll">
-                    {PORTFOLIO_CONFIG.currentFocus.map((focus, index) => (
-                      <div key={index} className="flex-shrink-0">
-                        <div className="bg-white dark:bg-blue-900/20 px-4 py-2 rounded-full text-blue-800 dark:text-blue-400 whitespace-nowrap text-sm font-medium border border-blue-200 dark:border-blue-800/30 shadow-sm hover:shadow-md transition-all duration-300">
-                          {focus}
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 mb-12">
+                <p className="text-lg mb-8 theme-transition text-center leading-relaxed">
+                  I&apos;m a passionate Full-Stack AI Developer from {PORTFOLIO_CONFIG.location}, currently working with leading organizations including {PORTFOLIO_CONFIG.currentWork.join(', ')}. My journey spans from building intelligent solutions that solve real-world problems to contributing to cutting-edge research in space exploration and AI.
+                </p>
+                
+                {/* Current Focus Section */}
+                <div className="mb-8">
+                  <h3 className="text-xl font-semibold mb-6 text-center text-accent">Current Focus</h3>
+                  <div className="relative overflow-hidden">
+                    <div className="flex space-x-4 animate-scroll">
+                      {PORTFOLIO_CONFIG.currentFocus.map((focus, index) => (
+                        <div key={index} className="flex-shrink-0">
+                          <div className="bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full text-blue-800 dark:text-blue-400 whitespace-nowrap text-sm font-medium border border-blue-200 dark:border-blue-800/30 shadow-sm hover:shadow-md transition-all duration-300">
+                            {focus}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                    {/* Duplicate items for seamless loop */}
-                    {PORTFOLIO_CONFIG.currentFocus.map((focus, index) => (
-                      <div key={`duplicate-${index}`} className="flex-shrink-0">
-                        <div className="bg-white dark:bg-blue-900/20 px-4 py-2 rounded-full text-blue-800 dark:text-blue-400 whitespace-nowrap text-sm font-medium border border-blue-200 dark:border-blue-800/30 shadow-sm hover:shadow-md transition-all duration-300">
-                          {focus}
+                      ))}
+                      {/* Duplicate items for seamless loop */}
+                      {PORTFOLIO_CONFIG.currentFocus.map((focus, index) => (
+                        <div key={`duplicate-${index}`} className="flex-shrink-0">
+                          <div className="bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-full text-blue-800 dark:text-blue-400 whitespace-nowrap text-sm font-medium border border-blue-200 dark:border-blue-800/30 shadow-sm hover:shadow-md transition-all duration-300">
+                            {focus}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              
-              {/* Key Interests Section */}
-              <div className="mb-12">
-                <h3 className="text-xl font-semibold mb-6 text-center">Key Interests</h3>
-                <div className="flex flex-wrap justify-center gap-3">
-                  {PORTFOLIO_CONFIG.interests.map((interest, index) => (
-                    <span key={index} className="tag-blue px-4 py-2 rounded-full text-sm">
-                      {interest}
-                    </span>
-                  ))}
+                
+                {/* Key Interests Section */}
+                <div>
+                  <h3 className="text-xl font-semibold mb-6 text-center text-accent">Key Interests</h3>
+                  <div className="flex flex-wrap justify-center gap-3">
+                    {PORTFOLIO_CONFIG.interests.map((interest, index) => (
+                      <span key={index} className="bg-gray-50 dark:bg-gray-700/50 px-4 py-2 rounded-full text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300">
+                        {interest}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -182,17 +182,58 @@ const Portfolio = () => {
         </section>
 
         {/* Skills Section */}
-        <section id="skills" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8">
+        <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
-              Technical Skills
-            </h2>
-            <SkillsSlider />
+            <h2 className="text-3xl font-bold text-center mb-12">Technical Skills</h2>
+            
+            {/* Mobile Grid View */}
+            <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+              {/* AI/ML Skills */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold mb-4 text-accent">AI/ML</h3>
+                <div className="flex flex-wrap gap-2">
+                  {PORTFOLIO_CONFIG.skills.aiMl.map((skill: string, index: number) => (
+                    <span key={index} className="bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full text-sm text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Data Engineering Skills */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold mb-4 text-accent">Data Engineering</h3>
+                <div className="flex flex-wrap gap-2">
+                  {PORTFOLIO_CONFIG.skills.dataEngineering.map((skill: string, index: number) => (
+                    <span key={index} className="bg-green-50 dark:bg-green-900/20 px-3 py-1 rounded-full text-sm text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/30">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Web Development Skills */}
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                <h3 className="text-xl font-semibold mb-4 text-accent">Web Development</h3>
+                <div className="flex flex-wrap gap-2">
+                  {PORTFOLIO_CONFIG.skills.webDev.map((skill: string, index: number) => (
+                    <span key={index} className="bg-purple-50 dark:bg-purple-900/20 px-3 py-1 rounded-full text-sm text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/30">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Desktop Slider View */}
+            <div className="hidden lg:block">
+              <SkillsSlider />
+            </div>
           </div>
         </section>
 
         {/* Experience Section */}
-        <section id="experience" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 theme-transition pt-32">
+        <section id="experience" className="py-20 px-4 sm:px-6 lg:px-8 theme-transition">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl font-bold text-center mb-8">Professional Experience</h2>
             <div className="max-w-6xl mx-auto">
@@ -282,7 +323,7 @@ const Portfolio = () => {
         </section>
 
         {/* Education Section */}
-        <section id="education" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 bg-muted theme-transition pt-32">
+        <section id="education" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted theme-transition">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl font-bold text-center mb-8">Education</h2>
             <div className="max-w-4xl mx-auto">
@@ -327,7 +368,7 @@ const Portfolio = () => {
         </section>
 
         {/* Projects Section */}
-        <section id="projects" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 theme-transition pt-32">
+        <section id="projects" className="py-20 px-4 sm:px-6 lg:px-8 theme-transition">
           <div className="container mx-auto px-6">
             <h2 className="text-3xl font-bold text-center mb-8">Featured Projects</h2>
             <p className="text-center mb-8 max-w-2xl mx-auto theme-transition">
@@ -405,7 +446,7 @@ const Portfolio = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 bg-muted theme-transition pt-32">
+        <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted theme-transition">
           <div className="container mx-auto px-6 text-center">
             <h2 className="text-3xl font-bold mb-8">Let&apos;s Connect</h2>
             <p className="mb-8 max-w-2xl mx-auto theme-transition text-lg">
