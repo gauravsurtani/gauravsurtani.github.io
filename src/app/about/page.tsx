@@ -46,19 +46,19 @@ const AboutPage = () => {
               </h2>
               <div className="space-y-4 text-gray-700 leading-relaxed">
                 <p>
-                  Hi, I'm Gaurav Surtani, and I'm on the path to being a 'Full Stack AI Developer'. 🎯 
-                  Based in San Jose, CA, I've been fascinated by the intersection of artificial intelligence, 
+                  Hi, I&apos;m Gaurav Surtani, and I&apos;m on the path to being a &apos;Full Stack AI Developer&apos;. 🎯 
+                  Based in San Jose, CA, I&apos;ve been fascinated by the intersection of artificial intelligence, 
                   data engineering, and practical problem-solving since the beginning of my tech journey.
                 </p>
                 <p>
                   My passion lies in building intelligent solutions that bridge the gap between cutting-edge AI 
                   research and real-world applications. I believe that the most impactful technology is the one 
-                  that solves genuine problems and makes people's lives easier.
+                  that solves genuine problems and makes people&apos;s lives easier.
                 </p>
                 <p>
                   I have had the privilege of working with prestigious organizations including Bexorg, NASA, and SJSU RF, 
                   where I contributed to projects spanning from space exploration data analysis to advanced AI systems. 
-                  Each project has taught me something valuable and pushed the boundaries of what's possible with modern technology.
+                  Each project has taught me something valuable and pushed the boundaries of what&apos;s possible with modern technology.
                 </p>
               </div>
             </section>
@@ -71,7 +71,7 @@ const AboutPage = () => {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <div className="space-y-4 text-gray-700">
                   <p>
-                    I approach technology with a balance of curiosity and pragmatism. While I'm always excited 
+                    I approach technology with a balance of curiosity and pragmatism. While I&apos;m always excited 
                     to explore the latest AI research and techniques, I focus on understanding how these can be 
                     applied to solve real problems.
                   </p>
@@ -80,7 +80,7 @@ const AboutPage = () => {
                       <h3 className="font-semibold text-gray-900 mb-2">My Core Principles:</h3>
                       <ul className="space-y-1 text-sm">
                         <li>• Build for users, not just for technology</li>
-                        <li>• Always question "why" before "how"</li>
+                        <li>• Always question &quot;why&quot; before &quot;how&quot;</li>
                         <li>• Continuous learning is non-negotiable</li>
                         <li>• Collaboration amplifies innovation</li>
                       </ul>
@@ -102,7 +102,7 @@ const AboutPage = () => {
             {/* Current Work & Interests */}
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <FaRocket className="text-blue-600" /> What I'm Working On
+                <FaRocket className="text-blue-600" /> What I&apos;m Working On
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
@@ -173,7 +173,7 @@ const AboutPage = () => {
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 border border-blue-200 dark:border-blue-800/30 rounded-lg p-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">When I'm Not Coding...</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-3">When I&apos;m Not Coding...</h3>
                     <ul className="space-y-2 text-gray-700 dark:text-gray-300 text-sm">
                       <li>🤖 Reading the latest AI research papers</li>
                       <li>🔍 Exploring new datasets and finding hidden patterns</li>
@@ -256,17 +256,17 @@ const AboutPage = () => {
                     ))}
                   </div>
                 ) : stats?.organizations.length ? (
-                  stats.organizations.map((org, index) => (
+                  stats.organizations.map((org) => (
                     <div key={org.login} className="flex items-center gap-3">
                       <div className={`w-3 h-3 rounded-full ${
-                        PORTFOLIO_CONFIG.organizations[index]?.color || 'bg-gray-600'
+                        PORTFOLIO_CONFIG.organizations.find(o => o.name === org.login)?.color || 'bg-gray-600'
                       }`}></div>
                       <span className="text-gray-700">{org.login}</span>
                     </div>
                   ))
                 ) : (
                   <div className="space-y-3">
-                    {PORTFOLIO_CONFIG.organizations.map((org, index) => (
+                    {PORTFOLIO_CONFIG.organizations.map((org) => (
                       <div key={org.name} className="flex items-center gap-3">
                         <div className={`w-3 h-3 rounded-full ${org.color}`}></div>
                         <span className="text-gray-700">{org.name}</span>
@@ -279,7 +279,7 @@ const AboutPage = () => {
 
             {/* Connect */}
             <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Let's Connect</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Let&apos;s Connect</h3>
               <div className="space-y-3">
                 <a 
                   href="https://github.com/gauravsurtani" 
@@ -313,12 +313,12 @@ const AboutPage = () => {
               </h3>
               <div className="space-y-4">
                 <div>
-                  <p className="font-medium text-gray-900 dark:text-white">Master's in Artificial Intelligence</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Master&apos;s in Artificial Intelligence</p>
                   <p className="text-gray-600 dark:text-gray-300">San Jose State University</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">San Jose, CA</p>
                 </div>
                 <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
-                  <p className="font-medium text-gray-900 dark:text-white">Bachelor's in Information Technology</p>
+                  <p className="font-medium text-gray-900 dark:text-white">Bachelor&apos;s in Information Technology</p>
                   <p className="text-gray-600 dark:text-gray-300">Pune University</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Pune, India</p>
                 </div>

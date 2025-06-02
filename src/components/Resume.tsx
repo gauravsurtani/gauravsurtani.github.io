@@ -3,8 +3,9 @@
 import React, { useState } from 'react'
 import { FaEnvelope, FaPhone, FaLinkedin, FaGithub, FaExternalLinkAlt, FaCode, FaGraduationCap, FaBriefcase, FaDownload, FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useGitHubStats } from '@/lib/github'
-import { PORTFOLIO_CONFIG, ALL_REPOSITORIES, PROFESSIONAL_EXPERIENCE, EDUCATION, CERTIFICATIONS } from '@/lib/constants'
+import { PORTFOLIO_CONFIG, ALL_REPOSITORIES, PROFESSIONAL_EXPERIENCE, EDUCATION } from '@/lib/constants'
 import Navigation from './Navigation'
 import DarkModeToggle from './DarkModeToggle'
 import LearnMoreButton from './LearnMoreButton'
@@ -41,10 +42,13 @@ const Portfolio = () => {
                 <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
                   <div className="relative group">
                     <div className="w-[400px] h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-gray-800 p-4 transition-all duration-300 hover:shadow-blue-500/20 hover:scale-[1.02] hover:p-0">
-                      <img 
+                      <Image 
                         src="/portfolio_new_image_grad.jpg" 
                         alt="Gaurav Surtani" 
+                        width={400}
+                        height={600}
                         className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:scale-105 group-hover:rounded-2xl"
+                        priority
                       />
                     </div>
                   </div>
@@ -140,7 +144,7 @@ const Portfolio = () => {
             
             <div className="max-w-6xl mx-auto">
               <p className="text-lg mb-12 theme-transition text-center">
-                I'm a passionate Full-Stack AI Developer from {PORTFOLIO_CONFIG.location}, currently working with leading organizations including {PORTFOLIO_CONFIG.currentWork.join(', ')}. My journey spans from building intelligent solutions that solve real-world problems to contributing to cutting-edge research in space exploration and AI.
+                I&apos;m a passionate Full-Stack AI Developer from {PORTFOLIO_CONFIG.location}, currently working with leading organizations including {PORTFOLIO_CONFIG.currentWork.join(', ')}. My journey spans from building intelligent solutions that solve real-world problems to contributing to cutting-edge research in space exploration and AI.
               </p>
               
               {/* Current Focus Section */}
@@ -467,10 +471,10 @@ const Portfolio = () => {
         {/* Contact Section */}
         <section id="contact" className="min-h-screen flex items-center justify-center py-20 px-4 sm:px-6 lg:px-8 bg-muted theme-transition pt-32">
           <div className="container mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold mb-8">Let's Connect</h2>
+            <h2 className="text-3xl font-bold mb-8">Let&apos;s Connect</h2>
             <p className="mb-8 max-w-2xl mx-auto theme-transition text-lg">
               Interested in collaborating on AI projects, discussing technology, or exploring new opportunities? 
-              I'd love to hear from you!
+              I&apos;d love to hear from you!
             </p>
             <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-8">
               <a 

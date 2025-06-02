@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCode, FaBrain, FaChrome, FaFire, FaEnvelope, FaUtensils, FaCheck } from 'react-icons/fa'
+import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCode, FaChrome, FaFire, FaEnvelope, FaUtensils, FaCheck } from 'react-icons/fa'
 
 interface ProjectDetailProps {
   params: {
@@ -9,8 +9,25 @@ interface ProjectDetailProps {
   }
 }
 
+interface Project {
+  id: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  fullDescription: string;
+  problemStatement: string;
+  solution: string;
+  tech: string[];
+  github: string;
+  icon: React.ReactElement;
+  features: string[];
+  category: string;
+  highlights: string[];
+  stars?: number;
+}
+
 // Project data (in a real app, this would come from a database or CMS)
-const projectsData: Record<string, any> = {
+const projectsData: Record<string, Project> = {
   'email-link': {
     id: 'email-link',
     title: 'Email-Link',

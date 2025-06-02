@@ -6,8 +6,24 @@ import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCode, FaBrain, FaChrome, Fa
 import { useGitHubStats } from '@/lib/github'
 import { PORTFOLIO_CONFIG, ALL_REPOSITORIES, PROJECT_CATEGORIES, TECHNOLOGY_TAGS } from '@/lib/constants'
 
+interface RepoListItem {
+  id: string | number; // Assuming id can be string or number
+  name: string;
+  description: string;
+  category: string; // Consider a more specific type if categories are fixed
+  technologies: string[];
+  language: string;
+  featured?: boolean;
+  stars: number;
+  updatedAt: string; // Or Date
+  forked?: boolean; // Made optional
+  github?: string; // Added optional github
+  license?: string; // Added optional license
+  // Add other relevant properties from ALL_REPOSITORIES structure
+}
+
 const ProjectsPage = () => {
-  const { stats, loading, error } = useGitHubStats();
+  const { stats, loading, error: _error } = useGitHubStats();
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedTechnology, setSelectedTechnology] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
@@ -70,7 +86,7 @@ const ProjectsPage = () => {
     return filtered;
   }, [selectedCategory, selectedTechnology, searchQuery, showFeaturedOnly, sortBy]);
 
-  const getProjectIcon = (repo: any) => {
+  const getProjectIcon = (repo: RepoListItem) => {
     if (repo.name.includes('email')) return <FaEnvelope className="text-3xl text-blue-600" />;
     if (repo.name.includes('youtube')) return <FaChrome className="text-3xl text-red-600" />;
     if (repo.name.includes('fire')) return <FaFire className="text-3xl text-orange-600" />;

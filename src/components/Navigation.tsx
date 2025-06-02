@@ -1,12 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
 import DarkModeToggle from './DarkModeToggle'
 
 const Navigation = () => {
-  const pathname = usePathname()
-  const router = useRouter()
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')

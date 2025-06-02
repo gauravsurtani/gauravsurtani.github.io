@@ -7,8 +7,7 @@ import {
   SiReact, SiTypescript, SiNextdotjs, SiNodedotjs, 
   SiTailwindcss, SiAngular, SiFlask, SiMongodb, 
   SiNeo4J, SiAkiflow, SiLangchain,
-  SiScikitlearn, SiDocker,
-  SiKubernetes, SiGit, SiGithub, SiJira
+  SiScikitlearn
 } from 'react-icons/si'
 import { FaBrain, FaDatabase, FaChartLine, FaCode, FaEye } from 'react-icons/fa'
 
