@@ -193,7 +193,7 @@ const Portfolio = () => {
                 <h3 className="text-xl font-semibold mb-4 text-accent">AI/ML</h3>
                 <div className="flex flex-wrap gap-2">
                   {PORTFOLIO_CONFIG.skills.aiMl.map((skill: string, index: number) => (
-                    <span key={index} className="bg-blue-50 dark:bg-blue-900/20 px-3 py-1 rounded-full text-sm text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30">
+                    <span key={index} className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30 shadow-sm">
                       {skill}
                     </span>
                   ))}
@@ -205,7 +205,7 @@ const Portfolio = () => {
                 <h3 className="text-xl font-semibold mb-4 text-accent">Data Engineering</h3>
                 <div className="flex flex-wrap gap-2">
                   {PORTFOLIO_CONFIG.skills.dataEngineering.map((skill: string, index: number) => (
-                    <span key={index} className="bg-green-50 dark:bg-green-900/20 px-3 py-1 rounded-full text-sm text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/30">
+                    <span key={index} className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/30 shadow-sm">
                       {skill}
                     </span>
                   ))}
@@ -217,7 +217,7 @@ const Portfolio = () => {
                 <h3 className="text-xl font-semibold mb-4 text-accent">Web Development</h3>
                 <div className="flex flex-wrap gap-2">
                   {PORTFOLIO_CONFIG.skills.webDev.map((skill: string, index: number) => (
-                    <span key={index} className="bg-purple-50 dark:bg-purple-900/20 px-3 py-1 rounded-full text-sm text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/30">
+                    <span key={index} className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/30 shadow-sm">
                       {skill}
                     </span>
                   ))}
