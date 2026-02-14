@@ -740,7 +740,7 @@ export const ALL_REPOSITORIES = [
     language: 'Python',
     github: 'https://github.com/gauravsurtani/Speech-To-Speech-Translation-real-time-',
     stars: 0,
-    featured: false,
+    featured: true,
     updatedAt: '2026-02-13',
     forked: true
   },
@@ -1148,13 +1148,14 @@ export const TECHNOLOGY_TAGS = [
 ];
 
 export const FEATURED_PROJECTS = [
-  'email-link',
-  'recruiter-intelligence',
-  'introspect',
-  'im-watching-you',
   'tech-blog-catchup',
-  'groq-deep-research',
+  'im-watching-you',
+  'recruiter-intelligence',
   'wat-to-eat',
+  'email-link',
+  'introspect',
+  'speech-to-speech-translation',
+  'groq-deep-research',
   'company-stats',
   'fire-prediction',
   'youtube-history-extension',
