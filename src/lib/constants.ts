@@ -2,9 +2,9 @@
 export const PORTFOLIO_CONFIG = {
   // Personal Information
   name: 'Gaurav Surtani',
-  title: 'Software Developer (AI/ML) | Full-Stack Engineer',
-  bio: "I'm a hands-on, results-driven Full Stack Engineer who thrives on building software from scratch and transforming ambitious ideas into impactful products. With over 6 years of experience, I've led projects from concept to deployment, delivering scalable solutions to complex challenges. Currently, I'm deepening my expertise by pursuing a Master's degree in Artificial Intelligence to further explore the transformative power of AI and ML. My journey spans full-stack development, data science, and cloud technologies, where I've led projects that integrate cutting-edge web applications with machine learning models for real-time insights. I excel in creating intuitive, user-focused platforms, optimizing systems, and leading cross-functional teams to deliver projects on time. I'm passionate about leveraging AI to solve real-world problems and drive innovation. Whether it's optimizing operations, enhancing user experiences, or scaling data-driven solutions, I'm always ready to take on new challenges. My current interests include GenAI, LLM Agents (using LangChain), and ML applications in healthcare, finance, geospatial urban planning, and recommendation systems. If you're looking for someone who can take projects from zero to product, and is constantly exploring new technologies to create value -let's connect!",
-  location: 'San Jose, California, United States',
+  title: 'Founding AI Engineer | Growth Engineering | Full-Stack ML Systems',
+  bio: "Founding AI Engineer at DeepLearning.AI building AI recruiting tools with multi-model orchestration. I thrive at the intersection of engineering and growth — building products that drive revenue, solve bottlenecks, and scale. 6+ years shipping production systems: from 0-to-1 product builds to 10x performance improvements that unlock new markets. Full-stack across AI/ML, infrastructure, and product. Track record of joining early, owning end-to-end, and directly impacting business outcomes. MS in AI from San Jose State University (May 2025). My current interests include multi-agent orchestration, GenAI, LLM Agents (using LangChain), and ML applications in recruiting, healthcare, geospatial analysis, and recommendation systems.",
+  location: 'San Francisco Bay Area',
 
   // Contact Information
   email: 'gaurav.surtani.tech@gmail.com',
@@ -19,8 +19,8 @@ export const PORTFOLIO_CONFIG = {
   // Current Focus & Goals
   currentFocus: [
     'Agentic AI & LLMs',
-    'AI Applications',
-    'Open Source AI',
+    'Speech-to-Speech Translation',
+    'Deep Research Tools',
     'Full Stack Dev',
     'ML Applications'
   ],
@@ -45,10 +45,12 @@ export const PORTFOLIO_CONFIG = {
   hobbies: ['Building Chrome Extensions', 'Data Science', 'Open Source', 'Environmental ML', 'GenAI Agents', 'LLM Agents', 'Geopositional Reasonning & Planning Model Research'],
 
   // Current Work/Affiliations
-  currentWork: ['Open to Work', 'San Jose State University'],
+  currentWork: ['DeepLearning.AI'],
 
   // Organizations
   organizations: [
+    { name: 'DeepLearning.AI', color: 'bg-sky-600' },
+    { name: 'Tassel', color: 'bg-emerald-600' },
     { name: 'Bexorg', color: 'bg-blue-600' },
     { name: 'NASA', color: 'bg-red-600' },
     { name: 'San Jose State University', color: 'bg-green-600' },
@@ -86,18 +88,77 @@ export const PORTFOLIO_CONFIG = {
 
   // Fallback Values (used when API fails)
   fallbackStats: {
-    repositoryCount: 31,
+    repositoryCount: 50,
     organizationCount: 9,
     followerCount: 1,
     followingCount: 8,
-    accountAge: 2,
+    accountAge: 3,
   },
 }
 
 // Professional Experience Data
 export const PROFESSIONAL_EXPERIENCE = [
   {
-    title: 'Full Stack AI Engineer',
+    title: 'Founding AI Engineer',
+    company: 'DeepLearning.AI',
+    period: 'September 2025 - Present',
+    location: 'San Francisco Bay Area',
+    type: 'Development',
+    skills: [
+      'Claude API', 'Tavily', 'OpenRouter', 'Vector DB', 'LangChain',
+      'React', 'Python', 'Flask', 'Multi-Agent Orchestration',
+      'Semantic Search', 'Vector Embeddings', 'Data Pipelines'
+    ],
+    achievements: [
+      'Building AI-native recruiting platform for open-world candidate sourcing [Claude API, Tavily, OpenRouter]',
+      'Architecting data pipelines across multiple sources (LinkedIn, GitHub, company databases) from scratch [Python, Flask]',
+      'Developing intelligent search with vector embeddings and semantic ranking [Vector DB, LangChain]',
+      'Implementing multi-agent orchestration for deep candidate research and profile enrichment [Claude API, OpenRouter]',
+      'Delivering full-stack application to pilot recruiters; iterating on product based on direct user feedback [React]'
+    ],
+    projects: [
+      {
+        name: 'AI Recruiting Platform',
+        description: 'AI-native recruiting platform for open-world candidate sourcing with multi-model orchestration',
+        achievements: [
+          'Architected data pipelines across multiple sources (LinkedIn, GitHub, company databases) from scratch',
+          'Developed intelligent search with vector embeddings and semantic ranking to identify high-value companies and surface qualified candidates',
+          'Implemented multi-agent orchestration (Claude, Tavily, OpenRouter) for deep candidate research and profile enrichment',
+          'Delivered full-stack application to pilot recruiters; iterating on product based on direct user feedback'
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Full Stack AI Engineer, Growth',
+    company: 'Tassel',
+    period: 'June 2025 - September 2025',
+    location: 'United States',
+    type: 'Development',
+    skills: [
+      'Azure', 'Voice AI', 'TTS', 'FFmpeg', 'Python',
+      'Video Processing', 'Infrastructure', 'Cost Optimization'
+    ],
+    achievements: [
+      'Built video pipeline that ingests graduation ceremonies, segments by student, and delivers personalized clips to 2M+ students — $8M+ revenue opportunity [FFmpeg, Python]',
+      'Developed AI pronunciation system to fix TTS accuracy for student name announcements across Voice AI applications [Voice AI, TTS]',
+      'Architected Azure infrastructure; migrated always-on to on-demand scaling for heavy pipelines — cut costs 40%, processing 8x faster [Azure]'
+    ],
+    projects: [
+      {
+        name: 'Graduation Video Pipeline',
+        description: 'AI-powered video pipeline for personalized graduation ceremony clips at scale',
+        achievements: [
+          'Built video pipeline that ingests graduation ceremonies, segments by student, and delivers personalized clips to 2M+ students',
+          'Developed AI pronunciation system to fix TTS accuracy for student name announcements',
+          'Architected Azure infrastructure; migrated always-on to on-demand scaling — cut costs 40%, processing 8x faster',
+          '$8M+ revenue opportunity from personalized video delivery'
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Full Stack AI Engineer, Growth',
     company: 'Bexorg, Inc.',
     period: 'May 2024 - May 2025',
     location: 'New Haven, Connecticut, United States',
@@ -108,12 +169,10 @@ export const PROFESSIONAL_EXPERIENCE = [
       'Docker', 'Kubernetes', 'REST APIs', 'GraphQL', 'Tailwind CSS'
     ],
     achievements: [
-      'Founding Engineer [React/Next.js, Node.js, Python, Flask, FastAPI, GPT]',
-      'AI-Powered Data Visualization Platform [ChromaDB, Gemini API, LangChain, GPT]',
-      'Cross-functional team leadership (85% faster deployment) [React, Node.js, Python]',
-      'Real-time data visualization (40+ users) [Plotly, D3.js, Neo4j]',
-      'Async collaboration system (60% less meetings) [Next.js, TypeScript]',
-      'GenAI analytics platform (95% adoption) [FastAPI, LangChain, GPT]'
+      'Solved critical pipeline bottlenecks: 10x throughput improvement enabling new enterprise customer acquisition [React, Node.js, Python]',
+      'Built GenAI analytics platform with NL querying — key differentiator for sales; 99.9% uptime converted pilots to contracts [FastAPI, LangChain, GPT]',
+      'Applied AI/ML/NLP expertise: anomaly detection, NLP extraction, CV for medical imaging [ChromaDB, Gemini API]',
+      'Implemented graph-based data layer with GNNs, reducing query times 5x for real-time analytics [Neo4j, BigQuery]'
     ],
     projects: [
       {
@@ -170,10 +229,10 @@ export const PROFESSIONAL_EXPERIENCE = [
       'Geospatial Analysis', 'Data Visualization', 'Microservices'
     ],
     achievements: [
-      'Flight path analysis (Next.js/Plotly) [Python, Pyproj, Folium]',
-      'Real-time visualization platform [Docker, AWS]',
-      'Geospatial computations (Python) [NumPy, Pandas]',
-      'Containerized microservices [Docker, Kubernetes]'
+      'Performed spatial analysis of flight path adherence to ATC procedures [Python, Pyproj, GeoPandas]',
+      'Built interactive visualization dashboards for airspace data analysis [Folium, Leaflet.js, Plotly]',
+      'Identified navigational patterns enabling aviation fuel cost optimization [NumPy, Pandas]',
+      'Containerized legacy flight analysis system, reducing setup time from days to minutes [Docker]'
     ],
     projects: [
       {
@@ -200,10 +259,10 @@ export const PROFESSIONAL_EXPERIENCE = [
       'Wix CMS', 'Strapi', 'REST APIs', 'Machine Learning'
     ],
     achievements: [
-      'Mental health support platform (BERT/GPT-2) [React, Node.js]',
-      'Sensor fusion research (YOLO v8) [Python, OpenCV]',
-      'Research platform development (React/Tailwind) [TypeScript]',
-      'Content management system (Wix/Strapi) [REST APIs]'
+      'Spatial Analytics: ML models on spatial datasets; EDA with R (dplyr, ggplot2), hypothesis testing [Python, R]',
+      'Motion Planning: Sensor fusion (camera + LiDAR) using KITTI; YOLO v8 object detection [Python, OpenCV]',
+      'Built multilingual NLP translation system (1-to-25 languages) with LangChain and HuggingFace [NLP, LangChain]',
+      'Mental health support platform (BERT/GPT-2) for hurricane relief in Hawaii [React, Node.js]'
     ],
     projects: [
       {
@@ -249,10 +308,10 @@ export const PROFESSIONAL_EXPERIENCE = [
       'DevOps', 'CI/CD', 'Component Architecture', 'JavaScript', 'Microservices', 'Spring Boot', 'Microservices'
     ],
     achievements: [
-      'Enterprise project leadership (15+ engineers) [Angular, TypeScript]',
-      'Angular migration expert (40% cost reduction) [Angular 15/16]',
-      'Cloud economics platform (30% optimization) [D3.js, Highcharts]',
-      'Component library architect (60% faster dev) [W3C, Storybook]'
+      'Architected data visualization system processing 10M+ records for enterprise dashboards [Angular, TypeScript]',
+      'Mentored 20 engineers; conducted 500+ code reviews improving team code quality by 35% [Angular 15/16]',
+      'Reduced page load times by 85% (23s to 2.5s) through lazy loading and pagination [D3.js, Highcharts]',
+      'Integrated OpenAI ChatGPT into VS Code extension, boosting developer productivity 25% [OpenAI, Node.js]'
     ],
     projects: [
       {
@@ -319,10 +378,10 @@ export const PROFESSIONAL_EXPERIENCE = [
       'W3C Standards', 'DevOps', 'SRE'
     ],
     achievements: [
-      'SRE & DevOps assessment (20% overhead reduction) [Angular, Azure]',
-      'Component library development (W3C standards) [TypeScript]',
-      'Azure ML integration [Python, Azure Functions]',
-      'Performance optimization [Angular Material, D3.js]'
+      'Built executive dashboards with D3.js/Highcharts, increasing decision-making speed by 75% [D3.js, Highcharts]',
+      'Engineered reusable Angular component library (50+ components) with WCAG 2.1 compliance [Angular, TypeScript]',
+      'Developed Azure-integrated ML workflow app, automating 80% of manual data processes [Azure, Python]',
+      'Awarded Employee of the Quarter for delivering 3 cross-functional projects ahead of schedule [Angular Material]'
     ],
     projects: [
       {
@@ -400,10 +459,9 @@ export const PROFESSIONAL_EXPERIENCE = [
       'Oracle DB', 'Postman', 'AWS'
     ],
     achievements: [
-      'Barclays data migration & ETL',
-      'Batch processing optimization',
-      'Data warehousing solutions',
-      'ETL pipeline development'
+      'Resolved critical ETL validation issues processing 5M+ daily records with zero data loss [Informatica, Abinitio]',
+      'Built automation scripts reducing manual reporting effort by 70% (40hrs to 12hrs/week) [Python, Unix]',
+      'Led production data analysis enabling 3-month early readiness for system switchover [SQL, Oracle DB]'
     ],
     projects: [
       {
@@ -430,10 +488,8 @@ export const PROFESSIONAL_EXPERIENCE = [
       'E-learning Platforms', 'IAM Systems'
     ],
     achievements: [
-      'EdTech platform development',
-      'Chatbot implementation',
-      'Learning management system',
-      'AWS integration'
+      'Built e-learning platform features serving 10K+ students using MongoDB and Angular [Angular, MongoDB]',
+      'Developed chatbot reducing support tickets by 40% through automated query resolution [.NET, NoSQL]'
     ],
     projects: [
       {
@@ -650,6 +706,81 @@ export const ALL_REPOSITORIES = [
     updatedAt: '2024-09-08',
     forked: true
   },
+  {
+    id: 'tech-blog-catchup',
+    name: 'tech-blog-catchup',
+    description: 'Who has time these days to read technical blogs from multiple sources; sit back and relax; hear them in the car while you travel.',
+    category: 'AI & Machine Learning',
+    technologies: ['Python', 'Text-to-Speech', 'RSS', 'Blog Aggregation', 'Automation'],
+    language: 'Python',
+    github: 'https://github.com/gauravsurtani/tech-blog-catchup',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-02-13'
+  },
+  {
+    id: 'im-watching-you',
+    name: 'im-watching-you',
+    description: 'Monitoring and tracking system for staying informed about what matters.',
+    category: 'AI & Machine Learning',
+    technologies: ['Python', 'Monitoring', 'Automation', 'Data Collection'],
+    language: 'Python',
+    github: 'https://github.com/gauravsurtani/im-watching-you',
+    stars: 0,
+    featured: false,
+    updatedAt: '2026-02-12'
+  },
+  {
+    id: 'speech-to-speech-translation',
+    name: 'Speech-To-Speech-Translation-real-time-',
+    description: 'Real-time speech-to-speech translation system for multilingual communication.',
+    category: 'AI & Machine Learning',
+    technologies: ['Python', 'Speech Recognition', 'Translation', 'Real-time Processing', 'NLP'],
+    language: 'Python',
+    github: 'https://github.com/gauravsurtani/Speech-To-Speech-Translation-real-time-',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-02-13'
+  },
+  {
+    id: 'groq-deep-research',
+    name: 'groq-deep-research',
+    description: 'Lightning fast deep research app powered by Compound-beta on Groq!',
+    category: 'AI & Machine Learning',
+    technologies: ['JavaScript', 'Groq', 'Deep Research', 'AI', 'LLM'],
+    language: 'JavaScript',
+    github: 'https://github.com/gauravsurtani/groq-deep-research',
+    homepage: 'https://deep-research-fast.vercel.app',
+    stars: 0,
+    featured: true,
+    updatedAt: '2025-11-27',
+    forked: true
+  },
+  {
+    id: 'master-prompt',
+    name: 'master-prompt',
+    description: 'Interactive master prompt builder and optimizer for AI workflows.',
+    category: 'AI & Machine Learning',
+    technologies: ['HTML', 'Prompt Engineering', 'AI', 'LLM'],
+    language: 'HTML',
+    github: 'https://github.com/gauravsurtani/master-prompt',
+    homepage: 'https://gauravsurtani.github.io/master-prompt/',
+    stars: 0,
+    featured: false,
+    updatedAt: '2025-09-08'
+  },
+  {
+    id: 'streetview-agent-peds',
+    name: 'StreetView-Agent-PEDS',
+    description: 'StreetView agent designed to navigate complex spaces within street view for pedestrian research.',
+    category: 'AI & Machine Learning',
+    technologies: ['JavaScript', 'Google Street View', 'Agent AI', 'Navigation', 'Geospatial'],
+    language: 'JavaScript',
+    github: 'https://github.com/gauravsurtani/StreetView-Agent-PEDS',
+    stars: 0,
+    featured: false,
+    updatedAt: '2025-07-10'
+  },
 
   // Data Science & Engineering Projects
   {
@@ -712,6 +843,30 @@ export const ALL_REPOSITORIES = [
     stars: 0,
     featured: false,
     updatedAt: '2024-11-11'
+  },
+  {
+    id: 'recruiter-intelligence',
+    name: 'recruiter-intelligence',
+    description: 'Intelligence platform for recruiting workflows and talent sourcing.',
+    category: 'Data Science & Engineering',
+    technologies: ['Python', 'Data Analysis', 'Recruiting', 'Intelligence Platform'],
+    language: 'Python',
+    github: 'https://github.com/gauravsurtani/recruiter-intelligence',
+    stars: 0,
+    featured: false,
+    updatedAt: '2026-01-20'
+  },
+  {
+    id: 'research-peds-walkability',
+    name: 'research-peds-walkabilty',
+    description: 'Research with SJSU, Dr. Ahoura and University of Sacramento for tackling walkability scores.',
+    category: 'Data Science & Engineering',
+    technologies: ['Python', 'Geospatial Analysis', 'Urban Planning', 'Research', 'Walkability'],
+    language: 'Python',
+    github: 'https://github.com/gauravsurtani/research-peds-walkabilty',
+    stars: 0,
+    featured: false,
+    updatedAt: '2025-09-18'
   },
 
   // Web Development Projects
@@ -1002,13 +1157,16 @@ export const FEATURED_PROJECTS = [
   'LiDAR-Camera---Depth-Estimation',
   'ParkingResearch',
   'hugo-react-docker',
-  'CUREHEALTH-gs'
+  'CUREHEALTH-gs',
+  'tech-blog-catchup',
+  'speech-to-speech-translation',
+  'groq-deep-research'
 ];
 
 // SEO and Meta Configuration
 export const SEO_CONFIG = {
   siteName: 'Gaurav Surtani Portfolio',
-  siteDescription: 'Full-Stack AI Developer specializing in intelligent solutions, data engineering, and modern web technologies. Building the future, one algorithm at a time. Experienced in AI/ML, NLP, Knowledge Graphs, Web Development, and Cloud Technologies. Ex-NASA, currently @Bexorg and SJSU.',
+  siteDescription: 'Founding AI Engineer at DeepLearning.AI. Full-Stack AI Developer specializing in multi-agent orchestration, growth engineering, and ML systems. MS AI from SJSU. Ex-Tassel, Ex-Bexorg, Ex-NASA.',
   siteUrl: 'https://gauravsurtani.dev',
   author: 'Gaurav Surtani',
   keywords: [
