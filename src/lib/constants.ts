@@ -71,9 +71,10 @@ export const PORTFOLIO_CONFIG = {
 
   // Featured Skills
   skills: {
-    aiMl: ['Python', 'TensorFlow', 'PyTorch', 'NLP', 'Knowledge Graphs', 'Agentic AI', 'Scikit-learn', 'Jupyter', 'GenAI', 'LLM Agents (LangChain)', 'YOLO v8', 'Computer Vision'],
-    dataEngineering: ['Pandas', 'NumPy', 'Data Visualization', 'ETL Pipelines', 'Statistical Analysis', 'Big Data', 'SQL', 'MongoDB', 'GeoPandas', 'Pyproj', 'Folium', 'Neo4j'],
-    webDev: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'HTML/CSS', 'Chrome Extensions', 'APIs', 'Angular', 'Flask', 'Tailwind CSS', 'SASS', 'Wix CMS', 'Strapi CMS', 'UI/UX Design'],
+    aiMl: ['Python', 'TensorFlow', 'PyTorch', 'NLP', 'Knowledge Graphs', 'Agentic AI', 'Scikit-learn', 'GenAI', 'LLM Agents (LangChain)', 'YOLO v8', 'Computer Vision'],
+    dataEngineering: ['Pandas', 'NumPy', 'Data Visualization', 'ETL Pipelines', 'Statistical Analysis', 'SQL', 'MongoDB', 'Neo4j', 'BigQuery', 'Plotly'],
+    webDev: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Angular', 'Flask', 'Tailwind CSS', 'Chrome Extensions', 'REST APIs'],
+    devOpsCloud: ['Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP', 'CI/CD', 'Git', 'Microservices'],
   },
 
   // Skill Levels for Progress Bars
@@ -721,13 +722,13 @@ export const ALL_REPOSITORIES = [
   {
     id: 'im-watching-you',
     name: 'im-watching-you',
-    description: 'Monitoring and tracking system for staying informed about what matters.',
+    description: 'AI-powered life tracking system with MCP server for Claude Desktop, LLM-driven activity classification, productivity analytics, and Whisper transcription',
     category: 'AI & Machine Learning',
-    technologies: ['Python', 'Monitoring', 'Automation', 'Data Collection'],
+    technologies: ['Python', 'MCP', 'Claude Desktop', 'LLM', 'Docker', 'FastAPI', 'Whisper'],
     language: 'Python',
     github: 'https://github.com/gauravsurtani/im-watching-you',
     stars: 0,
-    featured: false,
+    featured: true,
     updatedAt: '2026-02-12'
   },
   {
@@ -847,14 +848,14 @@ export const ALL_REPOSITORIES = [
   {
     id: 'recruiter-intelligence',
     name: 'recruiter-intelligence',
-    description: 'Intelligence platform for recruiting workflows and talent sourcing.',
-    category: 'Data Science & Engineering',
-    technologies: ['Python', 'Data Analysis', 'Recruiting', 'Intelligence Platform'],
+    description: 'Full-stack recruiting intelligence platform with NLP entity extraction, knowledge graphs, scored company/candidate rankings, and Supabase-backed data pipelines',
+    category: 'AI & Machine Learning',
+    technologies: ['Python', 'React', 'TypeScript', 'NLP', 'Knowledge Graphs', 'Supabase', 'Vite', 'Tailwind CSS'],
     language: 'Python',
     github: 'https://github.com/gauravsurtani/recruiter-intelligence',
     stars: 0,
-    featured: false,
-    updatedAt: '2026-01-20'
+    featured: true,
+    updatedAt: '2026-01-29'
   },
   {
     id: 'research-peds-walkability',
@@ -1058,13 +1059,13 @@ export const ALL_REPOSITORIES = [
   {
     id: 'introspect',
     name: 'Introspect',
-    description: 'Web-based introspection tool for self-reflection and personal development',
-    category: 'Miscellaneous',
-    technologies: ['HTML', 'Self-reflection', 'Personal Development', 'Web Tool'],
+    description: 'AI-powered self-reflection platform with chatbot interface, YouTube history analysis, and personalized insights for personal development',
+    category: 'AI & Machine Learning',
+    technologies: ['Python', 'Chatbot', 'YouTube API', 'GenAI', 'NLP', 'HTML'],
     language: 'HTML',
     github: 'https://github.com/gauravsurtani/Introspect',
     stars: 0,
-    featured: false,
+    featured: true,
     updatedAt: '2025-05-08',
     license: 'Other',
     forked: true
@@ -1147,6 +1148,12 @@ export const TECHNOLOGY_TAGS = [
 
 export const FEATURED_PROJECTS = [
   'email-link',
+  'recruiter-intelligence',
+  'im-watching-you',
+  'tech-blog-catchup',
+  'speech-to-speech-translation',
+  'groq-deep-research',
+  'introspect',
   'wat-to-eat',
   'company-stats',
   'fire-prediction',
@@ -1157,10 +1164,7 @@ export const FEATURED_PROJECTS = [
   'LiDAR-Camera---Depth-Estimation',
   'ParkingResearch',
   'hugo-react-docker',
-  'CUREHEALTH-gs',
-  'tech-blog-catchup',
-  'speech-to-speech-translation',
-  'groq-deep-research'
+  'CUREHEALTH-gs'
 ];
 
 // SEO and Meta Configuration

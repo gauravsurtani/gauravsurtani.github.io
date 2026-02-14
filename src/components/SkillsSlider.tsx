@@ -1,172 +1,155 @@
 'use client'
 
-import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { 
-  SiPython, SiTensorflow, SiPytorch, SiNumpy, SiPandas, 
-  SiReact, SiTypescript, SiNextdotjs, SiNodedotjs, 
-  SiTailwindcss, SiAngular, SiFlask, SiMongodb, 
-  SiNeo4J, SiAkiflow, SiLangchain,
-  SiScikitlearn
+import React from 'react'
+import { motion } from 'framer-motion'
+import { PORTFOLIO_CONFIG } from '@/lib/constants'
+import {
+  SiPython, SiTensorflow, SiPytorch, SiNumpy, SiPandas,
+  SiReact, SiTypescript, SiNextdotjs, SiNodedotjs,
+  SiTailwindcss, SiAngular, SiFlask, SiMongodb,
+  SiNeo4J, SiLangchain, SiScikitlearn,
+  SiDocker, SiKubernetes, SiGit
 } from 'react-icons/si'
-import { FaBrain, FaDatabase, FaChartLine, FaCode, FaEye } from 'react-icons/fa'
+import { FaBrain, FaDatabase, FaChartLine, FaCode, FaEye, FaCloud, FaServer, FaCog } from 'react-icons/fa'
 
-interface Skill {
-  name: string
+const SKILL_ICONS: Record<string, React.ReactNode> = {
+  'Python': <SiPython />,
+  'TensorFlow': <SiTensorflow />,
+  'PyTorch': <SiPytorch />,
+  'NLP': <FaBrain />,
+  'Knowledge Graphs': <SiNeo4J />,
+  'Agentic AI': <FaBrain />,
+  'Scikit-learn': <SiScikitlearn />,
+  'GenAI': <FaBrain />,
+  'LLM Agents (LangChain)': <SiLangchain />,
+  'YOLO v8': <FaEye />,
+  'Computer Vision': <FaEye />,
+  'Pandas': <SiPandas />,
+  'NumPy': <SiNumpy />,
+  'Data Visualization': <FaChartLine />,
+  'ETL Pipelines': <FaDatabase />,
+  'Statistical Analysis': <FaChartLine />,
+  'SQL': <FaDatabase />,
+  'MongoDB': <SiMongodb />,
+  'Neo4j': <SiNeo4J />,
+  'BigQuery': <FaDatabase />,
+  'Plotly': <FaChartLine />,
+  'JavaScript': <FaCode />,
+  'TypeScript': <SiTypescript />,
+  'React': <SiReact />,
+  'Next.js': <SiNextdotjs />,
+  'Node.js': <SiNodedotjs />,
+  'Angular': <SiAngular />,
+  'Flask': <SiFlask />,
+  'Tailwind CSS': <SiTailwindcss />,
+  'Chrome Extensions': <FaCode />,
+  'REST APIs': <FaServer />,
+  'Docker': <SiDocker />,
+  'Kubernetes': <SiKubernetes />,
+  'AWS': <FaCloud />,
+  'Azure': <FaCloud />,
+  'GCP': <FaCloud />,
+  'CI/CD': <FaCog />,
+  'Git': <SiGit />,
+  'Microservices': <FaServer />,
+}
+
+interface CategoryConfig {
+  key: string
+  label: string
+  tagClass: string
   icon: React.ReactNode
-  description: string
-  category: 'AI & ML' | 'Data Engineering' | 'Web Development'
+  gradientClass: string
 }
 
-const skills: Record<string, Skill[]> = {
-  'AI & ML': [
-    { name: 'Python', icon: <SiPython className="w-8 h-8" />, description: 'Advanced Python programming and AI development', category: 'AI & ML' },
-    { name: 'TensorFlow', icon: <SiTensorflow className="w-8 h-8" />, description: 'Deep learning and neural network development', category: 'AI & ML' },
-    { name: 'PyTorch', icon: <SiPytorch className="w-8 h-8" />, description: 'Deep learning framework and model development', category: 'AI & ML' },
-    { name: 'NLP', icon: <FaBrain className="w-8 h-8" />, description: 'Natural Language Processing and text analysis', category: 'AI & ML' },
-    { name: 'Knowledge Graphs', icon: <SiNeo4J className="w-8 h-8" />, description: 'Graph-based knowledge representation', category: 'AI & ML' },
-    { name: 'Agentic AI', icon: <FaCode className="w-8 h-8" />, description: 'Autonomous AI agent development', category: 'AI & ML' },
-    { name: 'Scikit-learn', icon: <SiScikitlearn className="w-8 h-8" />, description: 'Machine learning algorithms and data analysis', category: 'AI & ML' },
-    { name: 'GenAI', icon: <FaBrain className="w-8 h-8" />, description: 'Generative AI and creative applications', category: 'AI & ML' },
-    { name: 'LangChain', icon: <SiLangchain className="w-8 h-8" />, description: 'LLM application development and orchestration', category: 'AI & ML' },
-    { name: 'YOLO v8', icon: <FaEye className="w-8 h-8" />, description: 'Real-time object detection and computer vision', category: 'AI & ML' },
-  ],
-  'Data Engineering': [
-    { name: 'Pandas', icon: <SiPandas className="w-8 h-8" />, description: 'Data manipulation and analysis', category: 'Data Engineering' },
-    { name: 'NumPy', icon: <SiNumpy className="w-8 h-8" />, description: 'Numerical computing and array operations', category: 'Data Engineering' },
-    { name: 'Data Viz', icon: <FaChartLine className="w-8 h-8" />, description: 'Data visualization and insights', category: 'Data Engineering' },
-    { name: 'ETL', icon: <SiAkiflow className="w-8 h-8" />, description: 'Data pipeline development and automation', category: 'Data Engineering' },
-    { name: 'SQL', icon: <FaDatabase className="w-8 h-8" />, description: 'Database design and optimization', category: 'Data Engineering' },
-    { name: 'MongoDB', icon: <SiMongodb className="w-8 h-8" />, description: 'NoSQL database management', category: 'Data Engineering' },
-    { name: 'Neo4j', icon: <SiNeo4J className="w-8 h-8" />, description: 'Graph database management', category: 'Data Engineering' },
-  ],
-  'Web Development': [
-    { name: 'React', icon: <SiReact className="w-8 h-8" />, description: 'Frontend development and component architecture', category: 'Web Development' },
-    { name: 'TypeScript', icon: <SiTypescript className="w-8 h-8" />, description: 'Type-safe JavaScript development', category: 'Web Development' },
-    { name: 'Next.js', icon: <SiNextdotjs className="w-8 h-8" />, description: 'Full-stack React framework', category: 'Web Development' },
-    { name: 'Node.js', icon: <SiNodedotjs className="w-8 h-8" />, description: 'Server-side JavaScript development', category: 'Web Development' },
-    { name: 'Tailwind', icon: <SiTailwindcss className="w-8 h-8" />, description: 'Utility-first CSS framework', category: 'Web Development' },
-    { name: 'Angular', icon: <SiAngular className="w-8 h-8" />, description: 'Enterprise web applications', category: 'Web Development' },
-    { name: 'Flask', icon: <SiFlask className="w-8 h-8" />, description: 'Python web framework', category: 'Web Development' },
-    { name: 'UI/UX', icon: <FaCode className="w-8 h-8" />, description: 'User interface and experience design', category: 'Web Development' },
-  ]
-}
+const CATEGORIES: CategoryConfig[] = [
+  {
+    key: 'aiMl',
+    label: 'AI & Machine Learning',
+    tagClass: 'tag-blue',
+    icon: <FaBrain className="w-5 h-5" />,
+    gradientClass: 'gradient-bar-blue'
+  },
+  {
+    key: 'dataEngineering',
+    label: 'Data Engineering',
+    tagClass: 'tag-green',
+    icon: <FaDatabase className="w-5 h-5" />,
+    gradientClass: 'gradient-bar-emerald'
+  },
+  {
+    key: 'webDev',
+    label: 'Web Development',
+    tagClass: 'tag-violet',
+    icon: <FaCode className="w-5 h-5" />,
+    gradientClass: 'gradient-bar-violet'
+  },
+  {
+    key: 'devOpsCloud',
+    label: 'DevOps & Cloud',
+    tagClass: 'tag-amber',
+    icon: <FaCloud className="w-5 h-5" />,
+    gradientClass: 'gradient-bar-amber'
+  },
+]
 
 const SkillsSlider = () => {
-  const [showAllSkills, setShowAllSkills] = useState(false)
+  const skills = PORTFOLIO_CONFIG.skills as Record<string, string[]>
 
   return (
-    <div className="w-full space-y-8">
-      {Object.entries(skills).map(([category, categorySkills]) => (
-        <div key={category} className="w-full overflow-hidden">
-          <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{category}</h3>
-          <div className="relative w-full py-4">
-            <div className="flex animate-scroll space-x-6">
-              {/* First set of skills */}
-              {categorySkills.map((skill, index) => (
-                <motion.div
-                  key={`${skill.name}-original-${index}`}
-                  whileHover={{ scale: 1.05 }}
-                  className="flex flex-col items-center min-w-[120px] p-4 rounded-xl bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all"
-                >
-                  <div className="text-gray-700 dark:text-gray-300 mb-2">{skill.icon}</div>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
-                </motion.div>
-              ))}
-              {/* Duplicate set for seamless loop */}
-              {categorySkills.map((skill, index) => (
-                <motion.div
-                  key={`${skill.name}-duplicate-${index}`}
-                  whileHover={{ scale: 1.05 }}
-                  className="flex flex-col items-center min-w-[120px] p-4 rounded-xl bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-all"
-                >
-                  <div className="text-gray-700 dark:text-gray-300 mb-2">{skill.icon}</div>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {CATEGORIES.map((cat, catIndex) => {
+        const categorySkills = skills[cat.key] || []
 
-      {/* Show More Button */}
-      <div className="flex justify-center mt-8">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => setShowAllSkills(true)}
-          className="px-6 py-3 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition-colors"
-        >
-          Show All Skills
-        </motion.button>
-      </div>
-
-      {/* All Skills Modal */}
-      <AnimatePresence>
-        {showAllSkills && (
+        return (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
-            onClick={() => setShowAllSkills(false)}
+            key={cat.key}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ delay: catIndex * 0.1, duration: 0.5 }}
+            className="card overflow-hidden"
           >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">All Skills</h2>
-                <button
-                  onClick={() => setShowAllSkills(false)}
-                  className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <svg
-                    className="w-6 h-6 text-gray-500 dark:text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                </button>
+            {/* Gradient Accent Bar */}
+            <div className={`h-1 ${cat.gradientClass}`} />
+
+            <div className="p-6">
+              {/* Category Header */}
+              <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <span className="text-accent">{cat.icon}</span>
+                  <h3 className="text-lg font-semibold">{cat.label}</h3>
+                </div>
+                <span className="text-xs text-muted-foreground font-mono tabular-nums">
+                  {categorySkills.length}
+                </span>
               </div>
-              <div className="space-y-8">
-                {Object.entries(skills).map(([category, categorySkills]) => (
-                  <div key={category}>
-                    <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">{category}</h3>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                      {categorySkills.map((skill) => (
-                        <motion.div
-                          key={skill.name}
-                          whileHover={{ scale: 1.05 }}
-                          className="flex flex-col items-center p-4 rounded-xl bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
-                        >
-                          <div className="text-gray-700 dark:text-gray-300 mb-2">{skill.icon}</div>
-                          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{skill.name}</span>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 text-center line-clamp-2">
-                            {skill.description}
-                          </p>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
+
+              {/* Skills */}
+              <div className="flex flex-wrap gap-2">
+                {categorySkills.map((skill, i) => (
+                  <motion.span
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: catIndex * 0.05 + i * 0.02, duration: 0.3 }}
+                    whileHover={{ scale: 1.06, y: -2 }}
+                    className={`${cat.tagClass} inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium cursor-default`}
+                  >
+                    {SKILL_ICONS[skill] && (
+                      <span className="text-xs opacity-60">{SKILL_ICONS[skill]}</span>
+                    )}
+                    {skill}
+                  </motion.span>
                 ))}
               </div>
-            </motion.div>
+            </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        )
+      })}
     </div>
   )
 }
 
-export default SkillsSlider 
+export default SkillsSlider

@@ -180,50 +180,7 @@ const Portfolio = () => {
         <section id="skills" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-gray-900/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center mb-12">Technical Skills</h2>
-            
-            {/* Mobile Grid View */}
-            <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-              {/* AI/ML Skills */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                <h3 className="text-xl font-semibold mb-4 text-accent">AI/ML</h3>
-                <div className="flex flex-wrap gap-2">
-                  {PORTFOLIO_CONFIG.skills.aiMl.map((skill: string, index: number) => (
-                    <span key={index} className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/30 shadow-sm">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Data Engineering Skills */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                <h3 className="text-xl font-semibold mb-4 text-accent">Data Engineering</h3>
-                <div className="flex flex-wrap gap-2">
-                  {PORTFOLIO_CONFIG.skills.dataEngineering.map((skill: string, index: number) => (
-                    <span key={index} className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800/30 shadow-sm">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Web Development Skills */}
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                <h3 className="text-xl font-semibold mb-4 text-accent">Web Development</h3>
-                <div className="flex flex-wrap gap-2">
-                  {PORTFOLIO_CONFIG.skills.webDev.map((skill: string, index: number) => (
-                    <span key={index} className="bg-white dark:bg-gray-800 px-3 py-1 rounded-full text-sm text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-800/30 shadow-sm">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Desktop Slider View */}
-            <div className="hidden lg:block">
-              <SkillsSlider />
-            </div>
+            <SkillsSlider />
           </div>
         </section>
 
@@ -255,13 +212,13 @@ const Portfolio = () => {
                       {exp.skills && (
                         <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
                           <h5 className="font-medium text-accent mb-3 flex items-center">
-                            <span className="mr-2">🛠️</span> Technical Stack
+                            Technical Stack
                           </h5>
                           <div className="flex flex-wrap gap-2">
                             {exp.skills.map((skill, skillIndex) => (
                               <span
                                 key={skillIndex}
-                                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-700/50"
+                                className="tag-blue inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
                               >
                                 {skill}
                               </span>
@@ -274,13 +231,13 @@ const Portfolio = () => {
                       {exp.achievements && (
                         <div className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
                           <h5 className="font-medium text-accent mb-3 flex items-center">
-                            <span className="mr-2">🏆</span> Key Achievements
+                            Key Achievements
                           </h5>
                           <div className="flex flex-wrap gap-2">
                             {exp.achievements.map((achievement, achievementIndex) => (
                               <span
                                 key={achievementIndex}
-                                className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600"
+                                className="achievement-tag inline-flex items-center px-3 py-1.5 rounded-lg text-sm"
                               >
                                 {achievement}
                               </span>

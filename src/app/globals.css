@@ -261,6 +261,60 @@ section {
     color: #d1d5db !important;
   }
 
+  .achievement-tag {
+    background-color: #f8fafc !important;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1 !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .dark .achievement-tag {
+    background-color: #1e293b !important;
+    color: #e2e8f0 !important;
+    border: 1px solid #475569 !important;
+  }
+
+  /* Violet tag for Web Development skills */
+  .tag-violet {
+    background-color: #ede9fe !important;
+    color: #5b21b6 !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .dark .tag-violet {
+    background-color: #4c1d95 !important;
+    color: #c4b5fd !important;
+  }
+
+  /* Amber tag for DevOps & Cloud skills */
+  .tag-amber {
+    background-color: #fff7ed !important;
+    color: #9a3412 !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .dark .tag-amber {
+    background-color: #7c2d12 !important;
+    color: #fdba74 !important;
+  }
+
+  /* Skill card gradient accent bars */
+  .gradient-bar-blue {
+    background: linear-gradient(to right, #3b82f6, #06b6d4) !important;
+  }
+
+  .gradient-bar-emerald {
+    background: linear-gradient(to right, #10b981, #14b8a6) !important;
+  }
+
+  .gradient-bar-violet {
+    background: linear-gradient(to right, #8b5cf6, #a855f7) !important;
+  }
+
+  .gradient-bar-amber {
+    background: linear-gradient(to right, #f59e0b, #f97316) !important;
+  }
+
   /* Footer styles - manual dark mode only */
   .footer-bg {
     background-color: #111827 !important;
