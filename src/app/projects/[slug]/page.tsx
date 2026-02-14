@@ -197,7 +197,7 @@ const ProjectDetail = ({ params }: Props) => {
                   {project.category}
                 </span>
                 {project.stars && (
-                  <span className="text-yellow-500 text-lg">⭐ {project.stars} stars</span>
+                  <span className="text-yellow-500 text-lg">{project.stars} stars</span>
                 )}
               </div>
             </div>

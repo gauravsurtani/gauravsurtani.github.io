@@ -324,8 +324,8 @@ const ProjectsPage = () => {
                     >
                       <FaGithub /> View Code
                     </a>
-                    {repo.featured && (
-                      <Link 
+                    {['email-link', 'wat-to-eat', 'company-stats', 'fire-prediction', 'youtube-history-extension'].includes(repo.id) && (
+                      <Link
                         href={`/projects/${repo.id}`}
                         className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors text-sm"
                       >

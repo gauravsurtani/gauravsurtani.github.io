@@ -1,11 +1,11 @@
 'use client'
 
 import React from 'react'
-import { FaEnvelope, FaLinkedin, FaGithub, FaExternalLinkAlt, FaCode, FaDownload } from 'react-icons/fa'
+import { FaEnvelope, FaLinkedin, FaGithub, FaExternalLinkAlt, FaCode, FaDownload, FaStar } from 'react-icons/fa'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useGitHubStats } from '@/lib/github'
-import { PORTFOLIO_CONFIG, ALL_REPOSITORIES, PROFESSIONAL_EXPERIENCE, EDUCATION } from '@/lib/constants'
+import { PORTFOLIO_CONFIG, ALL_REPOSITORIES, PROFESSIONAL_EXPERIENCE, EDUCATION, FEATURED_PROJECTS } from '@/lib/constants'
 import Navigation from './Navigation'
 import LearnMoreButton from './LearnMoreButton'
 import SkillsSlider from './SkillsSlider'
@@ -321,66 +321,76 @@ const Portfolio = () => {
           <div className="container mx-auto px-6">
             <h2 className="text-3xl font-bold text-center mb-8">Featured Projects</h2>
             <p className="text-center mb-8 max-w-2xl mx-auto theme-transition">
-              A showcase of my work in AI, data engineering, and web development. Each project represents a unique challenge and innovative solution.
+              Recent work across AI/ML, data engineering, full-stack development, and developer tooling.
             </p>
-            
-            {/* Featured Projects Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-8">
-              {ALL_REPOSITORIES.filter(repo => repo.featured).slice(0, 6).map((project) => (
-                <div key={project.id} className="card overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-lg font-semibold">{project.name}</h3>
-                      {project.featured && (
-                        <span className="tag-yellow px-2 py-1 rounded text-xs font-medium">
-                          Featured
-                        </span>
-                      )}
-                    </div>
-                    <p className="text-sm mb-4 line-clamp-3 theme-transition">{project.description}</p>
-                    
-                    {/* Technologies */}
-                    <div className="flex flex-wrap gap-1 mb-4">
-                      {project.technologies.slice(0, 3).map((tech, index) => (
-                        <span key={index} className="tag-gray px-2 py-1 rounded text-xs">
-                          {tech}
-                        </span>
-                      ))}
-                      {project.technologies.length > 3 && (
-                        <span className="text-xs theme-transition">+{project.technologies.length - 3} more</span>
-                      )}
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-sm theme-transition">
-                        <span className="flex items-center space-x-1">
-                          <FaCode size={12} />
-                          <span>{project.language}</span>
-                        </span>
-                        {project.stars > 0 && (
-                          <span className="flex items-center space-x-1">
-                            <span>⭐</span>
-                            <span>{project.stars}</span>
+
+            {/* Featured Projects Grid — ordered by FEATURED_PROJECTS */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
+              {FEATURED_PROJECTS.slice(0, 9)
+                .map(id => ALL_REPOSITORIES.find(r => r.id === id))
+                .filter(Boolean)
+                .map((project) => {
+                  const gradientClass =
+                    project!.category === 'AI & Machine Learning' ? 'gradient-bar-blue' :
+                    project!.category === 'Data Science & Engineering' ? 'gradient-bar-emerald' :
+                    project!.category === 'Web Development' ? 'gradient-bar-violet' :
+                    'gradient-bar-amber'
+
+                  return (
+                    <div key={project!.id} className="card overflow-hidden hover:shadow-lg transition-shadow">
+                      <div className={`h-1 ${gradientClass}`} />
+                      <div className="p-6">
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="text-lg font-semibold leading-tight">{project!.name}</h3>
+                          <span className="tag-gray px-2 py-0.5 rounded text-xs font-medium ml-2 whitespace-nowrap">
+                            {project!.category.split(' & ')[0]}
                           </span>
-                        )}
+                        </div>
+                        <p className="text-sm mb-4 line-clamp-3 theme-transition">{project!.description}</p>
+
+                        {/* Technologies */}
+                        <div className="flex flex-wrap gap-1 mb-4">
+                          {project!.technologies.slice(0, 5).map((tech, index) => (
+                            <span key={index} className="tag-gray px-2 py-0.5 rounded text-xs">
+                              {tech}
+                            </span>
+                          ))}
+                          {project!.technologies.length > 5 && (
+                            <span className="text-xs text-muted-foreground">+{project!.technologies.length - 5}</span>
+                          )}
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center space-x-4 text-sm theme-transition">
+                            <span className="flex items-center space-x-1">
+                              <FaCode size={12} />
+                              <span>{project!.language}</span>
+                            </span>
+                            {project!.stars > 0 && (
+                              <span className="flex items-center space-x-1 text-yellow-500">
+                                <FaStar size={12} />
+                                <span>{project!.stars}</span>
+                              </span>
+                            )}
+                          </div>
+                          <a
+                            href={project!.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-accent hover:text-accent-hover transition-colors"
+                          >
+                            <FaExternalLinkAlt size={14} />
+                          </a>
+                        </div>
                       </div>
-                      <a 
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-accent hover:text-accent-hover transition-colors"
-                      >
-                        <FaExternalLinkAlt size={14} />
-                      </a>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  )
+                })}
             </div>
-            
+
             {/* View All Projects Button */}
             <div className="text-center">
-              <Link 
+              <Link
                 href="/projects"
                 className="inline-flex items-center space-x-2 btn-primary px-6 py-3 rounded-lg"
               >
