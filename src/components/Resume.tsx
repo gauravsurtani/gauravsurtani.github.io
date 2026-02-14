@@ -28,10 +28,7 @@ const Portfolio = () => {
                   <div className="relative group">
                     <div className="w-[280px] sm:w-[320px] md:w-[360px] lg:w-[400px] h-[420px] sm:h-[480px] md:h-[540px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl bg-white dark:bg-gray-800 p-4 transition-all duration-300 hover:shadow-blue-500/20 hover:scale-[1.02] hover:p-0">
                       <Image 
-                        src={process.env.NODE_ENV === 'development' 
-                          ? "/portfolio_new_image_grad.jpg"
-                          : "/gaurav-portfolio-2025/portfolio_new_image_grad.jpg"
-                        }
+                        src="/portfolio_new_image_grad.jpg"
                         alt="Gaurav Surtani" 
                         width={400}
                         height={600}
@@ -87,10 +84,7 @@ const Portfolio = () => {
                       <span>Get in Touch</span>
                     </a>
                     <a 
-                      href={process.env.NODE_ENV === 'development' 
-                        ? "/resume.pdf"
-                        : "/gaurav-portfolio-2025/resume.pdf"
-                      }
+                      href="/resume.pdf"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-900 dark:text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg flex items-center justify-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 dark:border-gray-700 hover:-translate-y-0.5 w-full sm:w-auto"
@@ -265,9 +259,9 @@ const Portfolio = () => {
                           </h5>
                           <div className="flex flex-wrap gap-2">
                             {exp.skills.map((skill, skillIndex) => (
-                              <span 
+                              <span
                                 key={skillIndex}
-                                className="bg-white inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-500 border border-blue-200 dark:border-blue-800/30"
+                                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-50 dark:bg-blue-950/50 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-700/50"
                               >
                                 {skill}
                               </span>
@@ -284,9 +278,9 @@ const Portfolio = () => {
                           </h5>
                           <div className="flex flex-wrap gap-2">
                             {exp.achievements.map((achievement, achievementIndex) => (
-                              <span 
+                              <span
                                 key={achievementIndex}
-                                className="bg-white inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 dark:bg-green-900/30 text-green-900 dark:text-green-500 border border-green-200 dark:border-green-800/30"
+                                className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-600"
                               >
                                 {achievement}
                               </span>
