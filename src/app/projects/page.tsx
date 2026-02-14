@@ -253,8 +253,8 @@ const ProjectsPage = () => {
             {filteredRepositories.map((repo) => (
               <div key={repo.id} className="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow border border-gray-200">
                 <div className="p-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
+                  <div className="flex items-start justify-between mb-4 min-w-0">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
                       {getProjectIcon(repo)}
                       <div className="min-w-0 flex-1">
                         <h3 className="text-lg font-semibold text-gray-900 truncate">{repo.name}</h3>

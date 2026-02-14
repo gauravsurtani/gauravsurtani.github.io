@@ -340,8 +340,8 @@ const Portfolio = () => {
                     <div key={project!.id} className="card overflow-hidden hover:shadow-lg transition-shadow">
                       <div className={`h-1 ${gradientClass}`} />
                       <div className="p-6">
-                        <div className="flex items-start justify-between mb-2">
-                          <h3 className="text-lg font-semibold leading-tight">{project!.name}</h3>
+                        <div className="flex items-start justify-between mb-2 min-w-0">
+                          <h3 className="text-lg font-semibold leading-tight truncate min-w-0">{project!.name}</h3>
                           <span className="tag-gray px-2 py-0.5 rounded text-xs font-medium ml-2 whitespace-nowrap">
                             {project!.category.split(' & ')[0]}
                           </span>
