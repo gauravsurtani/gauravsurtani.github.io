@@ -7,6 +7,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  transpilePackages: ['react-markdown', 'remark-gfm'],
 };
 
 module.exports = nextConfig; 

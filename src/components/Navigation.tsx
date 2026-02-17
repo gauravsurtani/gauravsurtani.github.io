@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 import DarkModeToggle from './DarkModeToggle'
 
 const Navigation = () => {
@@ -98,6 +99,12 @@ const Navigation = () => {
                 </button>
               )
             })}
+            <Link
+              href="/blog"
+              className="nav-item nav-item-default"
+            >
+              Blog
+            </Link>
           </div>
 
           {/* Right side items */}
@@ -143,6 +150,13 @@ const Navigation = () => {
               </button>
             )
           })}
+          <Link
+            href="/blog"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="nav-mobile-item nav-item-default block"
+          >
+            Blog
+          </Link>
         </div>
       </div>
     </nav>
