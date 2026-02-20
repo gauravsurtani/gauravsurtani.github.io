@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { FaChrome, FaArrowLeft, FaRocket, FaMousePointer, FaKeyboard, FaBookmark } from 'react-icons/fa'
+import { FaChrome, FaArrowLeft } from 'react-icons/fa'
 
 const ThingsToBuildChromePage = () => {
   return (
@@ -44,8 +44,8 @@ const ThingsToBuildChromePage = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Core Features</h2>
             <ul className="list-disc pl-6 space-y-2" style={{ color: 'var(--muted-foreground)' }}>
-              <li><strong>Toolbar Button:</strong> Click to capture current tab's content</li>
-              <li><strong>Context Menu:</strong> Right-click to "Send to OpenClaw"</li>
+              <li><strong>Toolbar Button:</strong> Click to capture current tab content</li>
+              <li><strong>Context Menu:</strong> Right-click to Send to OpenClaw</li>
               <li><strong>Keyboard Shortcut:</strong> Cmd/Ctrl+Shift+O for quick capture</li>
               <li><strong>Classification Categories:</strong> Project Idea, Read Later, Blog Post, Explore, Todo</li>
               <li><strong>OpenClaw Integration:</strong> Send URL + content for AI analysis</li>
@@ -74,7 +74,7 @@ const ThingsToBuildChromePage = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Status</h2>
             <div className="p-4 rounded-lg border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-              <p className="font-medium">📋 Specification Complete — Ready to Build</p>
+              <p className="font-medium">Specification Complete — Ready to Build</p>
               <p className="text-sm mt-2" style={{ color: 'var(--muted-foreground)' }}>
                 The detailed specification is available. Development can commence once resources are allocated.
               </p>

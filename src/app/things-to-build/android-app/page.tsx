@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { FaAndroid, FaArrowLeft, FaRocket, FaCode, FaMobile, FaBrain, FaMusic } from 'react-icons/fa'
+import { FaAndroid, FaArrowLeft } from 'react-icons/fa'
 
 const ThingsToBuildAndroidPage = () => {
   return (
@@ -26,7 +26,7 @@ const ThingsToBuildAndroidPage = () => {
             <h1 className="text-4xl font-bold">Tech Blog Catchup - Android App</h1>
           </div>
           <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-            A "NotebookLM-style" audio experience for engineering blogs.
+            A NotebookLM-style audio experience for engineering blogs.
           </p>
         </div>
       </div>
@@ -45,7 +45,7 @@ const ThingsToBuildAndroidPage = () => {
             <h2 className="text-2xl font-bold mb-4">Key Features</h2>
             <ul className="list-disc pl-6 space-y-2" style={{ color: 'var(--muted-foreground)' }}>
               <li><strong>URL Input:</strong> Simple text field to paste blog URLs</li>
-              <li><strong>Share Extension:</strong> Android system intent to "Share to Tech Blog Catchup"</li>
+              <li><strong>Share Extension:</strong> Android system intent to Share to Tech Blog Catchup</li>
               <li><strong>LLM Script Generation:</strong> Transform technical text into dialogue scripts</li>
               <li><strong>TTS Audio Synthesis:</strong> Generate MP3 podcasts using ElevenLabs or OpenAI</li>
               <li><strong>Podcast Player:</strong> Standard controls with background playback</li>
@@ -74,7 +74,7 @@ const ThingsToBuildAndroidPage = () => {
           <section className="mb-8">
             <h2 className="text-2xl font-bold mb-4">Status</h2>
             <div className="p-4 rounded-lg border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-              <p className="font-medium">📋 Specification Complete — Ready to Build</p>
+              <p className="font-medium">Specification Complete — Ready to Build</p>
               <p className="text-sm mt-2" style={{ color: 'var(--muted-foreground)' }}>
                 The detailed specification is available. Development can commence once resources are allocated.
               </p>
