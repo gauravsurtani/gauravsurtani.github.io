@@ -47,6 +47,9 @@ const ThingsToBuildPage = () => {
           <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
             Potential future projects and extensions, providing specifications for their creation.
           </p>
+          <p className="mt-2 text-sm font-medium" style={{ color: 'var(--accent)' }}>
+            Projects I'm planning to build · Work in progress
+          </p>
         </div>
       </div>
 
