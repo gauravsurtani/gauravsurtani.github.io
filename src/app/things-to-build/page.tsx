@@ -11,7 +11,7 @@ const projects = [
     description: 'A "NotebookLM-style" audio experience for engineering blogs. Users input URLs from tech blogs (Uber, Netflix, Meta, etc.), and the app converts them into engaging, conversational audio podcasts using LLMs and TTS.',
     icon: FaAndroid,
     tags: ['Mobile', 'Flutter', 'AI', 'Audio'],
-    link: '/blog/things-to-build'
+    link: '/things-to-build/android-app'
   },
   {
     slug: 'chrome-extension',
@@ -19,7 +19,7 @@ const projects = [
     description: 'One-click content capture from Chrome to OpenClaw for analysis and classification. Supports categorization into Project Ideas, Read Later, Blog Posts, and more.',
     icon: FaChrome,
     tags: ['Chrome Extension', 'OpenClaw', 'Web'],
-    link: '/blog/things-to-build'
+    link: '/things-to-build/chrome-extension'
   }
 ]
 
