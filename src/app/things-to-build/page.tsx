@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Link from 'next/link'
-import { FaAndroid, FaChrome, FaArrowLeft, FaRocket, FaCogs, FaProjectDiagram } from 'react-icons/fa'
+import { FaAndroid, FaChrome, FaArrowLeft, FaRocket, FaProjectDiagram } from 'react-icons/fa'
 
 const projects = [
   {
@@ -48,7 +48,7 @@ const ThingsToBuildPage = () => {
             Potential future projects and extensions, providing specifications for their creation.
           </p>
           <p className="mt-2 text-sm font-medium" style={{ color: 'var(--accent)' }}>
-            Projects I'm planning to build · Work in progress
+            Projects I&apos;m planning to build · Work in progress
           </p>
         </div>
       </div>
