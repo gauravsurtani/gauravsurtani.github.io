@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding-top: 5rem; /* Account for fixed navigation */
+}
+
 :root {
   /* Light mode colors */
   --background: #ffffff;
