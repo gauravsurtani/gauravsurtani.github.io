@@ -100,6 +100,12 @@ const Navigation = () => {
               )
             })}
             <Link
+              href="/things-to-build"
+              className="nav-item nav-item-default"
+            >
+              Things to Build
+            </Link>
+            <Link
               href="/blog"
               className="nav-item nav-item-default"
             >
