@@ -100,16 +100,16 @@ const Navigation = () => {
               )
             })}
             <Link
-              href="/things-to-build"
-              className="nav-item nav-item-default"
-            >
-              Things to Build
-            </Link>
-            <Link
               href="/blog"
               className="nav-item nav-item-default"
             >
               Blog
+            </Link>
+            <Link
+              href="/things-to-build"
+              className="nav-item nav-item-default"
+            >
+              Building...
             </Link>
           </div>
 
@@ -162,6 +162,13 @@ const Navigation = () => {
             className="nav-mobile-item nav-item-default block"
           >
             Blog
+          </Link>
+          <Link
+            href="/things-to-build"
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="nav-mobile-item nav-item-default block"
+          >
+            Building...
           </Link>
         </div>
       </div>

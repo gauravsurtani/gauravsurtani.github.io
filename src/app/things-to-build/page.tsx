@@ -73,7 +73,7 @@ const ThingsToBuildPage = () => {
                 }}
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 rounded-lg bg-opacity-10" style={{ backgroundColor: 'var(--accent)', color: 'var(--accent)' }}>
+                  <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--accent)', color: 'var(--background)' }}>
                     <project.icon className="text-2xl" />
                   </div>
                 </div>

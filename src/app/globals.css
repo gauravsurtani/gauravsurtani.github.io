@@ -38,7 +38,6 @@ body {
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
   overflow-y: scroll;
 }
 
@@ -49,11 +48,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Add scroll snap points to main sections */
-section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-}
+/* Scroll snap intentionally removed — was causing autoscroll on spec/blog pages */
 
 /* Custom scrollbar for dark mode */
 ::-webkit-scrollbar {
