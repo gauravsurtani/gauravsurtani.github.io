@@ -590,6 +590,72 @@ export const CERTIFICATIONS = [
 
 // Complete Repository Data with Categories and Technologies
 export const ALL_REPOSITORIES = [
+  // Production Systems (live, deployed, serving users)
+  {
+    id: 'dlai-mcp-server',
+    name: 'dlai-mcp-server',
+    description: 'MCP server making DeepLearning.AI\'s 121-course catalog searchable from Claude Code, Codex, and Cursor. 3 tools: search_courses, get_course_details, list_topics. Published on npm, hosted on Railway.',
+    category: 'AI & Machine Learning',
+    technologies: ['TypeScript', 'MCP Protocol', 'Algolia', 'Railway', 'npm', 'Cheerio'],
+    language: 'TypeScript',
+    github: 'https://github.com/gauravsurtani/dlai-mcp-server',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-04-06',
+    license: 'MIT'
+  },
+  {
+    id: 'harmonic-sourcing',
+    name: 'harmonic-sourcing',
+    description: 'AI-native recruiting platform for open-world candidate sourcing. Multi-agent orchestration (Claude, Tavily, OpenRouter), vector search across 288M person records, Lever ATS integration, market mapping. 165+ PRs, 486 tests.',
+    category: 'AI & Machine Learning',
+    technologies: ['Python', 'FastAPI', 'React', 'Supabase', 'Claude API', 'Tailwind CSS', 'SSE'],
+    language: 'Python',
+    github: 'https://github.com/gauravsurtani/harmonic-sourcing',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-04-01',
+    license: 'MIT'
+  },
+  {
+    id: 'tech-blog-catchup',
+    name: 'tech-blog-catchup',
+    description: 'Engineering blogs from Uber, Meta, Netflix, Airbnb → AI-generated podcasts. Content extraction, GPT script generation, parallel TTS, PWA with MediaSession API. Deployed on Railway at blog2podcast.com.',
+    category: 'AI & Machine Learning',
+    technologies: ['Next.js', 'FastAPI', 'GPT-4', 'TTS', 'Playwright', 'Railway', 'PWA'],
+    language: 'TypeScript',
+    github: 'https://github.com/gauravsurtani/tech-blog-catchup',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-04-06',
+    license: 'MIT'
+  },
+  {
+    id: 'harmonic-intel',
+    name: 'harmonic-intel',
+    description: 'Company intelligence platform — traction signals, funding rounds, talent flow, headcount timelines from Harmonic API. Flask API + React UI + CLI + MCP Server.',
+    category: 'AI & Machine Learning',
+    technologies: ['Python', 'Flask', 'React', 'MCP Protocol', 'CLI', 'Harmonic API'],
+    language: 'Python',
+    github: 'https://github.com/gauravsurtani/harmonic-intel',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-04-06',
+    license: 'MIT'
+  },
+  {
+    id: 'pair-programmer-cli',
+    name: 'pair-programmer-cli',
+    description: 'Multiplayer middleware for AI coding agents — share Claude Code sessions with your team in real-time. WebSocket-based session sharing.',
+    category: 'AI & Machine Learning',
+    technologies: ['TypeScript', 'WebSocket', 'tmux', 'Claude Code', 'CLI'],
+    language: 'TypeScript',
+    github: 'https://github.com/gauravsurtani/pair-programmer-cli',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-04-03',
+    license: 'MIT'
+  },
   // AI & Machine Learning Projects
   {
     id: 'email-link',
