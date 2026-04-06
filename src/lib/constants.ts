@@ -3,7 +3,7 @@ export const PORTFOLIO_CONFIG = {
   // Personal Information
   name: 'Gaurav Surtani',
   title: 'Founding AI Engineer | Growth Engineering | Full-Stack ML Systems',
-  bio: "Founding AI Engineer at DeepLearning.AI building AI-powered internal tools and community developer experiences. I thrive at the intersection of engineering and growth — building products that drive revenue, solve bottlenecks, and scale. 6+ years shipping production systems: from 0-to-1 product builds to 10x performance improvements that unlock new markets. Full-stack across AI/ML, infrastructure, and product. Track record of joining early, owning end-to-end, and directly impacting business outcomes. MS in AI from San Jose State University (May 2025). My current interests include MCP servers, multi-agent orchestration, GenAI, LLM Agents, and ML applications in education, healthcare, geospatial analysis, and recommendation systems.",
+  bio: "Founding AI Engineer at DeepLearning.AI building AI recruiting tools with multi-model orchestration. I thrive at the intersection of engineering and growth — building products that drive revenue, solve bottlenecks, and scale. 6+ years shipping production systems: from 0-to-1 product builds to 10x performance improvements that unlock new markets. Full-stack across AI/ML, infrastructure, and product. Track record of joining early, owning end-to-end, and directly impacting business outcomes. MS in AI from San Jose State University (May 2025). My current interests include MCP servers, multi-agent orchestration, GenAI, LLM Agents (using LangChain), and ML applications in recruiting, healthcare, geospatial analysis, and recommendation systems.",
   location: 'San Francisco Bay Area',
 
   // Contact Information
@@ -106,16 +106,31 @@ export const PROFESSIONAL_EXPERIENCE = [
     location: 'San Francisco Bay Area',
     type: 'Development',
     skills: [
-      'TypeScript', 'MCP Protocol', 'Claude API', 'React', 'Python', 'FastAPI',
-      'Multi-Agent Orchestration', 'Algolia', 'Railway', 'npm'
+      'Claude API', 'Tavily', 'OpenRouter', 'Vector DB', 'LangChain',
+      'React', 'Python', 'Flask', 'Multi-Agent Orchestration',
+      'Semantic Search', 'Vector Embeddings', 'Data Pipelines',
+      'TypeScript', 'MCP Protocol', 'Algolia', 'Railway', 'npm'
     ],
     achievements: [
+      'Building AI-native recruiting platform for open-world candidate sourcing [Claude API, Tavily, OpenRouter]',
+      'Architecting data pipelines across multiple sources (LinkedIn, GitHub, company databases) from scratch [Python, Flask]',
+      'Developing intelligent search with vector embeddings and semantic ranking [Vector DB, LangChain]',
+      'Implementing multi-agent orchestration for deep candidate research and profile enrichment [Claude API, OpenRouter]',
+      'Delivering full-stack application to pilot recruiters; iterating on product based on direct user feedback [React]',
       'Built and shipped DLAI MCP Server — making 121 courses searchable from Claude Code, Codex, and Cursor [TypeScript, MCP SDK, Algolia]',
-      'Published to npm (dlai-mcp-server) and deployed on Railway with session-managed HTTP transport [npm, Railway]',
-      'Building AI-powered internal tools with multi-agent orchestration and full-stack ML systems [Claude API, Python, React]',
-      'Designing developer experience tools to increase DLAI course discoverability across AI coding platforms [MCP Protocol]'
+      'Published to npm (dlai-mcp-server) and deployed on Railway with session-managed HTTP transport [npm, Railway]'
     ],
     projects: [
+      {
+        name: 'AI Recruiting Platform',
+        description: 'AI-native recruiting platform for open-world candidate sourcing with multi-model orchestration',
+        achievements: [
+          'Architected data pipelines across multiple sources (LinkedIn, GitHub, company databases) from scratch',
+          'Developed intelligent search with vector embeddings and semantic ranking to identify high-value companies and surface qualified candidates',
+          'Implemented multi-agent orchestration (Claude, Tavily, OpenRouter) for deep candidate research and profile enrichment',
+          'Delivered full-stack application to pilot recruiters; iterating on product based on direct user feedback'
+        ]
+      },
       {
         name: 'DLAI MCP Server',
         description: 'MCP server making DeepLearning.AI course catalog searchable from AI coding tools — npm published, Railway hosted',
