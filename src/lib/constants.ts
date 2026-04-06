@@ -609,7 +609,7 @@ export const ALL_REPOSITORIES = [
     name: 'tech-blog-catchup',
     description: 'Engineering blogs from Uber, Meta, Netflix, Airbnb → AI-generated podcasts. Content extraction, GPT script generation, parallel TTS, PWA with MediaSession API. Deployed on Railway at blog2podcast.com.',
     category: 'AI & Machine Learning',
-    technologies: ['Next.js', 'FastAPI', 'GPT-4', 'TTS', 'Playwright', 'Railway', 'PWA'],
+    technologies: ['Next.js', 'FastAPI', 'GPT-5.2', 'TTS', 'Playwright', 'Railway', 'PWA'],
     language: 'TypeScript',
     github: 'https://github.com/gauravsurtani/tech-blog-catchup',
     stars: 0,
