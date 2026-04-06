@@ -50,6 +50,7 @@ export const PORTFOLIO_CONFIG = {
   // Organizations
   organizations: [
     { name: 'DeepLearning.AI', color: 'bg-sky-600' },
+    { name: 'Blog2Podcast', color: 'bg-amber-600' },
     { name: 'Tassel', color: 'bg-emerald-600' },
     { name: 'Bexorg', color: 'bg-blue-600' },
     { name: 'NASA', color: 'bg-red-600' },
@@ -139,6 +140,36 @@ export const PROFESSIONAL_EXPERIENCE = [
           'Algolia-powered search with on-demand lesson scraping and bundled fallback for offline resilience',
           'Session-managed HTTP transport for production Railway deployment with CORS and health checks',
           'Published to npm as dlai-mcp-server — zero-install via npx for any Claude Code user'
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Creator & Developer',
+    company: 'Blog2Podcast',
+    period: 'March 2026 - Present',
+    location: 'San Francisco Bay Area',
+    type: 'Side Project',
+    skills: [
+      'Next.js', 'FastAPI', 'GPT-5.2', 'OpenAI TTS', 'Playwright',
+      'Railway', 'PWA', 'MediaSession API', 'AsyncIO'
+    ],
+    achievements: [
+      'Built end-to-end pipeline that converts engineering blogs from 15+ tech companies (Uber, Meta, Netflix, Airbnb) into AI-generated podcasts [FastAPI, GPT-5.2, TTS]',
+      'Shipped PWA with offline support, lock screen controls via MediaSession API, and 34 E2E tests across 4 device profiles [Next.js, Playwright]',
+      'Parallel TTS generation with AsyncIO — 3-5x speedup for 20-segment podcasts [AsyncIO, OpenAI TTS]',
+      'User submission feature — paste any URL or text, get a podcast in minutes [FastAPI, GPT-5.2]',
+      'Deployed on Railway with automated daily crawl + podcast generation pipeline [Railway, APScheduler]'
+    ],
+    projects: [
+      {
+        name: 'blog2podcast.com',
+        description: 'Turn any tech blog into a podcast — AI-powered content extraction, script generation, and text-to-speech',
+        achievements: [
+          'Multi-strategy content extraction (trafilatura + BeautifulSoup fallback) with quality scoring',
+          '28 PRs for full frontend rebuild in a single day — auth, player, navigation, library, search, PWA',
+          'iOS safe areas, dvh viewport, touch targets (WCAG 2.5.8), maskable icons, service worker',
+          'Deployed and serving users at blog2podcast.com via Railway'
         ]
       }
     ]
