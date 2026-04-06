@@ -145,7 +145,7 @@ export const PROFESSIONAL_EXPERIENCE = [
     ]
   },
   {
-    title: 'Creator & Developer',
+    title: 'Founder',
     company: 'Blog2Podcast',
     period: 'March 2026 - Present',
     location: 'San Francisco Bay Area',
