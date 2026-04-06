@@ -1,105 +1,128 @@
 # Gaurav Surtani
-Software Developer (AI/ML) | Full-Stack Engineer
-San Jose, CA | gaurav.surtani.tech@gmail.com | [linkedin.com/in/gaurav-surtani](https://www.linkedin.com/in/gaurav-surtani) | [github.com/gauravsurtani](https://github.com/gauravsurtani)
+Founding AI Engineer | Growth Engineering | Full-Stack ML Systems
+San Francisco Bay Area | gaurav.surtani.tech@gmail.com | [linkedin.com/in/gaurav-surtani](https://linkedin.com/in/gaurav-surtani) | [github.com/gauravsurtani](https://github.com/gauravsurtani)
 
-## Professional Profile
-Results-driven Full Stack Engineer with 7+ years of experience in developing and deploying scalable software solutions, specializing in AI/ML applications. Proven ability to lead projects from concept to launch, integrating cutting-edge web technologies with machine learning models to deliver impactful, user-centric platforms. Currently advancing expertise with a Master's in Artificial Intelligence. Passionate about leveraging GenAI, LLM Agents, and data-driven strategies to solve complex real-world problems in diverse domains.
+## Professional Summary
 
-## Core Skills & Technologies
-*   **AI & Machine Learning:** Python, TensorFlow, PyTorch, Keras, Scikit-learn, NLP (BERT, GPT, LangChain), Knowledge Graphs, Agentic AI, Computer Vision (YOLO v8), GenAI, LLMs
-*   **Data Engineering & Analysis:** Pandas, NumPy, SQL, MongoDB, Neo4j, BigQuery, GeoPandas, ETL Pipelines, Data Visualization (Plotly, D3.js, Folium), Statistical Analysis
-*   **Web Development:** JavaScript, TypeScript, React, Next.js, Angular (15/16), Node.js, Python (Flask, FastAPI), HTML/CSS, Tailwind CSS, REST APIs, GraphQL, Microservices
-*   **Tools & Platforms:** Docker, Kubernetes, AWS, Azure, Git, CI/CD, Jira, Wix CMS, Strapi CMS
-*   **Key Strengths:** Cross-Functional Collaboration, Rapid Prototyping, Project Leadership, Agile Methodologies, Problem-Solving, Effective Communication
+Founding AI Engineer at DeepLearning.AI building AI recruiting tools and developer experience platforms with multi-model orchestration. Shipped DLAI MCP Server ([npm: dlai-mcp-server](https://npmjs.com/package/dlai-mcp-server)) and Blog2Podcast ([blog2podcast.com](https://blog2podcast.com)). I thrive at the intersection of engineering and growth — building products that drive revenue, solve bottlenecks, and scale. 6+ years shipping production systems: from 0-to-1 product builds to 10x performance improvements that unlock new markets. Full-stack across AI/ML, infrastructure, and product. Track record of joining early, owning end-to-end, and directly impacting business outcomes. MS in AI from San Jose State.
+
+## Technical Skills
+
+| Category | Technologies |
+|----------|-------------|
+| **AI/ML Frameworks** | PyTorch, TensorFlow, LangChain, HuggingFace, YOLO, GNNs, LLM Agents, MCP Protocol |
+| **Languages** | Python, JavaScript/TypeScript, R, SQL, Unix/Bash, C# |
+| **Frontend** | React, Angular, Next.js, D3.js, Tailwind CSS, Chart.js, Highcharts |
+| **Backend & Data** | FastAPI, Flask, Node.js, Neo4j, PostgreSQL, Supabase, MongoDB, Elasticsearch, Algolia |
+| **Cloud & DevOps** | GCP, AWS, Azure, Docker, Railway, CI/CD, Kubernetes |
+| **AI Developer Tools** | MCP Protocol, Claude Code, Algolia Search, SSE/WebSocket, Cheerio |
+| **Spatial & Visualization** | GeoPandas, Pyproj, Leaflet.js, Folium, Plotly/Dash, Matplotlib |
+| **Computer Vision** | LiDAR Processing, Sensor Fusion, Image Segmentation, Object Detection |
+| **Data Engineering** | ETL, Informatica, Data Warehousing, Graph Algorithms |
 
 ## Professional Experience
 
-### Full Stack Engineer Intern | Bexorg, Inc.
-*New Haven, CT | May 2024 - Present (Expected May 2025)*
+### DeepLearning.AI — Founding AI Engineer
+*San Francisco Bay Area | September 2025 - Present*
 
-*Key Skills: React, Node.js, Python, FastAPI, LangChain, GPT, Next.js, TypeScript, Plotly, D3.js, Neo4j, BigQuery, Docker, Kubernetes*
+`Claude API` `Tavily` `OpenRouter` `Vector DB` `LangChain` `React` `MCP Protocol` `TypeScript` `Algolia` `Railway`
 
-*   Spearheaded cross-functional team initiatives, accelerating deployment cycles by 85%.
-*   Engineered an asynchronous collaboration system, reducing meeting dependencies by 60%.
-*   **Interactive Data Viewer:** Architected a real-time data visualization platform enabling exploration of complex graph relationships (vis.js) for 40+ users; reduced data retrieval time by 45% via optimized graph algorithms and improved data analysis efficiency by 60%.
-*   **Team Collaboration Calendar:** Engineered an async-first calendar system, slashing experiment deployment time from 7 days to <4 hours and integrated with Slack/Jira for seamless workflows.
-*   **Time Series Analysis & QC:** Implemented an ML-powered QC system with real-time anomaly detection, cutting data issues by 70% and reducing alert response times by 80%.
-*   **GenAI Query Canvas:** Designed and deployed a natural language to visualization pipeline (Plotly & D3.js), reducing data analysis time by 75% and improving query accuracy by 40% through a feedback-based learning system.
-*   Engineered and integrated a Gemini API-driven chatbot trained on experiment data using ChromaDB to utilize vector embeddings for RAG based chatbot.
+- Building AI-native recruiting platform for open-world candidate sourcing — architecting data pipelines across 288M person records from 3 data sources (LinkedIn, GitHub, company databases); 165+ PRs shipped, 486 tests, 120+ issues closed in 3 months
+- Developing intelligent search with vector embeddings and semantic ranking across 288M-row RDS with sub-200ms query latency to identify high-value companies and surface qualified candidates
+- Implementing multi-agent orchestration (Claude, Tavily, OpenRouter) reducing candidate screening time from hours to minutes for pilot recruiters
+- Built and shipped DLAI MCP Server ([npm: dlai-mcp-server](https://npmjs.com/package/dlai-mcp-server)) — TypeScript MCP protocol server making 121-course catalog searchable from Claude Code, Codex, and Cursor across 38 topics and 70+ partner organizations; deployed on Railway
+- Designed Algolia-powered course discoverability system with 3 tools (search_courses, get_course_details, list_topics) and session-managed HTTP transport for production deployment
+- Delivering full-stack application to pilot recruiters; iterating on product based on direct user feedback
 
-### Machine Learning Developer | NASA Ames Research Center
-*Mountain View, CA | Dec 2023 - Mar 2024*
+### Blog2Podcast — Founder
+*San Francisco Bay Area | March 2026 - Present*
 
-*Key Skills: Python, Pyproj, Folium, Next.js, Plotly, Docker, AWS, NumPy, Pandas, Kubernetes, Geospatial Analysis*
+`Next.js` `FastAPI` `GPT-5.2` `OpenAI TTS` `Railway` `PWA` `Playwright` `AsyncIO`
 
-*   **Flight Path Optimization System:** Engineered a coordinate transformation pipeline (Pyproj) for web-based flight path visualization (Folium) and analysis.
-    *   Containerized a legacy flight analysis system, reducing setup time for researchers from days to minutes.
-    *   Deployed a time-series viewing component for real-time flight path adherence analysis.
-    *   Automated data validation for 1000+ flight paths, decreasing manual verification time from 4 hours to 15 minutes per analysis.
+- Built end-to-end pipeline converting engineering blogs from 15+ tech companies (Uber, Meta, Netflix, Airbnb, Stripe) into AI-generated podcasts — live at [blog2podcast.com](https://blog2podcast.com)
+- Shipped PWA with offline support, lock screen audio controls (MediaSession API), and 34 E2E tests across 4 device profiles (Desktop Chrome, Mobile Chrome, Mobile Safari, Tablet)
+- 3-5x TTS speedup via parallel AsyncIO generation for 20-segment podcasts; automated daily crawl + podcast pipeline deployed on Railway
+- Multi-strategy content extraction (trafilatura + BeautifulSoup fallback) with quality scoring; 28 PRs for full frontend rebuild in a single day
+- User submission feature — paste any URL or text, get a podcast in minutes; handling 1,125+ posts across 15 sources
 
-### Research Assistant | San Jose State University
-*San Jose, CA | Jul 2023 - Feb 2024*
+### Tassel — Full Stack AI Engineer, Growth
+*United States | June 2025 - September 2025*
 
-*Key Skills: React, Node.js, BERT, GPT-2, YOLO v8, Python, OpenCV, TypeScript, Tailwind CSS, Wix/Strapi CMS*
+`Azure` `Voice AI` `TTS` `FFmpeg` `Python`
 
-*   **Sensor Fusion & Motion Planning:** Implemented a real-time sensor fusion pipeline (LiDAR & KITTI dataset camera data), enhancing object detection accuracy via improved normalization techniques and YOLO v8 integration for precise 3D bounding box generation.
-*   **OHANA Mental Health Support App:** Developed a React-based web application for hurricane relief, integrating BERT/GPT-2 models for crisis response and a geolocation feature for finding support centers.
-*   **Multilingual TTS Research:** Researched and evaluated TTS systems (Coqui TTS, Firefox voice synthesis) supporting 25+ languages, developing a prototype for comparative analysis.
+- Built video pipeline that ingests graduation ceremonies, segments by student, and delivers personalized clips to 2M+ students — $8M+ revenue opportunity
+- Developed AI pronunciation system to fix TTS accuracy for student name announcements across Voice AI applications
+- Architected Azure infrastructure; migrated always-on to on-demand scaling for heavy pipelines — cut costs 40%, processing 8x faster
 
-### Senior Software Engineer | Ascendion
-*Basking Ridge, NJ | Nov 2022 - Aug 2023*
+### Bexorg, Inc. — Full Stack AI Engineer, Growth
+*New Haven, CT | May 2024 - May 2025*
 
-*Key Skills: Angular (15/16), TypeScript, D3.js, Highcharts, W3C, Storybook, Azure, DevOps, CI/CD, Microservices, Spring Boot*
+`Neo4j` `GNN` `React` `GCP` `LangChain`
 
-*   Led a team of 15+ engineers in enterprise-level project delivery.
-*   Architected and delivered a W3C-compliant component library (40+ components), accelerating development by 60%.
-*   **Enterprise Angular Migration:** Spearheaded migration from AngularJS to Angular 15 and Angular 13 to 16, improving performance, maintainability, and reducing bundle sizes by 35% using standalone components and signals.
-*   **Cloud Economics Platform:** Engineered an interactive dashboard (D3.js, Highcharts) for real-time VM usage and cost analytics, delivering 30% in cloud spending optimization through automated recommendations.
-*   **AI-Powered Code Quality Tool:** Developed a VS Code extension with ChatGPT API integration for automated code review and documentation, reducing manual documentation time by 70%.
-*   **Performance Optimization:** Reduced enterprise application page load times from 23s to 2.5s and API response times by 75% through UI enhancements, pagination, and efficient data loading strategies.
+- Solved critical pipeline bottlenecks: 10x throughput improvement enabling new enterprise customer acquisition
+- Built GenAI analytics platform with NL querying — key differentiator for sales; 99.9% uptime converted pilots to contracts
+- Applied AI/ML/NLP expertise: anomaly detection, NLP extraction, CV for medical imaging
+- Implemented graph-based data layer with GNNs, reducing query times 5x for real-time analytics
 
-### Software Engineer | Collabera Inc.
-*Basking Ridge, NJ | Dec 2021 - Dec 2022*
+### NASA Ames Research Center — Machine Learning Developer
+*Mountain View, CA | December 2023 - March 2024*
 
-*Key Skills: Angular, Azure, TypeScript, Python, Azure Functions, Angular Material, D3.js, W3C, DevOps, SRE*
+`GeoPandas` `Pyproj` `Leaflet.js` `Plotly`
 
-*   Developed an SRE & DevOps enterprise assessment tool, reducing operational overhead by 20%.
-*   Engineered a W3C-compliant Angular component library (30+ reusable components).
-*   **Azure ML Integration:** Developed a web application integrating Azure backend with ML workflows, featuring real-time data sync and automated processing via Azure Functions.
+- Performed spatial analysis of flight path adherence to ATC procedures using Pyproj and GeoPandas
+- Built interactive visualization dashboards (Folium, Leaflet.js, Plotly) for airspace data analysis
+- Identified navigational patterns enabling aviation fuel cost optimization
 
-### Software Developer | LIBS
-*Cotonou, Benin | Jan 2021 - Nov 2021*
+### San Jose State University — Research Assistant
+*San Jose, CA | July 2023 - February 2024*
 
-*Key Skills: Angular, TypeScript, AWS EC2, REST APIs, Database Design, Security, Team Leadership*
+`LiDAR` `YOLO v8` `Sensor Fusion` `HuggingFace`
 
-*   Led a production team of 10+ engineers to deliver a client-facing warehouse and sales management system.
-*   Developed a real-time inventory tracking system and a multi-currency/language sales tracking module.
-*   Deployed the application on AWS EC2 with enhanced security measures across West Africa.
+- **Spatial Analytics:** ML models on spatial datasets; EDA with R (dplyr, ggplot2), hypothesis testing
+- **Motion Planning:** Sensor fusion (camera + LiDAR) using KITTI; YOLO v8 object detection
+- Built multilingual NLP translation system (1-to-25 languages) with LangChain and HuggingFace
 
-### Software Engineer | Accenture
-*Pune, India | Oct 2018 - Dec 2020*
+### Ascendion — Senior Software Engineer
+*Basking Ridge, NJ | November 2022 - August 2023*
 
-*Key Skills: Informatica, Abinitio, Unix, Python, ETL, SQL, Oracle DB, AWS*
+`Angular` `TypeScript` `OpenAI` `Node.js`
 
-*   **Barclays Data Migration & ETL Project:**
-    *   Engineered and optimized large-scale ETL pipelines using Informatica and Abinitio for Barclays' critical data migration initiatives.
-    *   Implemented comprehensive data validation protocols and quality assurance checks, ensuring high data integrity post-migration.
-    *   Developed automated monitoring and reporting systems for ETL workflows, improving operational oversight.
+- Architected data visualization system processing 10M+ records for enterprise dashboards
+- Mentored 20 engineers; conducted 500+ code reviews improving team code quality by 35%
+- Reduced page load times by 85% (23s → 2.5s) through lazy loading and pagination
+- Integrated OpenAI ChatGPT into VS Code extension, boosting developer productivity 25%
 
-### Frontend Developer | Enthralltech Private Limited
-*Pune, India | May 2018 - Oct 2018*
+### Collabera Inc. — Software Engineer
+*Basking Ridge, NJ | December 2021 - December 2022*
 
-*Key Skills: Angular, MongoDB, .NET, AWS, NoSQL, Chatbot Development, REST APIs*
+`Angular` `D3.js` `Azure` `AG-Grid`
 
-*   **E-Learning Platform & Chatbot Project:**
-    *   Led the frontend development of an EdTech platform using Angular and MongoDB, delivering an interactive learning environment.
-    *   Integrated an intelligent NoSQL-based chatbot to provide automated student support and Q&A.
-    *   Implemented robust IAM systems for secure user authentication and leveraged AWS for scalable content delivery.
+- Built executive dashboards with D3.js/Highcharts, increasing decision-making speed by 75%
+- Engineered reusable Angular component library (50+ components) with WCAG 2.1 compliance
+- Developed Azure-integrated ML workflow app, automating 80% of manual data processes
+- Awarded Employee of the Quarter for delivering 3 cross-functional projects ahead of schedule
+
+### Accenture — Software Engineer
+*Pune, India | October 2018 - December 2020*
+
+`Informatica` `Python` `SQL` `Unix`
+
+- Resolved critical ETL validation issues processing 5M+ daily records with zero data loss
+- Built automation scripts reducing manual reporting effort by 70% (40hrs → 12hrs/week)
+- Led production data analysis enabling 3-month early readiness for system switchover
+
+### Enthralltech — Frontend Developer
+*Pune, India | May 2018 - October 2018*
+
+`Angular` `MongoDB` `.NET`
+
+- Built e-learning platform features serving 10K+ students using MongoDB and Angular
+- Developed chatbot reducing support tickets by 40% through automated query resolution
 
 ## Education
 
-### Master of Science, Artificial Intelligence
-*San Jose State University, San Jose, CA | Aug 2023 - May 2025 (Expected)*
+### San Jose State University
+*Master of Science in Artificial Intelligence | August 2023 - May 2025*
 
-### Bachelor of Engineering, Information Technology
-*Sinhgad Academy Of Engineering (Pune University), Pune, India | 2014 - 2018* 
+### Sinhgad Academy of Engineering
+*Bachelor of Engineering in Information Technology | August 2014 - May 2018*
