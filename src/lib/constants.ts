@@ -634,6 +634,31 @@ export const CERTIFICATIONS = [
 
 // Complete Repository Data with Categories and Technologies
 export const ALL_REPOSITORIES = [
+  // Side projects, 2026 Q3
+  {
+    id: 'gaurav-os',
+    name: 'gaurav-os',
+    description: 'A local work dashboard that reads my pull requests and git state and refuses to overclaim: deployment status is derived from the branch a PR merged into, never from its title, and a merge to develop is never shown as production. Rolling week view, a build log written per day, commit trails under each PR, a notepad that saves into Obsidian. Refreshes itself every ten minutes; open pages reload on a new build.',
+    category: 'DevOps & Infrastructure',
+    technologies: ['Python', 'GitHub CLI', 'launchd', 'Vanilla JS', 'HTML/CSS'],
+    language: 'Python',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-09-06',
+    license: 'Private'
+  },
+  {
+    id: 'jobs-collector',
+    name: 'jobs-collector',
+    description: 'Collects open roles from the careers pages of 200 companies into SQLite with per-source outcome accounting: every company ends with a recorded result (collected, blocked, no supported source, empty) rather than a silent gap. Re-runs diff against the last snapshot so removed postings are detected. Respects robots rules. 20,000+ live postings across 182 sources in the current snapshot.',
+    category: 'Data Science & Engineering',
+    technologies: ['Node.js', 'SQLite', 'Playwright', 'ETL Pipelines'],
+    language: 'JavaScript',
+    stars: 0,
+    featured: true,
+    updatedAt: '2026-08-30',
+    license: 'Private'
+  },
   // Production Systems (live, deployed, serving users)
   {
     id: 'dlai-mcp-server',

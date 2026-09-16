@@ -316,14 +316,14 @@ const ProjectsPage = () => {
                   </div>
 
                   <div className="flex gap-3">
-                    <a 
+                    {repo.github && <a 
                       href={repo.github} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors text-sm"
                     >
                       <FaGithub /> View Code
-                    </a>
+                    </a>}
                     {['email-link', 'wat-to-eat', 'company-stats', 'fire-prediction', 'youtube-history-extension'].includes(repo.id) && (
                       <Link
                         href={`/projects/${repo.id}`}
