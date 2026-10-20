@@ -6,15 +6,14 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check:facts": "node scripts/check-facts.mjs"
   },
   "dependencies": {
-    "framer-motion": "^12.15.0",
     "gray-matter": "^4.0.3",
     "next": "15.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-icons": "^5.5.0",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1"
   },

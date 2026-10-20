@@ -1,0 +1,62 @@
+/* Timeline camera (Experience, option B). Global sheet, every selector starts with .trace or #trace; imported by
+   Trace.tsx next to the marks it styles.
+
+   Desktop, motion on, reading line in the records: TraceFollow sets #trace.cam and the view on #trace:
+     --c0  first year in view   --cs  years in view   --cw  track width in px (a plain number)   --vd  pull-back 0..1
+   and on each row --f (how much of its bar is written, 0..1) plus .cc (the camera's row), .cw (written) and .wr (the
+   pen is on it: the opening sweep's own class, so the pen tip is the card's own).
+   The card's own marks are re-mapped from 2018..now to that view with transforms only (no layout, no layout shift):
+   a mark at year y moves by ((y - c0) / cs - (y - t0) / span) x the track width. Bars scale about their start with
+   the corner radius divided back, so their ends stay round. Colours, sizes, gridlines, band and pen are the card's. */
+
+/* camera-only marks: hidden on the resting card (the hero and the opening never show them) */
+.trace .mt, .trace .ql, .trace .chip { display: none; }
+.trace .mt { position: absolute; top: calc(var(--axh) - 8px); height: 4px; left: calc((var(--y) - var(--t0)) / var(--span) * 100%); width: 1px; background: var(--line); }
+.trace .mt.q { bottom: 0; height: auto; }   /* quarters run the full height, other months are 4px ticks */
+.trace .ql { position: absolute; top: 1px; left: calc((var(--y) - var(--t0)) / var(--span) * 100%); font: 400 10.5px/1 var(--f-mono); color: var(--muted); }
+.trace .chip { position: absolute; left: 0; top: 50%; min-width: 20px; height: 20px; margin-top: -10px; padding: 0 4px; border-radius: 5px; font-size: 9px; }
+
+#trace.cam { --ppy: calc(var(--cw) / var(--cs)); }   /* px per year in view */
+#trace.cam .ov { clip-path: inset(0 -1px); }
+
+/* marks at a year: gridlines, month ticks, year and quarter labels (whole pixels, so the 1px lines stay crisp) */
+#trace.cam :is(.yr, .ql, .gl, .mt) {
+  --xc: calc((var(--y) - var(--c0)) / var(--cs) * var(--cw));
+  --dx: round(calc((var(--xc) - (var(--y) - var(--t0)) / var(--span) * var(--cw)) * 1px), 1px);
+}
+#trace.cam :is(.gl, .mt) { transform: translateX(var(--dx)); }
+#trace.cam .mt { display: block; opacity: calc(clamp(0, (var(--ppy) - 200) / 200, 1) * .9); }   /* months once a year is wide */
+#trace.cam .yr { transform: translateX(var(--dx)) translateX(-50%); transition: none;
+  opacity: clamp(0, (min(var(--xc), var(--cw) - var(--xc)) + 16) / 10, 1); }
+#trace.cam .yr.odd { display: block;   /* odd years once there is room */
+  opacity: calc(clamp(0, (min(var(--xc), var(--cw) - var(--xc)) + 16) / 10, 1) * clamp(0, (var(--ppy) - 50) / 12, 1)); }
+#trace.cam .ql { display: block; transform: translateX(var(--dx)) translateX(-50%);
+  opacity: calc(clamp(0, (min(var(--xc), var(--cw) - var(--xc)) - 2) / 8, 1) * clamp(0, (var(--ppy) - 260) / 160, 1)); }
+
+/* bars, pen tips, caps and logo chips (each carries --s, bars and pen tips --e; a current role has no --e) */
+#trace.cam :is(.bar, .pt, .chip) {
+  --lf: calc((var(--s) - var(--t0)) / var(--span) * var(--cw));
+  --lc: calc((var(--s) - var(--c0)) / var(--cs) * var(--cw));
+  --wc: max(4, (var(--e, var(--now, 2026.8)) - var(--s)) / var(--cs) * var(--cw));
+}
+#trace.cam .bar {
+  --k: calc(var(--wc) / max(4, (var(--e, var(--now, 2026.8)) - var(--s)) / var(--span) * var(--cw)));
+  transform: translateX(calc((var(--lc) - var(--lf)) * 1px)) scaleX(var(--k));
+  border-radius: calc(5px / var(--k)) / 5px;
+}
+/* the amber layer is written left to right; the pen tip covers its leading edge */
+#trace.cam .bar::after { opacity: calc(.7 + .3 * var(--vd, 0)); transition: none; clip-path: inset(0 calc((1 - var(--f, 0)) * 100%) 0 0); }
+#trace.cam .pt { transform: translateX(calc((var(--lc) - var(--lf)) * 1px)); }
+#trace.cam .row.wr .pt { transform: translateX(calc((var(--lc) - var(--lf) + max(0, var(--f, 0) * var(--wc) - 10)) * 1px)); }
+#trace.cam .cap { transform: translateX(calc(((var(--now, 2026.8) - var(--c0)) / var(--cs) - 1) * var(--cw) * 1px)); transition: opacity 120ms; }
+/* the camera's role shows its logo slot just before its bar (it fades out against the left edge) */
+#trace.cam .chip { display: grid; transform: translateX(calc((var(--lc) - 6) * 1px - 100%)); opacity: 0; transition: opacity 200ms; }
+#trace.cam .row.cc .chip { opacity: clamp(0, (var(--lc) - 34) / 12, 1); }
+
+/* rows: the camera's row at full strength; the others' graphite at .45 under their amber at .7 (open caps stay
+   whole); the pull-back brings every bar to full. Bars are clipped at the track's edges; the right edge leaves room
+   for today's open cap while today is in view. */
+#trace.cam .track { opacity: 1;
+  clip-path: inset(-6px calc(-1px * clamp(1, 14 - ((var(--now, 2026.8) - var(--c0)) / var(--cs) - 1) * var(--cw), 14)) -6px -1px); }
+#trace.cam .row:not(.cc) .bar { background: color-mix(in srgb, var(--bar) calc(45% + 55% * var(--vd, 0)), transparent); }
+#trace.cam .row.cc .bar::after { opacity: 1; }

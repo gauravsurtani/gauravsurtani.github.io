@@ -1,0 +1,86 @@
+/* /projects: filter bar, toggles, tile grid, Archive rows, empty state, end CTA. Tokens only. Never put transform,
+   opacity or transition on a [data-ri] element here (the reveal owns them): .fields, .toggles, .count and the
+   Archive rows (.al li) are [data-ri]. */
+
+.page { padding-bottom: clamp(72px, 12vh, 140px); }
+
+/* ---- filter bar ---- */
+.bar { margin-bottom: 28px; }
+.fields { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.search { position: relative; flex: 1 1 320px; min-width: 0; }
+.sel { position: relative; flex: 0 0 auto; }
+.tech { width: 232px; }
+
+/* 44px fields with a --muted border; the global :focus-visible ring applies. 16px text so iOS never zooms. */
+.field { width: 100%; height: 44px; margin: 0; border: 1px solid var(--muted); border-radius: var(--r-md); background: var(--surface);
+  color: var(--ink); font: 400 16px/1.2 var(--f-sans); transition: border-color var(--d2); -webkit-appearance: none; appearance: none; }
+.field:hover { border-color: var(--ink); }
+.field::placeholder { color: var(--muted); opacity: 1; }
+.search .field { padding: 0 14px 0 40px; }
+/* the native clear (x) in the palette instead of the browser's blue */
+.search .field::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; margin: 0; cursor: pointer;
+  background: var(--muted); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat; }
+.search .field::-webkit-search-cancel-button:hover { background: var(--ink); }
+.sel .field { padding: 0 34px 0 14px; cursor: pointer; }
+.glass, .chev { position: absolute; top: 50%; translate: 0 -50%; color: var(--muted); pointer-events: none; }
+.glass { left: 14px; }
+.chev { right: 14px; }
+
+/* aria-pressed toggles: on = ink with --bg text, off = --line-2 border. Colors only (200ms), press .97. */
+.toggles { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+.tg { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px; border: 1px solid var(--line-2); border-radius: 999px;
+  background: transparent; color: var(--ink); font: 500 14px/1 var(--f-sans); white-space: nowrap;
+  transition: background-color var(--d2), border-color var(--d2), color var(--d2), transform var(--d1); }
+.tg:hover { border-color: var(--ink); }
+.tg:active { transform: scale(.97); }
+.tg[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.n { font: 400 12px/1 var(--f-mono); color: var(--muted); transition: color var(--d2); }
+.tg[aria-pressed="true"] .n { color: color-mix(in srgb, var(--bg) 72%, var(--ink)); }
+.sep { flex: none; width: 1px; height: 20px; margin: 0 4px; background: var(--line-2); }
+
+.count { margin-top: 18px; }
+
+/* no JS: the controls cannot work (and the count would repeat the dek), so the bar is not shown; every tile is */
+:global(html:not(.js)) .bar { display: none; }
+
+/* ---- grid: 2 columns at 1024px and up; the 2nd tile in a row is offset 90ms. Column gap >= 40px (tile bleed). ---- */
+.grid { display: grid; gap: 36px 56px; }
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid > :nth-child(2n) { --o: 90ms; }
+}
+
+/* ---- Archive (default view only): one 44px row per repo, hairlines like the home Earlier rows ---- */
+.archive { margin-top: clamp(64px, 10vh, 112px); }
+.al li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 16px; border-bottom: 1px solid var(--line); }
+.al li:first-child { border-top: 1px solid var(--line); }
+/* the name: mono, 12 + 20 + 12 = 44px tall, so the link is the touch target */
+.an { justify-self: start; padding: 12px 0; font: 500 15px/20px var(--f-mono); letter-spacing: -.01em; color: var(--ink); text-decoration: none; overflow-wrap: anywhere; }
+a.an:hover { text-decoration: underline; text-decoration-color: var(--line-2); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a.an:is(:hover, :focus-visible) :global(.arr) { transform: translateX(2px); color: var(--accent-ink); }
+.am { white-space: nowrap; }
+
+/* ---- empty state ---- */
+.empty { max-width: 560px; }
+.emptyT { margin: 18px 0 16px; font-size: 18px; line-height: 1.5; color: var(--ink-2); }
+
+/* ---- end CTA ---- */
+.end { margin-top: clamp(48px, 8vh, 80px); }
+
+/* ---- phones: fields stack, toggles become one row that scrolls inside itself (edge to edge) ---- */
+@media (max-width: 760px) {
+  .search { flex-basis: 100%; }
+  .sel { flex: 1 0 auto; }
+  .tech { flex: 1 1 165px; width: auto; min-width: 0; }   /* beside the sort at 390, both full rows at 320 */
+  .tg { min-height: 44px; }
+  /* the right-edge fade says the row scrolls */
+  .toggles { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gut)); padding: 6px var(--gut); margin-top: 8px;
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+  .toggles::-webkit-scrollbar { display: none; }
+  .count { margin-top: 10px; }
+  /* Archive rows: the meta goes under the name (long names and metas do not share a 358px line) */
+  .al li { grid-template-columns: minmax(0, 1fr); }
+  .am { margin-top: -8px; padding-bottom: 11px; white-space: normal; }
+}

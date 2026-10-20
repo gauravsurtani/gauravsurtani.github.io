@@ -1,0 +1,6 @@
+/* Things to build: the index tiles. Hover and focus come from .tile.
+   The spec pages use the record classes of ../projects/[slug]/detail.module.css. */
+.grid { display: grid; gap: 40px 48px; }
+@media (min-width: 1024px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.desc { margin-top: 8px; max-width: 62ch; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+.tags { margin-top: auto; padding-top: 14px; }

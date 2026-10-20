@@ -1,180 +1,52 @@
-<div align="center">
-  
-# 👋 Hi there, I'm Gaurav Surtani!
+<!-- Source of the github.com/gauravsurtani profile README. Keep in sync with gauravsurtani/gauravsurtani. -->
+# Gaurav Surtani
 
-### 🎯 Full-Stack AI Developer | Data Engineer | ML Enthusiast
+AI Engineer, LLM applications and evaluation
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=2F81F7&center=true&vCenter=true&width=440&lines=Full-Stack+AI+Developer;Data+Engineering+Enthusiast;Machine+Learning+Explorer;Building+Intelligent+Solutions" alt="Typing SVG" />
+AI engineer with eight years in full-stack, data and ML engineering, building LLM applications. Currently the founding and sole engineer on DeepLearning.AI's three AI recruiting products.
 
-</div>
+[Portfolio](https://gauravsurtani.github.io) | [LinkedIn](https://linkedin.com/in/gaurav-surtani) | [Email](mailto:gaurav.surtani.tech@gmail.com) | [blog2podcast.com](https://blog2podcast.com)
 
----
+## Now
 
-## 🚀 About Me
+Founding AI Engineer at DeepLearning.AI, Sep 2025 to present. I built its three AI recruiting products:
 
-```python
-class GauravSurtani:
-    def __init__(self):
-        self.name = "Gaurav Surtani"
-        self.location = "San Jose, CA 🌉"
-        self.current_work = ["Bexorg", "NASA", "SJSU RF"]
-        self.current_focus = "Full-Stack AI Development"
-        self.interests = ["AI/ML", "Data Engineering", "NLP", "Knowledge Graphs"]
-        self.hobbies = ["Building Chrome Extensions", "Data Science", "Open Source"]
-    
-    def say_hi(self):
-        print("Thanks for dropping by! Let's build something amazing together 🚀")
+- **AI technical interviewer**, used in live hiring. Every skill score ties to a verified transcript quote, so hiring managers can decide from the report alone.
+- **Recruiter sourcing and review tool**, which I also maintain. I migrated it from Railway to AWS with zero-downtime deploys.
+- **Valence Career Agent**, which helps candidates find their next role. It runs a technical assessment and returns a growth report.
 
-me = GauravSurtani()
-me.say_hi()
-```
+## Public projects
 
-🔭 **Currently working on:** Building intelligent solutions that bridge AI and practical applications  
-🌱 **Learning:** Advanced ML techniques, Agentic AI systems, and modern web technologies  
-💡 **Passionate about:** Creating tools that solve real-world problems using data and AI  
-🎯 **2024 Goal:** Become a well-rounded Full-Stack AI Developer  
+| Project | What it does |
+|---|---|
+| [dlai-mcp-server](https://github.com/gauravsurtani/dlai-mcp-server) | MCP server for searching DeepLearning.AI courses from Claude Code, Codex and Cursor. Published on [npm](https://www.npmjs.com/package/dlai-mcp-server). |
+| [tech-blog-catchup](https://github.com/gauravsurtani/tech-blog-catchup) | Turns engineering blogs from 15 companies into daily AI-narrated podcasts. Runs at [blog2podcast.com](https://blog2podcast.com). |
+| [pair-programmer-cli](https://github.com/gauravsurtani/pair-programmer-cli) | Multiplayer middleware for AI coding agents. Share Claude Code sessions with your team in real time. |
+| [im-watching-you](https://github.com/gauravsurtani/im-watching-you) | Life-tracking system with an MCP server for Claude Desktop, LLM activity classification and Whisper transcription. |
+| [Email-Link](https://github.com/gauravsurtani/Email-Link) | Find everything in your email using NLP, knowledge graphs and agentic AI. |
 
----
+## Experience
 
-## 🛠️ Tech Stack & Tools
+- **DeepLearning.AI**, Founding AI Engineer, Sep 2025 to present
+- **Blog2Podcast**, Founder (side project), Mar 2026 to present
+- **Tassel**, Full Stack AI Engineer, Jun 2025 to Sep 2025
+- **Bexorg**, Full Stack AI Engineer, May 2024 to May 2025
+- **NASA Ames Research Center**, Machine Learning Developer, Dec 2023 to Mar 2024
+- **San Jose State University**, Research Assistant, 2023 to 2024
+- **Ascendion (formerly Collabera)**, Software Engineer to Senior Software Engineer, 2021 to 2023
+- **Accenture**, Software Engineer, 2018 to 2020
+- **Enthralltech**, Frontend Developer, 2018
 
-### 🧠 AI & Data Science
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
-![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
+MS, Artificial Intelligence, San Jose State University.
 
-### 💻 Development
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+## Skills
 
-### 🔧 Tools & Platforms
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![VS Code](https://img.shields.io/badge/VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white)
-![Chrome Extension](https://img.shields.io/badge/Chrome%20Extension-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)
+- **AI:** LLM applications and agents (Gemini, Claude, OpenAI), LLM evaluation, retrieval and vector search, MCP servers, speech (STT, TTS, real-time voice), LangChain
+- **Engineering:** Python, TypeScript, FastAPI, React, Next.js, PostgreSQL, Redis, Neo4j, BigQuery, Playwright
+- **Infrastructure:** AWS (ECS, RDS, Terraform), GCP, Azure, Docker, Kubernetes, GitHub Actions
 
----
+## Contributions
 
-## 📊 GitHub Stats
-
-<div align="center">
-  
-[![Gaurav's GitHub Stats](https://github-readme-stats.vercel.app/api?username=gauravsurtani&show_icons=true&theme=tokyonight&hide_border=true&count_private=true)](https://github.com/gauravsurtani)
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=gauravsurtani&layout=compact&theme=tokyonight&hide_border=true)](https://github.com/gauravsurtani)
-
-[![GitHub Streak](https://streak-stats.demolab.com/?user=gauravsurtani&theme=tokyonight&hide_border=true)](https://github.com/gauravsurtani)
-
-</div>
-
----
-
-## 🏆 Featured Projects
-
-### 🔗 [Email-Link](https://github.com/gauravsurtani/Email-Link)
-**NLP + Knowledge Graphs + Agentic AI**  
-Advanced email management system that helps users find everything in their email using cutting-edge AI technologies.
-
-### 🍽️ [wat-to-eat](https://github.com/gauravsurtani/wat-to-eat) 
-**Data Engineering + Food Analytics**  
-Data engineering project analyzing Food.com tags to recommend the best food for your taste preferences.
-
-### 📊 [company-stats](https://github.com/gauravsurtani/company-stats)
-**Job Market Analysis + Data Science**  
-Synthesizing Simplify and H1B grader data to find interesting trends in the job market over recent years.
-
-### 🔥 [fire-prediction](https://github.com/gauravsurtani/fire-prediction) ⭐ 4
-**Machine Learning + Environmental Science**  
-Forest fire prediction using weather variables with comprehensive data science workflows.
-
-### 🎬 [youtube-history-extension](https://github.com/gauravsurtani/youtube-history-extension)
-**Chrome Extension + Web APIs**  
-Innovative solution to access YouTube history bypassing API limitations.
-
----
-
-## 📈 Contribution Graph
-
-<div align="center">
-  
-[![Gaurav's github activity graph](https://github-readme-activity-graph.vercel.app/graph?username=gauravsurtani&theme=tokyo-night&hide_border=true)](https://github.com/gauravsurtani)
-
-</div>
-
----
-
-## 🎯 Current Focus
-
-```mermaid
-graph LR
-    A[🧠 AI Research] --> D[🚀 Full-Stack AI]
-    B[📊 Data Engineering] --> D
-    C[💻 Web Development] --> D
-    D --> E[🌟 Intelligent Solutions]
-```
-
-**2024 Roadmap:**
-- 🔬 Deep dive into Agentic AI systems
-- 🛠️ Build more production-ready AI applications  
-- 📚 Contribute to open-source AI projects
-- 🌐 Expand full-stack development skills
-
----
-
-## 🏅 Achievements & Recognition
-
-<div align="center">
-
-[![trophy](https://github-profile-trophy.vercel.app/?username=gauravsurtani&theme=tokyonight&no-frame=true&row=1&column=6)](https://github.com/gauravsurtani)
-
-</div>
-
-**GitHub Achievements:**
-- 🎯 **YOLO** - Merged pull request without code review
-- 🦈 **Pull Shark** - Opened quality pull requests
-
----
-
-## 📫 Let's Connect!
-
-<div align="center">
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/gaurav-surtani)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/gauravsurtani)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:gaurav.surtani@gmail.com)
-
-</div>
-
----
-
-## 💡 Fun Facts
-
-- 🤖 I love building AI solutions that actually solve real problems
-- 🔍 Always curious about the latest developments in AI research  
-- 🌮 Data engineering with food data? Yes, please! (Check out wat-to-eat)
-- 🔥 Predicting forest fires with ML because why not save the planet?
-- 📧 Built an AI system to manage emails because inbox zero is the dream
-
----
-
-<div align="center">
-
-### 🚀 "Building the future, one algorithm at a time"
-
-![Visitor Count](https://profile-counter.glitch.me/gauravsurtani/count.svg)
-
-⭐ **If you find my work interesting, don't forget to star my repositories!**
-
-</div>
-
----
-
-<div align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
-</div> 
+<p align="center">
+  <img src="https://ghchart.rshah.org/gauravsurtani" alt="GitHub contribution chart" />
+</p>

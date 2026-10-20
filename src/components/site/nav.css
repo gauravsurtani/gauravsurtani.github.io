@@ -1,0 +1,104 @@
+/* Site navigation (Navigation.tsx). Global sheet: every selector is scoped to .nav (or html state + .nav).
+   Motion: P7 Slide (indicator, 380ms --e-io), label roll (340ms --e-out), P10 Morph (menu bars, theme icon),
+   menu sheet clip-path (open 360ms --e-out, close 240ms --e-io), link rise with a 32ms stagger from 60ms,
+   P11 underline draw on desktop links.
+   The backdrop blur sits on ::before so the header never becomes a containing block for fixed children
+   (the scrim is position: fixed inside it). */
+
+.nav { position: sticky; top: 0; z-index: 40; height: var(--navh); border-bottom: 1px solid transparent; transition: border-color var(--d2); }
+.nav::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--nav-bg);
+  -webkit-backdrop-filter: blur(12px) saturate(1.3); backdrop-filter: blur(12px) saturate(1.3); }
+.nav.scrolled, html.menu-open .nav { border-bottom-color: var(--line); }
+.nav .nav-in { max-width: var(--wrap); height: 100%; margin: 0 auto; padding: 0 var(--gut); display: flex; align-items: center; gap: 24px; }
+
+/* brand (home: hidden until the hero name passes under the nav; data-home is server-rendered so subpages never flash) */
+.nav .brand { display: flex; flex-direction: column; justify-content: center; min-height: 44px; min-width: 0; color: var(--ink); text-decoration: none;
+  transition: opacity var(--d3) var(--e-soft), transform var(--d3) var(--e-out), visibility 0s; }
+.nav .brand-name { font-size: 15px; font-weight: 600; letter-spacing: -.01em; line-height: 20px; white-space: nowrap; }
+.nav .brand-sec { display: none; }
+html.js .nav[data-home]:not(.brand-on) .brand { opacity: 0; transform: translateY(4px); visibility: hidden;
+  transition: opacity var(--d2), transform var(--d2), visibility 0s var(--d2); }
+
+/* desktop links + the one active indicator */
+.nav .links-wrap { position: relative; margin-left: auto; }
+.nav .links { display: flex; gap: 4px; }
+.nav .links a { position: relative; display: block; padding: 10px 12px; font-size: 14px; line-height: 24px; color: var(--ink-2); text-decoration: none; border-radius: 8px; transition: color var(--d2); }
+.nav .links a:hover, .nav .links a[aria-current] { color: var(--ink); }
+/* the .lnk draw (P11): an ink line under the text draws from the left on hover/focus and retracts to the right.
+   Not on the active link: it keeps the amber indicator (P7). */
+.nav .links a::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 8px; height: 1px; background: var(--ink);
+  transform: scaleX(0); transform-origin: right; transition: transform 300ms var(--e-out); }
+.nav .links a:not([aria-current]):is(:hover, :focus-visible)::after { transform: scaleX(1); transform-origin: left; }
+.nav .nav-ind { position: absolute; left: 0; bottom: 2px; width: 1px; height: 2px; background: var(--accent); transform-origin: 0 0; opacity: 0; pointer-events: none;
+  transition: transform 380ms var(--e-io), opacity var(--d2); }
+.nav .nav-ind.jump { transition: opacity var(--d2); }
+
+.nav .tools { display: flex; align-items: center; gap: 8px; }
+
+/* theme icon morph (P10): light shows a moon, dark shows a sun */
+.nav .theme svg * { transform-box: fill-box; transform-origin: center; transition: transform 520ms var(--e-io), opacity 300ms; }
+.nav .theme .rays { opacity: 0; transform: rotate(-60deg) scale(.5); }
+html.dark .nav .theme .core { transform: scale(.6); }
+html.dark .nav .theme .mm { transform: translate(9px, -9px); }
+html.dark .nav .theme .rays { opacity: 1; transform: none; }
+html:not(.js) .nav .theme { display: none; }
+
+/* menu button: two bars morph into an X */
+.nav .menu-btn { display: none; }
+.nav .menu-btn span { position: absolute; width: 18px; height: 1.6px; border-radius: 2px; background: currentColor; transition: transform 360ms var(--e-io); }
+.nav .menu-btn span:first-child { transform: translateY(-4px); }
+.nav .menu-btn span:last-child { transform: translateY(4px); }
+html.menu-open .nav .menu-btn span:first-child { transform: rotate(45deg); }
+html.menu-open .nav .menu-btn span:last-child { transform: rotate(-45deg); }
+
+.nav .menu, .nav .scrim { display: none; }
+
+@media (max-width: 1023px) {
+  .nav .nav-in { gap: 16px; }
+  .nav .links a { padding: 10px 9px; }
+  .nav .links a::after { left: 9px; right: 9px; }
+}
+
+@media (max-width: 760px) {
+  .nav .links-wrap, .nav .resume { display: none; }
+  .nav .tools { margin-left: auto; gap: 6px; }
+  .nav .icon-btn { width: 44px; height: 44px; }
+  .nav .menu-btn { display: grid; position: relative; }
+
+  /* G11: the brand carries the current section or page name, which rolls on change (P7) */
+  .nav .brand-name { font-size: 14px; line-height: 18px; }
+  .nav .brand-sec { display: block; position: relative; overflow: hidden; height: 15px; font: 400 11.5px/15px var(--f-mono); color: var(--muted); }
+  .nav .brand-sec-in, .nav .brand-sec-out { display: block; white-space: nowrap; }
+  .nav .brand-sec-out { position: absolute; left: 0; top: 0; opacity: 0; transform: translateY(-100%); }
+  .nav .brand-sec.roll .brand-sec-in { animation: nav-roll-in var(--d3) var(--e-out) backwards; }
+  .nav .brand-sec.roll .brand-sec-out { animation: nav-roll-out var(--d3) var(--e-out) backwards; }
+
+  /* menu sheet: an absolute overlay sized to its content (no layout shift), every item reachable */
+  .nav .menu { display: block; position: absolute; left: 0; right: 0; top: 100%; max-height: calc(100svh - var(--navh)); overflow-y: auto;
+    background: var(--surface); border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
+    clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path 240ms var(--e-io), visibility 0s 240ms; }
+  .nav .menu ul { padding: 8px var(--gut) 16px; }
+  .nav .menu a { display: flex; align-items: center; min-height: 48px; font-size: 18px; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line);
+    opacity: 0; transform: translateY(var(--rise)); transition: opacity 160ms var(--e-soft), transform 160ms var(--e-io); }
+  .nav .menu li:last-child a { border-bottom: 0; }
+  /* current page or home section: ink, 500, and the amber 28px tick of .rule on the row's divider */
+  .nav .menu a[aria-current] { position: relative; font-weight: 500; }
+  .nav .menu a[aria-current]::after { content: ""; position: absolute; left: 0; bottom: -1px; width: 28px; height: 1px; background: var(--accent); }
+  html.menu-open .nav .menu { clip-path: inset(0); visibility: visible; transition: clip-path 360ms var(--e-out), visibility 0s; }
+  html.menu-open .nav .menu a { opacity: 1; transform: none;
+    transition: opacity 260ms var(--e-soft) calc(60ms + var(--i, 0) * 32ms), transform 360ms var(--e-out) calc(60ms + var(--i, 0) * 32ms); }
+
+  .nav .scrim { display: block; position: fixed; inset: 0; z-index: -2; background: var(--scrim); opacity: 0; visibility: hidden;
+    transition: opacity 240ms var(--e-soft), visibility 0s 240ms; }
+  html.menu-open .nav .scrim { opacity: 1; visibility: visible; transition: opacity 240ms var(--e-soft), visibility 0s; }
+
+  /* no JS: the list sits statically under the bar */
+  html:not(.js) .nav { height: auto; position: relative; }
+  html:not(.js) .nav .nav-in { height: var(--navh); }
+  html:not(.js) .nav .menu-btn, html:not(.js) .nav .scrim { display: none; }
+  html:not(.js) .nav .menu { position: static; clip-path: none; visibility: visible; box-shadow: none; max-height: none; }
+  html:not(.js) .nav .menu a { opacity: 1; transform: none; min-height: 44px; font-size: 16px; }
+}
+
+@keyframes nav-roll-in { from { transform: translateY(100%); opacity: 0; } }
+@keyframes nav-roll-out { from { transform: none; opacity: 1; } }

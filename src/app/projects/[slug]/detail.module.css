@@ -1,0 +1,35 @@
+/* /projects/[slug]: records (label | text from 760px), side facts column (sticky from 1024px). Tokens only.
+   The record rules (.rec, .rule, .h, .text, .list) are also the records of the /things-to-build spec pages:
+   one style for every "section label | body" record. Edit them here only.
+   [data-ri] elements here (.text, list items, fact rows, .cta) get no transform, opacity or transition. */
+
+.page { padding-bottom: clamp(72px, 12vh, 140px); }
+
+.grid { display: grid; gap: 56px; }
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: minmax(0, 1fr) 300px; column-gap: clamp(56px, 6vw, 96px); align-items: start; }
+  .side { position: sticky; top: calc(var(--navh) + 32px); }
+}
+
+/* a record: rule, heading, body */
+.rec + .rec { margin-top: 44px; }
+.h { padding-top: 18px; }
+.text { padding-top: 10px; max-width: 66ch; color: var(--ink-2); font-size: 16.5px; line-height: 1.62; }
+.list { padding-top: 10px; display: grid; gap: 6px; color: var(--ink-2); font-size: 16.5px; line-height: 1.55; }
+.list > li { position: relative; padding-left: 20px; }
+.list > li::before { content: ""; position: absolute; left: 0; top: .78em; width: 7px; height: 1px; background: var(--muted); }
+.list strong { color: var(--ink); font-weight: 600; }   /* spec pages: "Feature: text" */
+
+@media (min-width: 760px) {
+  /* 176px fits the longest label ("Technology Stack", 166px) on one line; start keeps tag rows from stretching */
+  .rec { display: grid; grid-template-columns: 176px minmax(0, 1fr); column-gap: 32px; align-items: start; }
+  .rule { grid-column: 1 / -1; }
+  .text, .list { padding-top: 18px; }
+}
+
+/* side facts */
+.facts > div { padding-top: 18px; }
+.dd { margin-top: 6px; font-size: 16px; line-height: 1.5; color: var(--ink); }
+.dd :global(.tags) { padding-top: 2px; }
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 28px; }
+.cta :global(.ext) { color: inherit; }   /* the arrow keeps the button's text color on every fill */

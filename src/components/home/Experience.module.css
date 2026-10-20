@@ -1,0 +1,63 @@
+/* Experience records (Experience.tsx). Never set transform, opacity or transition on a [data-ri] element here:
+   the reveal owns them (globals.css). The flash (P8) uses ::before on the records and the Earlier rows, so they
+   carry no ::before of their own. */
+
+.role { padding-bottom: 36px; }
+.role + .role { margin-top: 4px; }
+
+/* header: company left, dates right (desktop); phones get one mono line above the company (G13) */
+.ph { display: none; }
+.ph span { white-space: nowrap; }   /* dates and place wrap as wholes */
+.hl { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 2px 16px; padding-top: 22px; }
+.who { display: flex; align-items: center; gap: 10px; min-width: 0; }   /* logo slot, then the company */
+.when { white-space: nowrap; }
+/* Blog2Podcast: the company name is the link. 44px hit area without moving the layout. */
+.co { display: inline-block; padding: 9px 0; margin: -9px 0; color: inherit; text-decoration: none; }
+.co:hover { text-decoration: underline; text-decoration-color: var(--line-2); text-decoration-thickness: 1px; text-underline-offset: .2em; }
+
+.ti { margin-top: 2px; color: var(--ink-2); }
+.loc { color: var(--muted); }
+
+/* bullets: 16.5px/1.62, 66ch, a 7px dash marker on the first line */
+.pts { margin-top: 14px; display: grid; gap: 10px; }
+.pts li { position: relative; max-width: 66ch; padding-left: 18px; color: var(--ink-2); font-size: 16.5px; line-height: 1.62; }
+.pts li::before { content: ""; position: absolute; left: 0; top: .76em; width: 7px; height: 2px; border-radius: 1px; background: var(--muted); }   /* 2px: whole pixels at any offset */
+
+/* Earlier: company · title, dates right */
+.earlier { padding-top: 22px; }
+.eh { margin-bottom: 10px; font-size: 15px; font-weight: 500; color: var(--muted); }
+.el li { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 4px 16px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.el li:first-child { border-top: 1px solid var(--line); }
+.eco { font-weight: 500; }
+.eti { color: var(--muted); }
+
+@media (max-width: 760px) {
+  .ph { display: block; padding-top: 18px; }
+  .hl { padding-top: 4px; }
+  .when, .loc { display: none; }
+  .pts li { font-size: 16px; }
+}
+
+/* Under 1024px the evidence strip (36px) shows under the nav while the reading line is inside the records. A jump
+   that starts with the strip off would land a record under it once it shows, so the records reserve its height.
+   With the strip on, scroll-padding-top already includes it (globals.css). */
+@media (max-width: 1023px) {
+  :global(html.js:not(.strip-on)) .role, :global(html.js:not(.strip-on)) .el li { scroll-margin-top: 36px; }
+}
+
+/* Timeline camera (option B, TraceFollow). Desktop: a short runway after the records holds the card for the pull-back
+   to 2018 - now before it leaves. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
+  :global(html.mo) .exp { padding-bottom: 30vh; }
+}
+/* The proof phrase: the intro's highlighter, scrubbed by scroll (TraceFollow sets data-scrub, and per word --h 0..1
+   and --c, the pen caret). Reduced motion and no JS keep the shared underline. The tint sits behind the words. */
+@media (prefers-reduced-motion: no-preference) {
+  .exp[data-scrub] .role .pts :global(.mark) { isolation: isolate; }
+  .exp[data-scrub] .role .pts :global(.mark .w)::after { top: .14em; bottom: -.08em; left: -.03em; right: -.03em; height: auto; z-index: -1; border-radius: 1px;
+    background: color-mix(in srgb, var(--accent) 20%, transparent); box-shadow: inset 0 -2px 0 var(--accent);
+    transform: scaleX(var(--h, 0)); transition: none; }
+  .exp[data-scrub] .role .pts :global(.mark .w)::before { content: ""; position: absolute; left: 0; right: 0; top: .02em; bottom: -.14em; pointer-events: none;
+    background: linear-gradient(to left, var(--accent) 2px, transparent 2px); opacity: var(--c, 0);
+    transform: translateX(calc((var(--h, 0) - 1) * 100% + 1px)); }
+}

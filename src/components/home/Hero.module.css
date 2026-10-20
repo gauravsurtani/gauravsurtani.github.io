@@ -1,0 +1,71 @@
+/* Hero layout (SPEC 1.4, 2.1, WP1). Motion lives in entrance.css (global, keyed on html.intro); nothing here animates
+   except hover colors and the note underline (P4 style, 300ms). Never put transform/opacity/animation on .tk, .av,
+   .cta > li or .notes > li here: entrance.css owns those. */
+
+.hero { padding: 16px 0 18px; }
+
+.id { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+.av { flex: none; width: 56px; height: 56px; border-radius: 50%; object-fit: cover; background: var(--line); box-shadow: 0 0 0 1px var(--line); }
+.name { font-size: clamp(20px, 1.9vw, 26px); line-height: 1.2; font-weight: 600; letter-spacing: -.015em; }
+.role { margin-top: 3px; font-size: 14.5px; line-height: 1.4; color: var(--muted); }
+
+/* the claim: Newsreader, max 30ch on desktop, 38ch below (at 900px the hero is one column). In em, not ch: ch follows
+   the loaded font, so a late Newsreader would re-wrap the summary (CLS). Newsreader 1ch = .564em. */
+.sum { max-width: 21.43em; font-family: var(--f-serif); font-optical-sizing: auto; font-size: clamp(21px, 2.3vw, 34px); line-height: 1.3;
+  letter-spacing: -.012em; color: var(--ink); }
+.claim { border-radius: 3px; transition: background-color var(--d2); }
+.claim:hover, .claim:focus-visible, .claim:global(.hl) { background: var(--accent-tint); }
+.claim[data-claim="all"] :global(.w)::after { height: 3px; }   /* the verdict, "eight years", marks heavier */
+.sup { margin-left: 1px; font: 500 .45em/0 var(--f-mono); color: var(--accent-ink); }   /* raised by preflight's sup rule */
+
+/* notes: footnotes under the summary (desktop only; phones show the copy in the timeline card) */
+.notes { display: none; position: relative; margin-top: 32px; padding-top: 14px; gap: 6px 28px; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.notes::before { content: ""; position: absolute; left: 0; top: 0; width: 48px; height: 1px; background: var(--line-2); }   /* short footnote rule */
+.notes > li { display: grid; grid-template-columns: 14px minmax(0, 1fr); }
+.notes :global(.n) { font: 500 11px/1.7 var(--f-mono); color: var(--accent-ink); }
+.notes :global(.nt) { position: relative; justify-self: start; align-self: start; transition: color var(--d2); }
+.notes :global(.nt)::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1.5px; background: var(--accent);
+  transform: scaleX(0); transform-origin: right; transition: transform 300ms var(--e-out); }
+.notes > li:global(.hl) :global(.nt) { color: var(--ink-2); }
+.notes > li:global(.hl) :global(.nt)::after { transform: scaleX(1); transform-origin: left; }
+
+/* CTAs: one row on phones down to 320px (Resume shortens to "Resume"; under 380px the arrows go; under 360px tighter
+   padding and gap, every target still 44px tall and wide) */
+.cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; margin-top: 18px; }
+.cta :global(.btn) { gap: 4px; }
+.cta :global(.ext) { margin-left: 0; }
+.cta :global(.lnk) { margin-left: -2px; }   /* the .lnk box has 8px side padding */
+.pdf { display: none; }
+@media (max-width: 380px) {
+  .cta { column-gap: 6px; }
+  .cta :global(.btn) { padding: 0 12px; }
+  .cta :global(.btn .ext) { display: none; }
+  .cta :global(.lnk) { margin-left: -4px; }
+}
+@media (max-width: 359px) {
+  .cta { column-gap: 4px; }
+  .cta :global(.btn) { padding: 0 9px; }
+}
+
+@media (min-width: 761px) {
+  .pdf { display: inline; }
+  .cta { gap: 10px 12px; }
+  .cta :global(.btn) { gap: 6px; }
+  .cta :global(.lnk) { margin-left: 0; }
+}
+
+@media (min-width: 1024px) {
+  .hero { display: flex; flex-direction: column; justify-content: center; min-height: calc(100svh - var(--navh)); padding: 40px 0; }
+  .id { margin-bottom: clamp(22px, 4vh, 36px); }
+  .av { width: 64px; height: 64px; }
+  .role { font-size: 15px; }
+  .sum { max-width: 16.92em; }
+  .notes { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 560px; }
+  .cta { margin-top: clamp(26px, 4.5vh, 40px); }
+  .pdf { display: none; }   /* 1024 to 1199: the column is too narrow for one row with "(PDF)" */
+}
+/* 3 columns only where each column is wide enough to read (at 1024 to 1199 the column is about 400px) */
+@media (min-width: 1200px) {
+  .notes { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; }
+  .pdf { display: inline; }
+}

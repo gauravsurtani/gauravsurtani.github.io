@@ -1,0 +1,50 @@
+/* e2 "Transcript to verdict" intro. The cover hides the page from the first paint until #gi-intro is up. */
+html.gi::after{content:"";position:fixed;inset:0;z-index:2147483646;background:var(--bg,#f4f4f1);pointer-events:none;animation:gi-safe 0s linear 6s forwards}
+html.gi-up::after{content:none}
+@keyframes gi-safe{to{visibility:hidden}}
+/* the hero's name and role (and the summary under them) stay hidden while the verdict flies onto them */
+html.gi-sh #h-name,html.gi-sh #h-name+p,html.gi-sh #hero>p{opacity:0!important}
+html.gi #hero>p{transition:opacity .28s ease}
+
+#gi-intro{position:fixed;inset:0;z-index:2147483647;overflow:hidden;contain:strict;cursor:default;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+#gi-intro.gi-out{pointer-events:none}
+#gi-intro i{font-style:normal}
+
+/* the record: two identical copies, one per curtain half, split along the verdict line */
+.gi-half{position:absolute;inset:0;background:var(--bg);overflow:hidden;will-change:transform}
+.gi-rec{position:absolute;inset:0;opacity:0;--dim:54;--rc:color-mix(in srgb,var(--muted) calc(var(--dim) * 1%),var(--bg))}
+.gi-col{position:absolute;left:0;top:0;font:400 var(--rf)/1.5 var(--f-serif);letter-spacing:-.004em;color:var(--rc);will-change:transform}
+.gi-e{margin:0 0 1.15em}
+.gi-l{display:block;font:500 10.5px/1.5 var(--f-sans);letter-spacing:.09em;text-transform:uppercase;margin-bottom:.35em}
+.gi-p{position:relative;white-space:nowrap;color:color-mix(in srgb,var(--ink) calc(var(--h,0) * 100%),var(--rc))}
+.gi-p::before,.gi-qt::before{content:"";position:absolute;left:-.15em;right:-.15em;top:.18em;bottom:-.04em;z-index:-1;border-radius:1px;background:color-mix(in srgb,var(--accent) 24%,transparent);box-shadow:inset 0 -2px 0 var(--accent);transform-origin:0 50%}
+.gi-p::before{transform:scaleX(var(--h,0))}
+/* the pen tip: a 2px stripe on a full-width box moved by a transform, so it causes no layout shift (CLS) */
+.gi-p::after{content:"";position:absolute;top:.08em;bottom:-.12em;left:.1em;width:100%;background:linear-gradient(var(--accent),var(--accent)) 0 0/2px 100% no-repeat;transform:translateX(calc(var(--h,0) * 100%));opacity:calc(var(--h,0) * (1 - var(--h,0)) * 6)}
+.gi-p.gone{color:transparent}
+.gi-p.gone::after{content:none}
+.gi-p.gone::before{background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.gi-edge{position:absolute;left:0;right:0;height:2px;background:var(--accent);box-shadow:0 0 18px 2px color-mix(in srgb,var(--accent) 55%,transparent);opacity:0}
+
+/* citation threads from each lifted quote to the verdict */
+.gi-th{position:absolute;inset:0;overflow:visible}
+.gi-th path{fill:none;stroke:var(--accent);stroke-linecap:round}
+.gi-th circle{fill:var(--accent)}
+
+/* the lifted quotes */
+.gi-st{position:absolute;inset:0}
+.gi-q{position:absolute;left:0;top:0;white-space:nowrap;font:400 var(--sf)/1.5 var(--f-serif);letter-spacing:-.004em;color:var(--ink);transform-origin:0 0;will-change:transform;visibility:hidden}
+.gi-qt{position:relative;color:color-mix(in srgb,var(--ink) calc(var(--ta,1) * 100%),transparent)}
+.gi-qt::before{background:color-mix(in srgb,var(--accent) calc(24% + var(--qa,0) * 76%),transparent)}
+.gi-qm{position:absolute;top:0;color:var(--accent-ink);opacity:var(--qm,0)}
+.gi-qm.l{right:100%;margin-right:.06em}
+.gi-qm.r{left:100%;margin-left:.06em}
+
+/* the verdict: his name, the evidence line, his title */
+.gi-v,.gi-t{position:absolute;left:0;right:0;top:0;text-align:center}
+.gi-v{color:var(--ink);line-height:1.04}
+.gi-t{color:var(--muted);line-height:1.4;margin:0 auto}
+.gi-w{display:inline-block;transform-origin:0 0;will-change:transform,opacity;opacity:0}
+.gi-u{position:absolute;left:0;top:0;background:var(--accent);opacity:0;border-radius:1px;transform-origin:0 0}
+
+@media (prefers-reduced-motion:reduce){html.gi::after,#gi-intro{display:none!important}}

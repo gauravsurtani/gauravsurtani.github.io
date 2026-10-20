@@ -1,0 +1,55 @@
+/* /about (WP6). Layout and type only. Motion comes from the shared reveal contract (data-rv / data-ri, .rule, .mh):
+   never put transform, opacity or transition on a [data-ri] element here. */
+
+.page { padding-bottom: clamp(72px, 12vh, 140px); }
+
+/* two columns at 1024px and up; the facts column sticks under the nav */
+.grid { display: grid; gap: clamp(56px, 9vh, 80px); }
+.main { min-width: 0; container-type: inline-size; }
+.side { min-width: 0; container-type: inline-size; }
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: minmax(0, 1fr) minmax(280px, 340px); column-gap: clamp(48px, 6vw, 96px); align-items: start; }
+  .side { position: sticky; top: calc(var(--navh) + 32px); }
+  .sideIn { --o: 240ms; }   /* beside the story on load: arrive after it. Stacked (phones), it reveals on reach at once. */
+}
+
+.h { margin-bottom: clamp(20px, 3.4vh, 32px); }
+.h:global(.sec-h) { flex-wrap: wrap; row-gap: 4px; }   /* "Building now" + export date: wrap at 320 instead of squeezing */
+
+/* My story: the reading column */
+.story { display: grid; gap: 1em; max-width: 62ch; font-size: clamp(17px, 1.35vw, 19px); line-height: 1.62; color: var(--ink-2); }
+
+/* Building now */
+.now { margin-top: clamp(64px, 10vh, 104px); }
+.recs { list-style: none; margin: 0; padding: 0; }
+.rec { display: grid; gap: 10px; padding: 16px 0 26px; }
+.recHead { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.name { font-size: 18px; line-height: 1.35; font-weight: 600; letter-spacing: -.012em; }
+.recBody { min-width: 0; }
+.what { font-size: 16.5px; line-height: 1.62; color: var(--ink-2); max-width: 62ch; }
+.proof { margin-top: 8px; font-size: 13px; line-height: 1.5; }
+.lead { color: var(--ink); font-weight: 500; margin-right: 6px; }
+@container (min-width: 600px) {
+  .rec { grid-template-columns: 172px minmax(0, 1fr); column-gap: 28px; }
+  .recHead { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 8px; }
+}
+
+/* the creed closes the list */
+.creed { margin-top: 8px; }
+.line { margin-top: 22px; font-family: var(--f-serif); font-optical-sizing: auto; font-size: clamp(22px, 2vw, 28px); line-height: 1.3;
+  letter-spacing: -.012em; color: var(--ink); max-width: 16.9em; }   /* 30ch of Newsreader, in em: no re-wrap when the font arrives late */
+.creed .line + p { margin-top: 6px; }
+
+/* facts: mono key above its value. Link values keep the .lnk 44px box; nothing pulls that box up into the key, so
+   the focus ring never crosses the key text. Plain values get the same 12px inset, so every value sits on one rhythm.
+   No row borders: the .lnk hairline is the link cue and the aside's .rule frames the list; spacing separates rows. */
+.facts { margin: 0; }
+.fact { display: grid; padding-top: 18px; }
+.fact dt { line-height: 18px; padding-bottom: 2px; }
+.fact dd { margin: 0; min-width: 0; padding: 9px 0 13px; font-size: 15.5px; line-height: 22px; color: var(--ink); }
+.fact dd:has(> a) { display: flex; flex-wrap: wrap; align-items: center; gap: 0 14px; padding: 0; }
+.email { overflow-wrap: anywhere; }
+@container (min-width: 520px) {
+  .fact { grid-template-columns: 128px minmax(0, 1fr); column-gap: 20px; align-items: baseline; padding-top: 0; }
+  .fact dt { padding: 0; }
+}

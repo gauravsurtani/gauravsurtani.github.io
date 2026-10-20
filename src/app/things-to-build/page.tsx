@@ -1,126 +1,48 @@
-'use client'
-
-import React from 'react'
+// Things to build (server): PageHeader with the eyebrow link back to Writing, then one tile per spec.
+// Tiles are reveal blocks (.rule P4, then title, description, tags P3); the 2nd tile in a row is offset 90ms.
+// The title link is stretched over the tile; hover/focus-within tints it and nudges the arrow 2px (transform only).
 import Link from 'next/link'
-import { FaAndroid, FaChrome, FaArrowLeft, FaRocket, FaProjectDiagram } from 'react-icons/fa'
+import type { Metadata } from 'next'
+import PageHeader from '@/components/site/PageHeader'
+import TileTitle from '@/components/ui/TileTitle'
+import { ri, rv } from '@/components/motion/reveal'
+import s from './spec.module.css'
 
-const projects = [
+const DEK = "Projects I'm planning to build."
+
+export const metadata: Metadata = { title: 'Things to build', description: DEK }
+
+const SPECS = [
   {
-    slug: 'things-to-build',
-    title: 'Tech Blog Catchup - Android App',
-    description: 'A "NotebookLM-style" audio experience for engineering blogs. Users input URLs from tech blogs (Uber, Netflix, Meta, etc.), and the app converts them into engaging, conversational audio podcasts using LLMs and TTS.',
-    icon: FaAndroid,
+    title: 'Tech Blog Catchup – Android App',
+    description: 'A "NotebookLM-style" audio experience for engineering blogs. Users input URLs from tech blogs (Uber, Netflix, Meta, etc.), and the app converts them into conversational audio podcasts using LLMs and TTS.',
     tags: ['Mobile', 'Flutter', 'AI', 'Audio'],
-    link: '/things-to-build/android-app'
+    href: '/things-to-build/android-app',
   },
   {
-    slug: 'chrome-extension',
     title: 'OpenClaw Chrome Extension',
     description: 'One-click content capture from Chrome to OpenClaw for analysis and classification. Supports categorization into Project Ideas, Read Later, Blog Posts, and more.',
-    icon: FaChrome,
     tags: ['Chrome Extension', 'OpenClaw', 'Web'],
-    link: '/things-to-build/chrome-extension'
-  }
+    href: '/things-to-build/chrome-extension',
+  },
 ]
 
-const ThingsToBuildPage = () => {
+export default function ThingsToBuildPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
-      {/* Header */}
-      <div
-        className="border-b"
-        style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
-      >
-        <div className="container mx-auto px-6 py-8 max-w-4xl">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-sm mb-6 transition-colors"
-            style={{ color: 'var(--accent)' }}
-          >
-            <FaArrowLeft />
-            Back to Blog
-          </Link>
-          <div className="flex items-center gap-3 mb-3">
-            <FaProjectDiagram className="text-3xl" style={{ color: 'var(--accent)' }} />
-            <h1 className="text-4xl font-bold">Things to Build</h1>
-          </div>
-          <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-            Potential future projects and extensions, providing specifications for their creation.
-          </p>
-          <p className="mt-2 text-sm font-medium" style={{ color: 'var(--accent)' }}>
-            Projects I&apos;m planning to build · Work in progress
-          </p>
-        </div>
-      </div>
-
-      {/* Projects Grid */}
-      <div className="container mx-auto px-6 py-12 max-w-4xl">
-        {projects.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-              No projects listed yet.
-            </p>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 gap-6">
-            {projects.map((project) => (
-              <div
-                key={project.slug}
-                className="p-6 rounded-lg border transition-all hover:shadow-lg group"
-                style={{
-                  backgroundColor: 'var(--card-bg)',
-                  borderColor: 'var(--card-border)'
-                }}
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--accent)', color: 'var(--background)' }}>
-                    <project.icon className="text-2xl" />
-                  </div>
-                </div>
-
-                <h2
-                  className="text-xl font-semibold mb-2 group-hover:underline"
-                  style={{ textDecorationColor: 'var(--accent)' }}
-                >
-                  {project.title}
-                </h2>
-
-                <p
-                  className="text-sm leading-relaxed mb-4"
-                  style={{ color: 'var(--muted-foreground)' }}
-                >
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2 py-1 rounded text-xs font-medium"
-                      style={{
-                        backgroundColor: 'var(--muted)',
-                        color: 'var(--muted-foreground)',
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <Link
-                  href={project.link}
-                  className="inline-flex items-center gap-2 text-sm font-medium transition-colors group-hover:gap-3"
-                  style={{ color: 'var(--accent)' }}
-                >
-                  View Spec <FaRocket />
-                </Link>
-              </div>
-            ))}
-          </div>
-        )}
+    <div className="wrap pb-[clamp(72px,12vh,140px)]">
+      <PageHeader eyebrow="Writing" eyebrowHref="/blog" title="Things to build" dek={DEK} />
+      <div className={s.grid}>
+        {SPECS.map((p, i) => (
+          <article key={p.href} className="tile" {...rv(i % 2 ? 90 : 0)}>
+            <div className="rule" />
+            <div className="tile-in">
+              <h2 className="h3" {...ri(0)}><Link className="tile-a" href={p.href}><TileTitle t={p.title} /></Link></h2>
+              <p className={s.desc} {...ri(1)}>{p.description}</p>
+              <ul className={`tags ${s.tags}`} aria-label="Tags" {...ri(2)}>{p.tags.map(t => <li key={t} className="tag">{t}</li>)}</ul>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   )
 }
-
-export default ThingsToBuildPage

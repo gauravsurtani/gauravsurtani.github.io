@@ -1,0 +1,7 @@
+{
+  "r-dlai": {"mono": "DL", "logo": "png"},
+  "r-b2p": {"mono": "B2P", "logo": "svg"},
+  "r-tassel": {"mono": "T", "logo": "png"},
+  "r-bexorg": {"mono": "B", "logo": "png"},
+  "r-nasa": {"mono": "NASA", "logo": null}
+}

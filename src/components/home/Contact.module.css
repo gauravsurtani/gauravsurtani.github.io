@@ -1,0 +1,94 @@
+/* Home Contact, scroll option C "The record closes" (ContactScene drives it). The static section first: it is all
+   there is without JS or with reduced motion (axis, cursor at now, the amber line and dot drawn). */
+.contact { padding-bottom: clamp(72px, 12vh, 140px); }
+
+/* Bookend axis, 2018 to now, with the timeline card's geometry (trace.css): a year sits at (y - 2018) / (--now - 2018).
+   The clip keeps the cursor and its trail inside the axis while the scene runs it in from 2018. */
+.axis { --t0: 2018; --span: calc(var(--now, 2026.8) - var(--t0)); position: relative; height: 46px; margin-bottom: 14px; clip-path: inset(0); }
+.axis::before { content: ""; position: absolute; left: 0; right: 0; top: 24px; height: 1px; background: var(--line-2); }
+.yr { position: absolute; top: 33px; left: calc((var(--y) - var(--t0)) / var(--span) * 100%); transform: translateX(-50%);
+  font: 400 11.5px/1 var(--f-mono); color: var(--muted); }
+.yr::before { content: ""; position: absolute; left: 50%; top: -9px; width: 1px; height: 5px; background: var(--line-2); }
+.yr:first-child { transform: none; }   /* 2018 starts at the axis start instead of hanging past it */
+.yr:first-child::before { left: 0; }
+/* the cursor: a full-width box; its right edge is the 1px amber line, and the chip hangs to the left of it like a flag */
+.cur { position: absolute; left: 0; right: 0; top: 0; height: 30px; }
+.cur::after { content: ""; position: absolute; right: 0; top: 0; bottom: 0; width: 1px; background: var(--accent); }
+.cur b { position: absolute; right: 0; top: 0; padding: 1px 6px 1px 5px; border: 1px solid var(--accent); border-radius: 4px 0 0 4px;
+  background: var(--bg); font: 500 10.5px/1.3 var(--f-mono); color: var(--accent-ink); white-space: nowrap; transform-origin: 100% 50%; }
+@media (max-width: 760px) { .yr:nth-child(even) { color: transparent; } }   /* odd years keep their tick, like the card */
+
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+
+/* the line and the dot are positioned on this box, which is exactly as wide as the address */
+.box { position: relative; display: inline-block; max-width: 100%; }
+/* phones where the address wraps after the @ (it is 347px wide at 28px): shrink the box to the longer line, so the
+   line does not run on past the text to the gutter */
+@media (max-width: 378px) { .box { width: min-content; } }
+
+/* min-height and padding: a 44px target at any size, and room under the descenders for the line.
+   break-word, not anywhere: same breaks, but it keeps the min-content width at the longer line (see .box).
+   Hover and focus underline the address in ink: amber is kept for the evidence line under it. Like the site's tiles,
+   hover waits for the scroll to stop (html.scrolling), so a resting pointer does not underline it mid-scroll. */
+.mail { display: inline-block; min-height: 44px; padding: 4px 0 calc(.12em + 6px); color: var(--ink); text-decoration: underline transparent;
+  text-decoration-thickness: max(1px, .04em); text-underline-offset: .1em; font-family: var(--f-serif); font-optical-sizing: auto; font-weight: 400;
+  font-size: clamp(28px, 4.2vw, 52px); line-height: 1.12; letter-spacing: -.015em; overflow-wrap: break-word;
+  transition: text-decoration-color var(--d2); }
+.mail:focus-visible { text-decoration-color: var(--ink); }
+@media (hover: hover) { :global(html:not(.scrolling)) .mail:hover { text-decoration-color: var(--ink); } }
+.mail:focus-visible { outline-color: var(--ink); border-radius: 4px; }
+
+/* the verdict line: 2px amber under the address, and the open-cap dot at its end (same look as the timeline caps) */
+.land { position: absolute; left: 0; right: 0; bottom: 4px; height: 2px; border-radius: 1px; background: var(--accent);
+  transform-origin: 0 50%; pointer-events: none; }
+.cap { position: absolute; right: -4px; bottom: 1px; z-index: 2; width: 8px; height: 8px; border-radius: 50%; background: var(--accent);
+  box-shadow: 0 0 0 2px var(--bg); pointer-events: none; }
+
+.links { display: flex; flex-wrap: wrap; column-gap: 24px; margin-top: 24px; }
+
+/* The record (ContactScene) exists only on the stage */
+.rec, .drop { display: none; }
+
+/* The stage: only while motion is allowed (html.mo). The section is 1.6 screens of travel (1.3 on phones) with its
+   content pinned in one full-width frame, the email set full width; the height comes from CSS at the first paint, so
+   nothing shifts. A jump to #contact (nav, deep link) lands at the end of the stage, where the scene is finished. */
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.mo) .contact { padding: 0; height: calc(100vh + 160vh); height: calc(100svh + 160svh);
+    scroll-margin-top: calc(-160vh - var(--navh) - 20px); scroll-margin-top: calc(-160svh - var(--navh) - 20px); }
+  :global(html.mo) .frame { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center;
+    padding: var(--navh) 0 12px; overflow: hidden; container-type: inline-size; }
+  :global(html.mo) .inner { position: relative; z-index: 1; width: 100%; }
+  /* the email fills the column: the open end of the record (the address is about 13.6em wide in the serif) */
+  :global(html.mo) .mail { font-size: min(calc((min(100cqw, var(--wrap)) - 2 * var(--gut)) / 13.6), 104px); letter-spacing: -.02em; }
+  :global(html.mo) .box { display: block; width: 100%; }
+  :global(html.mo) .axis { margin-bottom: clamp(14px, 2.4vh, 28px); }
+  /* the cursor's trail while it runs to now (--cm from the scene) */
+  :global(html.mo) .cur::before { content: ""; position: absolute; right: 0; top: 4px; height: 20px; width: min(260px, 30%); opacity: var(--cm, 0);
+    background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 26%, transparent)); }
+
+  /* the record: two copies, one per half, split along the seam under the email. Behind the content block (heading to
+     links, --b0 to --b1 from the scene) it is fully masked, so no text ever sits on the moving record. */
+  :global(html.mo) .rec { display: block; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .hv { position: absolute; inset: 0;
+    -webkit-mask-image: linear-gradient(#000 calc(var(--b0, 0px) - 64px), transparent var(--b0, 0px), transparent var(--b1, 100%), #000 calc(var(--b1, 100%) + 64px));
+    mask-image: linear-gradient(#000 calc(var(--b0, 0px) - 64px), transparent var(--b0, 0px), transparent var(--b1, 100%), #000 calc(var(--b1, 100%) + 64px)); }
+  .half { position: absolute; inset: 0; display: none; will-change: transform; --rc: color-mix(in srgb, var(--muted) 30%, var(--bg)); }
+  .rcol { position: absolute; top: 0; font: 400 var(--rf, 18px)/1.5 var(--f-serif); letter-spacing: -.004em; color: var(--rc); will-change: transform; }
+  .e { margin: 0 0 1.15em; }
+  .l { display: block; font: 500 10.5px/1.5 var(--f-sans); letter-spacing: .09em; text-transform: uppercase; margin-bottom: .35em; }
+  .p { position: relative; white-space: nowrap; color: color-mix(in srgb, var(--ink) 40%, var(--rc)); }
+  .p::before { content: ""; position: absolute; left: -.15em; right: -.15em; top: .18em; bottom: -.04em; z-index: -1; border-radius: 1px;
+    background: color-mix(in srgb, var(--accent) 18%, transparent); box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--accent) 75%, transparent); }
+  /* the amber edges ride the halves in; the seam is where they shut, and it contracts to the verdict line */
+  .edge { position: absolute; left: 0; right: 0; height: 2px; background: var(--accent); opacity: 0;
+    box-shadow: 0 0 18px 2px color-mix(in srgb, var(--accent) 55%, transparent); }
+  .seam { position: absolute; left: 0; right: 0; height: 2px; background: var(--accent); opacity: 0; transform-origin: 0 50%; }
+  .seam::after { content: ""; position: absolute; inset: -3px 0; border-radius: 3px; background: var(--accent); filter: blur(7px); opacity: var(--g, 0); }
+  /* the cursor's drop from "now" to the open end of the verdict line */
+  :global(html.mo) .drop { display: block; position: absolute; top: 0; left: 0; z-index: 1; width: 1px; background: var(--accent);
+    transform-origin: 50% 0; transform: scaleY(0); pointer-events: none; }
+}
+@media (prefers-reduced-motion: no-preference) and (max-width: 640px) {
+  :global(html.mo) .contact { height: calc(100vh + 130vh); height: calc(100svh + 130svh);
+    scroll-margin-top: calc(-130vh - var(--navh) - 20px); scroll-margin-top: calc(-130svh - var(--navh) - 20px); }
+}

@@ -1,0 +1,42 @@
+{
+  "method": {
+    "rule": "A status claim never outruns its evidence."
+  },
+  "now": [
+    {
+      "name": "Career agent",
+      "state": "building",
+      "what": "",
+      "proof": "helps candidates find their next role and returns a growth report",
+      "next": ""
+    },
+    {
+      "name": "Sourcing tool",
+      "state": "in-use",
+      "what": "",
+      "proof": "migrated from Railway to AWS with zero-downtime deploys",
+      "next": ""
+    },
+    {
+      "name": "AI interviewer",
+      "state": "in-use",
+      "what": "",
+      "proof": "ties every skill score to a verified transcript quote",
+      "next": ""
+    },
+    {
+      "name": "Jobs collector",
+      "state": "built",
+      "what": "",
+      "proof": "tracks careers pages at 1,400+ companies, 99,000+ jobs collected",
+      "next": ""
+    },
+    {
+      "name": "gaurav-os",
+      "state": "running",
+      "what": "",
+      "proof": "refreshes every ten minutes, 1,400+ unattended runs",
+      "next": ""
+    }
+  ]
+}

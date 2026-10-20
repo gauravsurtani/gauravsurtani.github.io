@@ -1,637 +1,3 @@
-// Portfolio Configuration
-export const PORTFOLIO_CONFIG = {
-  // Personal Information
-  name: 'Gaurav Surtani',
-  title: 'Founding AI Engineer | Growth Engineering | Full-Stack ML Systems',
-  bio: "Founding AI Engineer at DeepLearning.AI building AI recruiting tools with multi-model orchestration. I thrive at the intersection of engineering and growth — building products that drive revenue, solve bottlenecks, and scale. 6+ years shipping production systems: from 0-to-1 product builds to 10x performance improvements that unlock new markets. Full-stack across AI/ML, infrastructure, and product. Track record of joining early, owning end-to-end, and directly impacting business outcomes. MS in AI from San Jose State University (May 2025). My current interests include MCP servers, multi-agent orchestration, GenAI, LLM Agents (using LangChain), and ML applications in recruiting, healthcare, geospatial analysis, and recommendation systems.",
-  location: 'San Francisco Bay Area',
-
-  // Contact Information
-  email: 'gaurav.surtani.tech@gmail.com',
-
-  // Social Links
-  github: 'https://github.com/gauravsurtani',
-  linkedin: 'https://www.linkedin.com/in/gaurav-surtani/',
-
-  // GitHub Configuration
-  githubUsername: 'gauravsurtani',
-
-  // Current Focus & Goals
-  currentFocus: [
-    'Agentic AI & LLMs',
-    'Speech-to-Speech Translation',
-    'Deep Research Tools',
-    'Full Stack Dev',
-    'ML Applications'
-  ],
-
-  // Interests & Specializations
-  interests: [
-    'AI/ML',
-    'Product Development',
-    'Rapid Prototyping',
-    'GenAI',
-    'Agentic AI',
-    'NLP',
-    'Knowledge Graphs',
-    'Integration',
-    'Full Stack Development',
-    'Data Engineering',
-    'Geospatial Analysis',
-    'Recommendation Systems',
-    'Time Series Analysis',
-    'Healthcare Analytics'
-  ],
-  hobbies: ['Building Chrome Extensions', 'Data Science', 'Open Source', 'Environmental ML', 'GenAI Agents', 'LLM Agents', 'Geopositional Reasonning & Planning Model Research'],
-
-  // Current Work/Affiliations
-  currentWork: ['DeepLearning.AI'],
-
-  // Organizations
-  organizations: [
-    { name: 'DeepLearning.AI', color: 'bg-sky-600' },
-    { name: 'Blog2Podcast', color: 'bg-amber-600' },
-    { name: 'Tassel', color: 'bg-emerald-600' },
-    { name: 'Bexorg', color: 'bg-blue-600' },
-    { name: 'NASA', color: 'bg-red-600' },
-    { name: 'San Jose State University', color: 'bg-green-600' },
-    { name: 'Spatial Analytics & Visualization Institute(SAVI)', color: 'bg-teal-600' },
-    { name: 'Ascendion', color: 'bg-purple-600' },
-    { name: 'Collabera', color: 'bg-yellow-600' },
-    { name: 'LIBS', color: 'bg-indigo-600' },
-    { name: 'Accenture', color: 'bg-pink-600' },
-    { name: 'Enthralltech', color: 'bg-orange-600' },
-  ],
-
-  // API Configuration
-  api: {
-    cacheTimeMs: 5 * 60 * 1000, // 5 minutes
-    retryCount: 3,
-    timeoutMs: 10000, // 10 seconds
-  },
-
-  // Featured Skills
-  skills: {
-    aiMl: ['Python', 'TensorFlow', 'PyTorch', 'NLP', 'Knowledge Graphs', 'Agentic AI', 'Scikit-learn', 'GenAI', 'LLM Agents (LangChain)', 'YOLO v8', 'Computer Vision'],
-    dataEngineering: ['Pandas', 'NumPy', 'Data Visualization', 'ETL Pipelines', 'Statistical Analysis', 'SQL', 'MongoDB', 'Neo4j', 'BigQuery', 'Plotly'],
-    webDev: ['JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'Angular', 'Flask', 'Tailwind CSS', 'Chrome Extensions', 'REST APIs'],
-    devOpsCloud: ['Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP', 'CI/CD', 'Git', 'Microservices'],
-  },
-
-  // Skill Levels for Progress Bars
-  skillLevels: [
-    { skill: 'Python & Data Science', level: 90 },
-    { skill: 'JavaScript/TypeScript', level: 85 },
-    { skill: 'Machine Learning & NLP', level: 85 },
-    { skill: 'React/Next.js', level: 80 },
-    { skill: 'Data Engineering', level: 80 },
-    { skill: 'Knowledge Graphs & AI', level: 75 }
-  ],
-
-  // Fallback Values (used when API fails)
-  fallbackStats: {
-    repositoryCount: 50,
-    organizationCount: 9,
-    followerCount: 1,
-    followingCount: 8,
-    accountAge: 3,
-  },
-}
-
-// Professional Experience Data
-export const PROFESSIONAL_EXPERIENCE = [
-  {
-    title: 'Founding AI Engineer',
-    company: 'DeepLearning.AI',
-    period: 'September 2025 - Present',
-    location: 'San Francisco Bay Area',
-    type: 'Development',
-    skills: [
-      'Claude API', 'Tavily', 'OpenRouter', 'Vector DB', 'LangChain',
-      'React', 'Python', 'Flask', 'Multi-Agent Orchestration',
-      'Semantic Search', 'Vector Embeddings', 'Data Pipelines',
-      'TypeScript', 'MCP Protocol', 'Algolia', 'Railway', 'npm'
-    ],
-    achievements: [
-      'Building AI-native recruiting platform for open-world candidate sourcing [Claude API, Tavily, OpenRouter]',
-      'Architecting data pipelines across multiple sources (LinkedIn, GitHub, company databases) from scratch [Python, Flask]',
-      'Developing intelligent search with vector embeddings and semantic ranking [Vector DB, LangChain]',
-      'Implementing multi-agent orchestration for deep candidate research and profile enrichment [Claude API, OpenRouter]',
-      'Delivering full-stack application to pilot recruiters; iterating on product based on direct user feedback [React]',
-      'Built and shipped DLAI MCP Server — making 121 courses searchable from Claude Code, Codex, and Cursor [TypeScript, MCP SDK, Algolia]',
-      'Published to npm (dlai-mcp-server) and deployed on Railway with session-managed HTTP transport [npm, Railway]'
-    ],
-    projects: [
-      {
-        name: 'AI Recruiting Platform',
-        description: 'AI-native recruiting platform for open-world candidate sourcing with multi-model orchestration',
-        achievements: [
-          'Architected data pipelines across multiple sources (LinkedIn, GitHub, company databases) from scratch',
-          'Developed intelligent search with vector embeddings and semantic ranking to identify high-value companies and surface qualified candidates',
-          'Implemented multi-agent orchestration (Claude, Tavily, OpenRouter) for deep candidate research and profile enrichment',
-          'Delivered full-stack application to pilot recruiters; iterating on product based on direct user feedback'
-        ]
-      },
-      {
-        name: 'DLAI MCP Server',
-        description: 'MCP server making DeepLearning.AI course catalog searchable from AI coding tools — npm published, Railway hosted',
-        achievements: [
-          'Built 3-tool MCP server: search_courses, get_course_details, list_topics across 121 courses and 38 topics',
-          'Algolia-powered search with on-demand lesson scraping and bundled fallback for offline resilience',
-          'Session-managed HTTP transport for production Railway deployment with CORS and health checks',
-          'Published to npm as dlai-mcp-server — zero-install via npx for any Claude Code user'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Founder',
-    company: 'Blog2Podcast',
-    period: 'March 2026 - Present',
-    location: 'San Francisco Bay Area',
-    type: 'Side Project',
-    skills: [
-      'Next.js', 'FastAPI', 'GPT-5.2', 'OpenAI TTS', 'Playwright',
-      'Railway', 'PWA', 'MediaSession API', 'AsyncIO'
-    ],
-    achievements: [
-      'Built end-to-end pipeline that converts engineering blogs from 15+ tech companies (Uber, Meta, Netflix, Airbnb) into AI-generated podcasts [FastAPI, GPT-5.2, TTS]',
-      'Shipped PWA with offline support, lock screen controls via MediaSession API, and 34 E2E tests across 4 device profiles [Next.js, Playwright]',
-      'Parallel TTS generation with AsyncIO — 3-5x speedup for 20-segment podcasts [AsyncIO, OpenAI TTS]',
-      'User submission feature — paste any URL or text, get a podcast in minutes [FastAPI, GPT-5.2]',
-      'Deployed on Railway with automated daily crawl + podcast generation pipeline [Railway, APScheduler]'
-    ],
-    projects: [
-      {
-        name: 'blog2podcast.com',
-        description: 'Turn any tech blog into a podcast — AI-powered content extraction, script generation, and text-to-speech',
-        achievements: [
-          'Multi-strategy content extraction (trafilatura + BeautifulSoup fallback) with quality scoring',
-          '28 PRs for full frontend rebuild in a single day — auth, player, navigation, library, search, PWA',
-          'iOS safe areas, dvh viewport, touch targets (WCAG 2.5.8), maskable icons, service worker',
-          'Deployed and serving users at blog2podcast.com via Railway'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Full Stack AI Engineer, Growth',
-    company: 'Tassel',
-    period: 'June 2025 - September 2025',
-    location: 'United States',
-    type: 'Development',
-    skills: [
-      'Azure', 'Voice AI', 'TTS', 'FFmpeg', 'Python',
-      'Video Processing', 'Infrastructure', 'Cost Optimization'
-    ],
-    achievements: [
-      'Built video pipeline that ingests graduation ceremonies, segments by student, and delivers personalized clips to 2M+ students — $8M+ revenue opportunity [FFmpeg, Python]',
-      'Developed AI pronunciation system to fix TTS accuracy for student name announcements across Voice AI applications [Voice AI, TTS]',
-      'Architected Azure infrastructure; migrated always-on to on-demand scaling for heavy pipelines — cut costs 40%, processing 8x faster [Azure]'
-    ],
-    projects: [
-      {
-        name: 'Graduation Video Pipeline',
-        description: 'AI-powered video pipeline for personalized graduation ceremony clips at scale',
-        achievements: [
-          'Built video pipeline that ingests graduation ceremonies, segments by student, and delivers personalized clips to 2M+ students',
-          'Developed AI pronunciation system to fix TTS accuracy for student name announcements',
-          'Architected Azure infrastructure; migrated always-on to on-demand scaling — cut costs 40%, processing 8x faster',
-          '$8M+ revenue opportunity from personalized video delivery'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Full Stack AI Engineer, Growth',
-    company: 'Bexorg, Inc.',
-    period: 'May 2024 - May 2025',
-    location: 'New Haven, Connecticut, United States',
-    type: 'Development',
-    skills: [
-      'React', 'Node.js', 'Python', 'FastAPI', 'LangChain', 'GPT',
-      'Next.js', 'TypeScript', 'Plotly', 'D3.js', 'Neo4j', 'BigQuery',
-      'Docker', 'Kubernetes', 'REST APIs', 'GraphQL', 'Tailwind CSS'
-    ],
-    achievements: [
-      'Solved critical pipeline bottlenecks: 10x throughput improvement enabling new enterprise customer acquisition [React, Node.js, Python]',
-      'Built GenAI analytics platform with NL querying — key differentiator for sales; 99.9% uptime converted pilots to contracts [FastAPI, LangChain, GPT]',
-      'Applied AI/ML/NLP expertise: anomaly detection, NLP extraction, CV for medical imaging [ChromaDB, Gemini API]',
-      'Implemented graph-based data layer with GNNs, reducing query times 5x for real-time analytics [Neo4j, BigQuery]'
-    ],
-    projects: [
-      {
-        name: 'Interactive Data Viewer',
-        description: 'Real-time data visualization platform using Plotly, Flask, Neo4j Aura, and BigQuery',
-        achievements: [
-          'Engineered scalable data pipeline with graph visualization (vis.js), enabling real-time exploration of complex relationships',
-          'Architected unified data access layer reducing retrieval time by 45% through optimized graph algorithms',
-          'Designed interactive dashboards with real-time updates, improving data analysis efficiency by 60%',
-          'Implemented role-based access control and audit logging, ensuring secure access for 40+ users across departments'
-        ]
-      },
-      {
-        name: 'Team Collaboration Calendar',
-        description: 'Async communication and experiment scheduling system',
-        achievements: [
-          'Developed async-first calendar system reducing experiment deployment time by 85% (7 days → 3-4 hours)',
-          'Built automated scheduling engine reducing 1:1 meetings by 60% while maintaining team alignment',
-          'Created real-time experiment tracking system with automated status updates and notifications',
-          'Integrated with existing tools (Slack, Jira) enabling seamless workflow for cross-functional teams'
-        ]
-      },
-      {
-        name: 'Time Series Analysis & QC',
-        description: 'ML-powered time series analysis and quality control system',
-        achievements: [
-          'Developed ML-powered QC system with real-time anomaly detection, reducing data issues by 70%',
-          'Built specialized visualization engine for time series data, accelerating pattern identification by 55%',
-          'Implemented automated alert system with severity-based routing, reducing response time by 80%',
-          'Created quantitative QC scoring system enabling data-driven quality assessment and trend analysis'
-        ]
-      },
-      {
-        name: 'GenAI Query Canvas',
-        description: 'Natural language to visualization pipeline using GenAI',
-        achievements: [
-          'Built GenAI-powered query interface reducing data analysis time by 75% through natural language processing',
-          'Developed automated visualization pipeline (Plotly & D3) with dynamic chart selection and customization',
-          'Implemented feedback-based learning system improving query accuracy by 40% over time',
-          'Created end-to-end pipeline from natural language to interactive dashboards, enabling self-service analytics'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Machine Learning Developer',
-    company: 'NASA Ames Research Center',
-    period: 'December 2023 - March 2024',
-    location: 'Mountain View, California, United States',
-    type: 'Research',
-    skills: [
-      'Python', 'Pyproj', 'Folium', 'Next.js', 'Plotly',
-      'Docker', 'AWS', 'NumPy', 'Pandas', 'Kubernetes',
-      'Geospatial Analysis', 'Data Visualization', 'Microservices'
-    ],
-    achievements: [
-      'Performed spatial analysis of flight path adherence to ATC procedures [Python, Pyproj, GeoPandas]',
-      'Built interactive visualization dashboards for airspace data analysis [Folium, Leaflet.js, Plotly]',
-      'Identified navigational patterns enabling aviation fuel cost optimization [NumPy, Pandas]',
-      'Containerized legacy flight analysis system, reducing setup time from days to minutes [Docker]'
-    ],
-    projects: [
-      {
-        name: 'Flight Path Optimization System',
-        description: 'ML-powered flight path analysis and adherence checks using Python, Pyproj, Xmitree and Folium',
-        achievements: [
-          'Engineered coordinate transformation pipeline converting flight paths from lat/long to cartesian coordinates using Pyproj, enabling web-based visualization on Folium maps',
-          'Containerized legacy flight analysis system onto Folium map containers, reducing setup time from days to minutes for new researchers',
-          'Developed and deployed time series viewing component for flight paths, enabling real-time analysis of flight path adherence',
-          'Automated data validation pipeline over 1000+ flight paths, reducing manual verification time from 4 hours to 15 minutes per analysis',
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Graduate Research Assistant',
-    company: 'San Jose State University',
-    period: 'July 2023 - February 2024',
-    location: 'San Jose, California, United States',
-    type: 'Research & Development',
-    skills: [
-      'React', 'Node.js', 'BERT', 'GPT-2', 'YOLO v8',
-      'Python', 'OpenCV', 'TypeScript', 'Tailwind CSS',
-      'Wix CMS', 'Strapi', 'REST APIs', 'Machine Learning'
-    ],
-    achievements: [
-      'Spatial Analytics: ML models on spatial datasets; EDA with R (dplyr, ggplot2), hypothesis testing [Python, R]',
-      'Motion Planning: Sensor fusion (camera + LiDAR) using KITTI; YOLO v8 object detection [Python, OpenCV]',
-      'Built multilingual NLP translation system (1-to-25 languages) with LangChain and HuggingFace [NLP, LangChain]',
-      'Mental health support platform (BERT/GPT-2) for hurricane relief in Hawaii [React, Node.js]'
-    ],
-    projects: [
-      {
-        name: 'Sensor Fusion & Motion Planning',
-        description: 'Advanced sensor fusion and motion planning system',
-        achievements: [
-          'Researched and implemented real-time sensor fusion pipeline combining LiDAR and camera data from KITTI dataset',
-          'Enhanced normalization techniques filtering non-critical data, improving object detection accuracy',
-          'Recreated and improved YOLO v8 integration with LiDAR data for precise 3D bounding box generation',
-          'Developed multi-dimensional representation system for motion planning using fused sensor data'
-        ]
-      },
-      {
-        name: 'OHANA Mental Health Support',
-        description: 'Web application for hurricane relief and mental health support',
-        achievements: [
-          'Built React-based web application for mental health support and emergency resource location in Hawaii',
-          'Implemented BERT and GPT-2 models trained on mental health data for emotional support and crisis response',
-          'Developed geolocation feature to help users find nearest mental health centers and hospitals',
-          'Created interactive interface for mental health Q&A using transformer models fine-tuned on mental health data'
-        ]
-      },
-      {
-        name: 'Multilingual TTS Research',
-        description: 'Research and evaluation of multilingual TTS systems',
-        achievements: [
-          'Researched and evaluated TTS systems supporting 25+ languages using Coqui TTS and Firefox voice synthesis',
-          'Developed prototype interface for testing and comparing different TTS implementations',
-          'Created evaluation framework for assessing voice quality and language support across different TTS systems'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Senior Software Engineer',
-    company: 'Ascendion',
-    period: 'November 2022 - August 2023',
-    location: 'Basking Ridge, New Jersey, United States',
-    type: 'Development',
-    skills: [
-      'Angular', 'TypeScript', 'Angular 15/16', 'D3.js',
-      'Highcharts', 'W3C', 'Storybook', 'Azure',
-      'DevOps', 'CI/CD', 'Component Architecture', 'JavaScript', 'Microservices', 'Spring Boot', 'Microservices'
-    ],
-    achievements: [
-      'Architected data visualization system processing 10M+ records for enterprise dashboards [Angular, TypeScript]',
-      'Mentored 20 engineers; conducted 500+ code reviews improving team code quality by 35% [Angular 15/16]',
-      'Reduced page load times by 85% (23s to 2.5s) through lazy loading and pagination [D3.js, Highcharts]',
-      'Integrated OpenAI ChatGPT into VS Code extension, boosting developer productivity 25% [OpenAI, Node.js]'
-    ],
-    projects: [
-      {
-        name: 'Enterprise Angular Migration',
-        description: 'Large-scale Angular framework upgrade and modernization',
-        achievements: [
-          'Led migration from AngularJS to Angular 15 for legacy systems, improving performance and maintainability',
-          'Upgraded enterprise applications from Angular 13 to Angular 16, implementing modern features and best practices',
-          'Created comprehensive migration documentation and automated testing suite ensuring zero regression',
-          'Implemented modern Angular features (standalone components, signals) reducing bundle size by 35%'
-        ]
-      },
-      {
-        name: 'Cloud Economics Platform',
-        description: 'Real-time cloud resource monitoring and cost optimization platform',
-        achievements: [
-          'Developed interactive dashboards using D3.js and Highcharts for real-time VM usage and cost analytics',
-          'Implemented automated cost optimization recommendations reducing cloud spending by 30%',
-          'Created REST API integration with AWS & Azure for real-time resource monitoring',
-          'Built polling system for continuous data updates ensuring accurate cost tracking'
-        ]
-      },
-      {
-        name: 'AI-Powered Code Quality Tool',
-        description: 'VS Code extension integrating ChatGPT for automated code review and quality checks',
-        achievements: [
-          'Developed VS Code extension integrating ChatGPT API for automated code review',
-          'Implemented custom rules engine for code quality assessment and improvement suggestions',
-          'Created automated documentation generation reducing manual documentation time by 70%',
-          'Built feedback loop system improving suggestion accuracy over time'
-        ]
-      },
-      {
-        name: 'Enterprise Component Library',
-        description: 'W3C-compliant reusable component library for enterprise applications',
-        achievements: [
-          'Architected comprehensive component library following W3C accessibility standards',
-          'Implemented 40+ reusable components reducing development time by 60%',
-          'Created detailed documentation and usage examples for 20+ team members',
-          'Developed automated testing suite ensuring 95% code coverage'
-        ]
-      },
-      {
-        name: 'Performance Optimization',
-        description: 'Enterprise application performance optimization and modernization',
-        achievements: [
-          'Reduced page load times from 23s to 2.5s through UI improvements and pagination',
-          'Implemented efficient data loading strategies reducing API response times by 75%',
-          'Optimized Angular Material and D3.js implementations for better performance',
-          'Created performance monitoring dashboard for real-time metrics tracking'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Software Engineer',
-    company: 'Collabera Inc.',
-    period: 'December 2021 - December 2022',
-    location: 'Basking Ridge, New Jersey, United States',
-    type: 'Development',
-    skills: [
-      'Angular', 'Azure', 'TypeScript', 'Python',
-      'Azure Functions', 'Angular Material', 'D3.js',
-      'W3C Standards', 'DevOps', 'SRE'
-    ],
-    achievements: [
-      'Built executive dashboards with D3.js/Highcharts, increasing decision-making speed by 75% [D3.js, Highcharts]',
-      'Engineered reusable Angular component library (50+ components) with WCAG 2.1 compliance [Angular, TypeScript]',
-      'Developed Azure-integrated ML workflow app, automating 80% of manual data processes [Azure, Python]',
-      'Awarded Employee of the Quarter for delivering 3 cross-functional projects ahead of schedule [Angular Material]'
-    ],
-    projects: [
-      {
-        name: 'SRE & DevOps Enterprise Assessment Tool',
-        description: 'Automated assessment and monitoring platform',
-        achievements: [
-          'Developed Angular Framework-driven assessment tool for Site Reliability & DevOps',
-          'Implemented automated monitoring and alerting system using Azure Functions',
-          'Created real-time dashboards for system health and performance metrics',
-          'Built automated reporting system for operational metrics and KPIs'
-        ]
-      },
-      {
-        name: 'Enterprise Component Library',
-        description: 'W3C-compliant reusable component library',
-        achievements: [
-          'Engineered comprehensive Angular component library following W3C accessibility standards',
-          'Developed 30+ reusable components for forms, tables, and data visualization',
-          'Created detailed documentation and usage examples for development team',
-          'Implemented automated testing suite ensuring 95% code coverage'
-        ]
-      },
-      {
-        name: 'Azure Monitoring Integration',
-        description: 'Machine learning workflow integration with Azure',
-        achievements: [
-          'Built web application for Azure Backend with integrated machine-learning workflows',
-          'Implemented real-time data synchronization between frontend and Azure services',
-          'Developed automated data processing pipeline using Azure Functions',
-          'Created comprehensive error handling and logging system using Application Insights'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Software Developer',
-    company: 'LIBS',
-    period: 'January 2021 - November 2021',
-    location: 'Cotonou, Littoral, Benin',
-    type: 'Development',
-    skills: [
-      'Angular', 'TypeScript', 'AWS EC2', 'REST APIs',
-      'Database Design', 'Security', 'Team Leadership',
-      'Inventory Management', 'Sales Systems'
-    ],
-    achievements: [
-      'Client-facing warehouse & sales system',
-      'Multi-country inventory management',
-      'Production team leadership',
-      'EC2 deployment & security'
-    ],
-    projects: [
-      {
-        name: 'Warehouse and Sales Management System',
-        description: 'Comprehensive inventory, sales, and production management platform',
-        achievements: [
-          'Developed real-time inventory tracking system with dynamic stock level monitoring',
-          'Engineered sales tracking system supporting multiple currencies and languages',
-          'Led production team of 10+ engineers ensuring timely delivery of products',
-          'Deployed application on Amazon EC2 with enhanced security across West Africa'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Software Engineer',
-    company: 'Accenture',
-    period: 'October 2018 - December 2020',
-    location: 'Pune, Maharashtra, India',
-    type: 'Development',
-    skills: [
-      'Informatica', 'Abinitio', 'Unix', 'MS-VBA',
-      'Python', 'Node.js', 'NoSQL', 'ETL',
-      'Data Warehousing', 'Batch Processing', 'SQL',
-      'Oracle DB', 'Postman', 'AWS'
-    ],
-    achievements: [
-      'Resolved critical ETL validation issues processing 5M+ daily records with zero data loss [Informatica, Abinitio]',
-      'Built automation scripts reducing manual reporting effort by 70% (40hrs to 12hrs/week) [Python, Unix]',
-      'Led production data analysis enabling 3-month early readiness for system switchover [SQL, Oracle DB]'
-    ],
-    projects: [
-      {
-        name: 'Barclays - Data Migration & ETL',
-        description: 'Enterprise data migration and ETL pipeline development for Barclays',
-        achievements: [
-          'Developed ETL pipelines using Informatica and Abinitio',
-          'Optimized batch processing and data workflows',
-          'Implemented data validation and quality checks',
-          'Created automated monitoring and reporting system'
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Frontend Developer',
-    company: 'Enthralltech Private Limited',
-    period: 'May 2018 - October 2018',
-    location: 'Pune Area, India',
-    type: 'Development',
-    skills: [
-      'Angular', 'MongoDB', '.NET', 'AWS',
-      'NoSQL', 'Chatbot Development', 'REST APIs',
-      'E-learning Platforms', 'IAM Systems'
-    ],
-    achievements: [
-      'Built e-learning platform features serving 10K+ students using MongoDB and Angular [Angular, MongoDB]',
-      'Developed chatbot reducing support tickets by 40% through automated query resolution [.NET, NoSQL]'
-    ],
-    projects: [
-      {
-        name: 'E-Learning Platform & Chatbot',
-        description: 'Development of e-learning platform with intelligent chatbot for educational support',
-        achievements: [
-          'Built e-learning platform using Angular and MongoDB',
-          'Developed chatbot using NoSQL for educational Q&A',
-          'Implemented IAM system for user authentication',
-          'Integrated AWS services for content delivery'
-        ]
-      }
-    ]
-  }
-];
-
-// Education Data
-export const EDUCATION = [
-  {
-    degree: 'Master of Science, Artificial Intelligence',
-    school: 'San Jose State University',
-    period: 'August 2023 - May 2025',
-    location: 'San Jose, CA',
-    gpa: 'N/A',
-    coursework: [
-      'Advanced Machine Learning',
-      'Deep Learning',
-      'Natural Language Processing',
-      'Computer Vision',
-      'AI Ethics',
-      'Knowledge Representation and Reasoning'
-    ],
-    achievements: [
-      'Relevant Research Projects (e.g., Geospatial Analysis, Motion Planning)'
-    ]
-  },
-  {
-    degree: 'Bachelor of Engineering - BE, Information Technology',
-    school: 'Sinhgad Academy Of Engineering (Pune University)',
-    period: '2014 - 2018',
-    location: 'Pune, Maharashtra, India',
-    gpa: 'N/A',
-    coursework: [
-      // Add relevant coursework if available
-    ],
-    achievements: [
-      // Add any academic achievements
-    ]
-  }
-];
-
-// Certifications and Awards
-export const CERTIFICATIONS = [
-  {
-    name: 'The Complete Python Bootcamp From Zero to Hero in Python',
-    issuer: 'Udemy',
-    date: 'N/A',
-    details: []
-  },
-  {
-    name: 'AMCAT Certified Data Processing Specialist',
-    issuer: 'AMCAT',
-    date: 'N/A',
-    details: []
-  },
-  {
-    name: 'Ethics in the Age of Generative AI',
-    issuer: 'LinkedIn Learning',
-    date: 'N/A',
-    details: []
-  },
-  {
-    name: 'Streamlining Your Work with Microsoft Bing Chat',
-    issuer: 'LinkedIn Learning',
-    date: 'N/A',
-    details: []
-  },
-  {
-    name: 'Generative AI: The Evolution of Thoughtful Online Search',
-    issuer: 'LinkedIn Learning',
-    date: 'N/A',
-    details: []
-  },
-  {
-    name: 'Neo4j Certifications in Graph DB Fundamentals and Advanced Topics',
-    issuer: 'Neo4j',
-    date: 'N/A',
-    details: ['Leveraged skills to manage and analyze complex data structures.']
-  },
-  {
-    name: 'Employee of the Quarter Award',
-    issuer: 'Collabera Inc.',
-    date: 'N/A',
-    details: ['Praised for multitasking abilities across projects.']
-  }
-];
-
 // Complete Repository Data with Categories and Technologies
 export const ALL_REPOSITORIES = [
   // Side projects, 2026 Q3
@@ -650,7 +16,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'jobs-collector',
     name: 'jobs-collector',
-    description: 'Collects open roles from the careers pages of 200 companies into SQLite with per-source outcome accounting: every company ends with a recorded result (collected, blocked, no supported source, empty) rather than a silent gap. Re-runs diff against the last snapshot so removed postings are detected. Respects robots rules. 20,000+ live postings across 182 sources in the current snapshot.',
+    description: 'Collects open roles from the careers pages of 1,400+ companies into SQLite with per-source outcome accounting: every company ends with a recorded result (collected, blocked, no supported source, empty) rather than a silent gap. Re-runs diff against the last snapshot so removed postings are detected. Respects robots rules. 99,000+ jobs collected, 78,000+ live across 1,000+ sources in the current snapshot.',
     category: 'Data Science & Engineering',
     technologies: ['Node.js', 'SQLite', 'Playwright', 'ETL Pipelines'],
     language: 'JavaScript',
@@ -668,6 +34,7 @@ export const ALL_REPOSITORIES = [
     technologies: ['TypeScript', 'MCP Protocol', 'Algolia', 'Railway', 'npm', 'Cheerio'],
     language: 'TypeScript',
     github: 'https://github.com/gauravsurtani/dlai-mcp-server',
+    homepage: 'https://www.npmjs.com/package/dlai-mcp-server',
     stars: 0,
     featured: true,
     updatedAt: '2026-04-06',
@@ -678,9 +45,10 @@ export const ALL_REPOSITORIES = [
     name: 'tech-blog-catchup',
     description: 'Engineering blogs from Uber, Meta, Netflix, Airbnb → AI-generated podcasts. Content extraction, GPT script generation, parallel TTS, PWA with MediaSession API. Deployed on Railway at blog2podcast.com.',
     category: 'AI & Machine Learning',
-    technologies: ['Next.js', 'FastAPI', 'GPT-5.2', 'TTS', 'Playwright', 'Railway', 'PWA'],
+    technologies: ['Next.js', 'FastAPI', 'TTS', 'Playwright', 'GPT-5.2', 'Railway', 'PWA'],
     language: 'TypeScript',
     github: 'https://github.com/gauravsurtani/tech-blog-catchup',
+    homepage: 'https://blog2podcast.com',
     stars: 0,
     featured: true,
     updatedAt: '2026-04-06',
@@ -691,7 +59,7 @@ export const ALL_REPOSITORIES = [
     name: 'pair-programmer-cli',
     description: 'Multiplayer middleware for AI coding agents — share Claude Code sessions with your team in real-time. WebSocket-based session sharing.',
     category: 'AI & Machine Learning',
-    technologies: ['TypeScript', 'WebSocket', 'tmux', 'Claude Code', 'CLI'],
+    technologies: ['TypeScript', 'WebSocket', 'tmux', 'CLI', 'Claude Code'],
     language: 'TypeScript',
     github: 'https://github.com/gauravsurtani/pair-programmer-cli',
     stars: 0,
@@ -729,7 +97,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'natural-language-processing',
     name: 'Natural-Language-Processing',
-    description: 'Scrapy, WebScaping, XML Parsing, ChatGPT API usage, BERT, SpaCY, ATLAS, LLM\'s in NLP and Visual Similarity Detection',
+    description: 'Scrapy, Web scraping, XML Parsing, ChatGPT API usage, BERT, SpaCY, ATLAS, LLMs in NLP and Visual Similarity Detection',
     category: 'AI & Machine Learning',
     technologies: ['Jupyter Notebook', 'NLP', 'BERT', 'SpaCY', 'ChatGPT API', 'CLIP', 'RESNET', 'Hugging Face Transformers', 'LangChain'],
     language: 'Jupyter Notebook',
@@ -741,7 +109,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'pronunciation-error-detection',
     name: 'Pronunciation-Error-Detection',
-    description: 'Pytorch implementation of Noisy Student Training for Automatic Speech Recognition and Automatic Pronunciation Error Detection',
+    description: 'PyTorch implementation of Noisy Student Training for Automatic Speech Recognition and Automatic Pronunciation Error Detection',
     category: 'AI & Machine Learning',
     technologies: ['Python', 'PyTorch', 'Speech Recognition', 'ASR'],
     language: 'Python',
@@ -754,7 +122,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'knowledgegraph-llm-exploration',
     name: 'KnowledgeGraph-LLM-Exploration',
-    description: 'A interactive project made to explore RAG\'s LLM\'s and Knowledge Graph Modelling',
+    description: 'An interactive project made to explore RAG, LLMs and Knowledge Graph Modelling',
     category: 'AI & Machine Learning',
     technologies: ['Knowledge Graphs', 'LLM', 'RAG', 'Interactive', 'LangChain'],
     language: 'Python',
@@ -817,18 +185,6 @@ export const ALL_REPOSITORIES = [
     forked: true
   },
   {
-    id: 'tech-blog-catchup',
-    name: 'tech-blog-catchup',
-    description: 'Who has time these days to read technical blogs from multiple sources; sit back and relax; hear them in the car while you travel.',
-    category: 'AI & Machine Learning',
-    technologies: ['Python', 'Text-to-Speech', 'RSS', 'Blog Aggregation', 'Automation'],
-    language: 'Python',
-    github: 'https://github.com/gauravsurtani/tech-blog-catchup',
-    stars: 0,
-    featured: true,
-    updatedAt: '2026-02-13'
-  },
-  {
     id: 'im-watching-you',
     name: 'im-watching-you',
     description: 'AI-powered life tracking system with MCP server for Claude Desktop, LLM-driven activity classification, productivity analytics, and Whisper transcription',
@@ -856,14 +212,14 @@ export const ALL_REPOSITORIES = [
   {
     id: 'groq-deep-research',
     name: 'groq-deep-research',
-    description: 'Lightning fast deep research app powered by Compound-beta on Groq!',
+    description: 'Deep research app powered by Compound-beta on Groq.',
     category: 'AI & Machine Learning',
     technologies: ['JavaScript', 'Groq', 'Deep Research', 'AI', 'LLM'],
     language: 'JavaScript',
     github: 'https://github.com/gauravsurtani/groq-deep-research',
     homepage: 'https://deep-research-fast.vercel.app',
     stars: 0,
-    featured: true,
+    featured: false,
     updatedAt: '2025-11-27',
     forked: true
   },
@@ -909,7 +265,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'company-stats',
     name: 'company-stats',
-    description: 'Using Simplify and H1B grader data to find interesting trend in Job\'s over the years',
+    description: 'Using Simplify and H1B grader data to find interesting trends in jobs over the years',
     category: 'Data Science & Engineering',
     technologies: ['Jupyter Notebook', 'Data Science', 'Job Market Analysis', 'H1B Data'],
     language: 'Jupyter Notebook',
@@ -984,7 +340,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'youtube-history-extension',
     name: 'youtube-history-extension',
-    description: 'A sneaky way to get Youtube History bypassing the outdated Youtube API - Chrome Extension',
+    description: 'A way to get YouTube History bypassing the outdated YouTube API - Chrome Extension',
     category: 'Web Development',
     technologies: ['JavaScript', 'Chrome Extension API', 'Browser APIs', 'YouTube API'],
     language: 'JavaScript',
@@ -1026,12 +382,12 @@ export const ALL_REPOSITORIES = [
     name: 'gauravsurtani.github.io',
     description: 'Gaurav Surtani\'s Portfolio website',
     category: 'Web Development',
-    technologies: ['JavaScript', 'Portfolio', 'GitHub Pages', 'Static Site', 'React', 'Next.js'],
-    language: 'JavaScript',
+    technologies: ['TypeScript', 'Portfolio', 'GitHub Pages', 'Static Site', 'React', 'Next.js'],
+    language: 'TypeScript',
     github: 'https://github.com/gauravsurtani/gauravsurtani.github.io',
     stars: 0,
     featured: false,
-    updatedAt: '2024-01-21'
+    updatedAt: '2026-09-27'
   },
   {
     id: 'deployportfolio',
@@ -1089,7 +445,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'experience-components',
     name: 'experience-components',
-    description: 'Collection of high-quality, customizable, and versatile UI components',
+    description: 'Collection of UI components',
     category: 'Web Development',
     technologies: ['UI Components', 'React', 'Component Library', 'Design System'],
     language: 'JavaScript',
@@ -1103,7 +459,7 @@ export const ALL_REPOSITORIES = [
   {
     id: 'hugo-sjsurf',
     name: 'Hugo-SJSURF',
-    description: 'This is a project created to Explore Hugo for content-management',
+    description: 'This is a project to explore Hugo for content management',
     category: 'DevOps & Infrastructure',
     technologies: ['HTML', 'Hugo', 'Content Management', 'Static Site Generator'],
     language: 'HTML',
@@ -1154,18 +510,6 @@ export const ALL_REPOSITORIES = [
   },
 
   // Miscellaneous/Tools Projects
-  {
-    id: 'gauravsurtani-profile',
-    name: 'gauravsurtani',
-    description: 'Welcome to my Github portfolio - Profile README',
-    category: 'Miscellaneous',
-    technologies: ['Profile', 'README', 'Portfolio', 'GitHub'],
-    language: 'Markdown',
-    github: 'https://github.com/gauravsurtani/gauravsurtani',
-    stars: 0,
-    featured: false,
-    updatedAt: '2025-05-28'
-  },
   {
     id: 'introspect',
     name: 'Introspect',
@@ -1255,65 +599,3 @@ export const TECHNOLOGY_TAGS = [
   // Specialized Areas
   'Healthcare', 'Recommendation Systems', 'Financial Modeling', 'Geospatial Urban Planning', 'Software Engineering', 'Product Development', 'Scrum', 'Project Management', 'Team Management', 'Accessibility Standards', 'Responsive Design', 'User Interface', 'User Experience', 'Real-time Insights', 'Outlier Detection', 'Aviation Fuel Optimization', 'Multilingual Translation', 'Sensor Fusion', 'Motion Planning', 'Automated Reporting', 'Inventory Management', 'Test Automation', 'Data Warehousing', 'IAM systems', 'Gamification'
 ];
-
-export const FEATURED_PROJECTS = [
-  'tech-blog-catchup',
-  'im-watching-you',
-  'recruiter-intelligence',
-  'wat-to-eat',
-  'email-link',
-  'introspect',
-  'speech-to-speech-translation',
-  'groq-deep-research',
-  'company-stats',
-  'fire-prediction',
-  'youtube-history-extension',
-  'natural-language-processing',
-  'knowledgegraph-llm-exploration',
-  '3ddepth',
-  'LiDAR-Camera---Depth-Estimation',
-  'ParkingResearch',
-  'hugo-react-docker',
-  'CUREHEALTH-gs'
-];
-
-// SEO and Meta Configuration
-export const SEO_CONFIG = {
-  siteName: 'Gaurav Surtani Portfolio',
-  siteDescription: 'Founding AI Engineer at DeepLearning.AI. Building MCP servers, developer tools, and AI-powered internal systems. Full-Stack ML across AI/ML, infrastructure, and product. MS AI from SJSU. Ex-Tassel, Ex-Bexorg, Ex-NASA.',
-  siteUrl: 'https://gauravsurtani.dev',
-  author: 'Gaurav Surtani',
-  keywords: [
-    'Full-Stack Developer',
-    'AI Developer',
-    'Machine Learning',
-    'Data Engineering',
-    'NLP',
-    'Knowledge Graphs',
-    'Agentic AI',
-    'React',
-    'Python',
-    'Next.js',
-    'NASA',
-    'SJSU',
-    'Bexorg',
-    'JavaScript',
-    'TypeScript',
-    'Cloud Technologies',
-    'GCP',
-    'AWS',
-    'Azure',
-    'GenAI',
-    'LLM Agents',
-    'Geospatial Analysis',
-    'Recommendation Systems',
-    'Healthcare Analytics',
-    'Frontend Developer',
-    'Backend Developer',
-    'Software Engineer',
-    'DevOps',
-    'CI/CD',
-    'Computer Vision',
-    'Time Series Analysis'
-  ],
-}
