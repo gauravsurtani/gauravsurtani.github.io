@@ -8,6 +8,10 @@ import Projects from '@/components/home/Projects'
 import Skills from '@/components/home/Skills'
 import Trace from '@/components/home/Trace'
 import styles from './page.module.css'
+import type { Metadata } from 'next'
+
+// Home keeps the layout's title and cards; it only adds its canonical URL (each other route sets its own).
+export const metadata: Metadata = { alternates: { canonical: '/' } }
 
 export default function Home() {
   return (

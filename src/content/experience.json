@@ -1,0 +1,319 @@
+{
+  "records": [
+    {
+      "id": "r-dlai",
+      "projects": [
+        {
+          "name": "AI Technical Interviewer",
+          "desc": "Structured technical interviews, graded from the transcript.",
+          "points": [
+            "Four releases in September 2026: reminders and reinvites, admin activation, 90-day interview windows, and a clean close at the turn limit."
+          ]
+        },
+        {
+          "name": "Recruiter Sourcing and Review Tool",
+          "desc": "Candidate sourcing, scoring and review for the recruiting team.",
+          "points": [
+            "Scores from existing profile data first and calls a model only when needed.",
+            "The scoped API has usage limits, so other internal tools pull candidate and company enrichment directly."
+          ]
+        },
+        {
+          "name": "Valence Career Agent",
+          "desc": "Shows job seekers where they stand and what to work on next.",
+          "points": [
+            "Starts from the candidate's goal (finding their next job, navigating their career, improving their AI skills, or preparing for interviews) and adapts the conversation to it.",
+            "Imports their résumé, LinkedIn and GitHub for them to review, then asks only what it does not know: career history, projects, pay, timing, location, visa constraints and non-negotiables.",
+            "The growth report coaches two or three answers (what worked, what to add) and sets three growth areas, each with an action, a deliverable and a success signal, all cited from the transcript.",
+            "Real-time voice and dictation. Candidates own their career snapshot and conversation record, with export and deletion."
+          ]
+        },
+        {
+          "name": "dlai-mcp-server",
+          "href": "https://www.npmjs.com/package/dlai-mcp-server",
+          "desc": "An MCP server for the DeepLearning.AI course catalog.",
+          "points": [
+            "Three tools (search_courses, get_course_details, list_topics) across 121 courses and 38 topics.",
+            "Source on [GitHub](https://github.com/gauravsurtani/dlai-mcp-server)."
+          ]
+        }
+      ],
+      "stack": ["Python", "TypeScript", "Gemini", "Claude", "FastAPI", "Next.js", "PostgreSQL", "Redis", "AWS ECS", "Terraform", "Playwright", "LLM Evaluation", "Real-time Voice", "MCP Protocol"]
+    },
+    {
+      "id": "r-b2p",
+      "projects": [
+        {
+          "name": "blog2podcast.com",
+          "href": "https://blog2podcast.com",
+          "desc": "Turns a tech blog post into a podcast: content extraction, script generation and text-to-speech.",
+          "points": [
+            "Multi-strategy content extraction (trafilatura, with a BeautifulSoup fallback) and quality scoring.",
+            "Parallel TTS generation with AsyncIO, 3-5x faster for 20-segment podcasts.",
+            "User submissions: paste any URL or text and get a podcast in minutes.",
+            "Rebuilt the frontend in one day across 28 PRs: auth, player, navigation, library, search and PWA.",
+            "PWA with offline support, lock-screen controls (MediaSession API), iOS safe areas, dvh viewport, WCAG 2.5.8 touch targets, maskable icons and a service worker.",
+            "34 E2E tests across 4 device profiles."
+          ]
+        }
+      ],
+      "stack": ["Next.js", "FastAPI", "GPT-5.2", "OpenAI TTS", "Playwright", "Railway", "PWA", "MediaSession API", "AsyncIO"]
+    },
+    {
+      "id": "r-tassel",
+      "projects": [
+        {
+          "name": "Multilingual Name Pronunciation",
+          "desc": "Getting every graduate's name right in ceremony announcements, in any language.",
+          "points": [
+            "ElevenLabs text-to-speech on its own mispronounced many students' names from other languages; the transliteration chain closed that gap."
+          ]
+        },
+        {
+          "name": "Graduation Video Pipeline",
+          "desc": "Personalized graduation ceremony clips at scale.",
+          "points": [
+            "Architected the Azure infrastructure behind it."
+          ]
+        }
+      ],
+      "stack": ["Azure", "Python", "FFmpeg", "Voice AI", "TTS", "Video Processing"]
+    },
+    {
+      "id": "r-bexorg",
+      "projects": [
+        {
+          "name": "GenAI Query Canvas",
+          "desc": "Natural language to visualization, with GenAI.",
+          "points": [
+            "Automatic chart selection and customization in Plotly and D3.",
+            "Feedback-based learning that improved query accuracy 40% over time."
+          ]
+        },
+        {
+          "name": "Interactive Data Viewer",
+          "desc": "Real-time data visualization on Plotly, Flask, Neo4j Aura and BigQuery.",
+          "points": [
+            "Graph visualization with vis.js for exploring complex relationships in real time.",
+            "A unified data access layer with optimized graph algorithms.",
+            "Interactive dashboards with real-time updates, improving data analysis efficiency 60%.",
+            "Audit logging next to the role-based access, across departments."
+          ]
+        },
+        {
+          "name": "Time Series Analysis & QC",
+          "desc": "Time-series analysis and quality control.",
+          "points": [
+            "A visualization engine for time-series data that sped up pattern identification 55%.",
+            "Automated alerts with severity-based routing, cutting response time 80%.",
+            "Quantitative QC scores for quality assessment and trend analysis."
+          ]
+        },
+        {
+          "name": "Team Collaboration Calendar",
+          "desc": "Async communication and experiment scheduling.",
+          "points": [
+            "An async-first calendar that cut experiment deployment time 85%, from 7 days to 3-4 hours.",
+            "An automated scheduling engine that cut 1:1 meetings 60%.",
+            "Real-time experiment tracking with automated status updates and notifications.",
+            "Slack and Jira integrations for cross-functional teams."
+          ]
+        }
+      ],
+      "stack": ["React", "Node.js", "Python", "FastAPI", "LangChain", "GPT", "Next.js", "TypeScript", "Plotly", "D3.js", "Neo4j", "BigQuery", "Docker", "Kubernetes", "REST APIs", "GraphQL", "Tailwind CSS"]
+    },
+    {
+      "id": "r-nasa",
+      "projects": [
+        {
+          "name": "Flight Path Optimization System",
+          "desc": "Flight-path analysis and adherence checks with Python, Pyproj, Xmitree and Folium.",
+          "points": [
+            "Converted flight paths from lat/long to Cartesian coordinates with Pyproj, for web maps in Folium.",
+            "Containerizing the legacy system cut setup for new researchers from days to minutes.",
+            "A time-series view of each flight path for real-time adherence analysis."
+          ]
+        }
+      ],
+      "stack": ["Python", "Pyproj", "Folium", "Next.js", "Plotly", "Docker", "AWS", "NumPy", "Pandas", "Kubernetes", "Geospatial Analysis", "Data Visualization", "Microservices"]
+    },
+    {
+      "id": "r-sjsu", "k": "sjsu", "label": "San Jose State", "short": "SJSU",
+      "company": "San Jose State University", "title": "Research Assistant", "place": "San Jose, CA",
+      "when": "Jul 2023 – Feb 2024", "sr": "Jul 2023 to Feb 2024", "s": 2023.5, "e": 2024.167,
+      "bullets": [
+        "Spatial analytics: ML models on spatial datasets, exploratory analysis in R (dplyr, ggplot2) and hypothesis testing.",
+        "Built a multilingual NLP translation system (1 to 25 languages) with LangChain and HuggingFace."
+      ],
+      "projects": [
+        {
+          "name": "Sensor Fusion & Motion Planning",
+          "desc": "Camera and LiDAR fusion for motion planning.",
+          "points": [
+            "A real-time sensor fusion pipeline combining LiDAR and camera data from the KITTI dataset.",
+            "Better normalization that filters non-critical data, improving object detection accuracy.",
+            "YOLO v8 with LiDAR data for precise 3D bounding boxes.",
+            "A multi-dimensional representation of the fused data for motion planning."
+          ]
+        },
+        {
+          "name": "OHANA Mental Health Support",
+          "desc": "A React web app for mental health support and hurricane relief in Hawaii.",
+          "points": [
+            "BERT and GPT-2 models trained on mental health data for emotional support, crisis response and a Q&A interface.",
+            "Geolocation to find the nearest mental health centers and hospitals."
+          ]
+        },
+        {
+          "name": "Multilingual TTS Research",
+          "desc": "Research and evaluation of multilingual text-to-speech.",
+          "points": [
+            "Evaluated TTS systems for 25+ languages, including Coqui TTS and Firefox voice synthesis.",
+            "A prototype interface to test and compare TTS implementations.",
+            "An evaluation framework for voice quality and language support."
+          ]
+        }
+      ],
+      "stack": ["Python", "React", "Node.js", "TypeScript", "BERT", "GPT-2", "YOLO v8", "OpenCV", "Tailwind CSS", "Wix CMS", "Strapi", "REST APIs"]
+    },
+    {
+      "id": "r-asc", "k": "asc", "label": "Ascendion",
+      "company": "Ascendion (formerly Collabera)", "title": "Software Engineer → Senior Software Engineer", "place": "Basking Ridge, NJ",
+      "when": "Dec 2021 – Aug 2023", "sr": "Dec 2021 to Aug 2023", "s": 2021.917, "e": 2023.667,
+      "note": "Collabera became Ascendion: Software Engineer at Collabera (Dec 2021 – Dec 2022), then Senior Software Engineer at Ascendion (Nov 2022 – Aug 2023).",
+      "bullets": [
+        "Mentored 20 engineers and ran 500+ code reviews, improving team code quality 35%.",
+        "Architected a data visualization system that processes 10M+ records for enterprise dashboards.",
+        "Built executive dashboards in D3.js and Highcharts, speeding up decision-making 75%.",
+        "Employee of the Quarter at Collabera, for delivering 3 cross-functional projects ahead of schedule."
+      ],
+      "projects": [
+        {
+          "name": "Enterprise Angular Migration",
+          "desc": "Angular upgrades across enterprise applications.",
+          "points": [
+            "Led the migration of legacy systems from AngularJS to Angular 15.",
+            "Upgraded enterprise applications from Angular 13 to Angular 16.",
+            "Standalone components and signals cut bundle size 35%.",
+            "Migration documentation and an automated test suite, with zero regressions."
+          ]
+        },
+        {
+          "name": "Cloud Economics Platform",
+          "desc": "Real-time cloud resource monitoring and cost optimization.",
+          "points": [
+            "D3.js and Highcharts dashboards for real-time VM usage and cost.",
+            "Automated cost recommendations that cut cloud spending 30%.",
+            "REST integrations with AWS and Azure, polled for real-time resource and cost data."
+          ]
+        },
+        {
+          "name": "AI-Powered Code Quality Tool",
+          "desc": "A VS Code extension that uses the ChatGPT API for automated code review.",
+          "points": [
+            "Raised developer productivity 25%.",
+            "A custom rules engine for code quality checks and suggestions.",
+            "Automated documentation generation, cutting manual documentation time 70%.",
+            "A feedback loop that improves suggestion accuracy over time."
+          ]
+        },
+        {
+          "name": "Enterprise Component Library",
+          "desc": "Reusable Angular components that follow W3C accessibility standards and WCAG 2.1.",
+          "points": [
+            "30+ components for forms, tables and data visualization at Collabera, and 40+ at Ascendion, cutting development time 60%.",
+            "Documentation and usage examples for 20+ team members.",
+            "Automated tests at 95% code coverage."
+          ]
+        },
+        {
+          "name": "Performance Optimization",
+          "desc": "Performance work on enterprise applications.",
+          "points": [
+            "Cut page load times from 23s to 2.5s with lazy loading, pagination and UI improvements.",
+            "Better data loading that cut API response times 75%.",
+            "Tuned the Angular Material and D3.js implementations.",
+            "A performance monitoring dashboard for real-time metrics."
+          ]
+        },
+        {
+          "name": "SRE & DevOps Enterprise Assessment Tool",
+          "desc": "An Angular assessment tool for Site Reliability and DevOps.",
+          "points": [
+            "Automated monitoring and alerting with Azure Functions.",
+            "Real-time dashboards for system health and performance.",
+            "Automated reports on operational metrics and KPIs."
+          ]
+        },
+        {
+          "name": "Azure Monitoring Integration",
+          "desc": "A web app on an Azure backend with machine-learning workflows.",
+          "points": [
+            "Automated 80% of manual data processes.",
+            "Real-time data sync between the frontend and Azure services.",
+            "An automated data processing pipeline on Azure Functions.",
+            "Error handling and logging with Application Insights."
+          ]
+        }
+      ],
+      "stack": ["Angular", "TypeScript", "JavaScript", "Python", "Angular Material", "D3.js", "Highcharts", "Storybook", "Spring Boot", "Microservices", "Azure", "Azure Functions", "CI/CD", "DevOps", "SRE", "W3C"]
+    },
+    {
+      "id": "r-libs", "k": "libs", "label": "LIBS",
+      "company": "LIBS", "title": "Software Developer", "place": "Cotonou, Benin",
+      "when": "Jan 2021 – Nov 2021", "sr": "Jan 2021 to Nov 2021", "s": 2021, "e": 2021.917,
+      "projects": [
+        {
+          "name": "Warehouse and Sales Management System",
+          "desc": "A client-facing platform for inventory, sales and production management.",
+          "points": [
+            "Real-time inventory tracking with stock-level monitoring across countries.",
+            "Sales tracking in multiple currencies and languages.",
+            "Led the production team of 10+ engineers and delivered on time.",
+            "Deployed it on Amazon EC2 with added security, across West Africa."
+          ]
+        }
+      ],
+      "stack": ["Angular", "TypeScript", "AWS EC2", "REST APIs", "Database Design"]
+    },
+    {
+      "id": "r-acc", "k": "acc", "label": "Accenture",
+      "company": "Accenture", "title": "Software Engineer", "place": "Pune, India",
+      "when": "Oct 2018 – Dec 2020", "sr": "Oct 2018 to Dec 2020", "s": 2018.75, "e": 2021,
+      "bullets": [
+        "Resolved critical ETL validation issues on 5M+ daily records with zero data loss.",
+        "Built automation scripts that cut manual reporting 70%, from 40 to 12 hours a week.",
+        "Led production data analysis that had the system switchover ready 3 months early."
+      ],
+      "projects": [
+        {
+          "name": "Barclays - Data Migration & ETL",
+          "desc": "Data migration and ETL pipelines for Barclays.",
+          "points": [
+            "ETL pipelines in Informatica and Ab Initio.",
+            "Optimized batch processing and data workflows.",
+            "Data validation, quality checks and automated monitoring."
+          ]
+        }
+      ],
+      "stack": ["Informatica", "Ab Initio", "Unix", "MS-VBA", "Python", "Node.js", "SQL", "Oracle DB", "NoSQL", "ETL", "Data Warehousing", "Batch Processing", "Postman", "AWS"]
+    },
+    {
+      "id": "r-ent", "k": "ent", "label": "Enthralltech",
+      "company": "Enthralltech", "title": "Frontend Developer", "place": "Pune, India",
+      "when": "May 2018 – Oct 2018", "sr": "May 2018 to Oct 2018", "s": 2018.333, "e": 2018.833,
+      "projects": [
+        {
+          "name": "E-Learning Platform & Chatbot",
+          "desc": "An e-learning platform with a chatbot for student support.",
+          "points": [
+            "Built platform features in Angular and MongoDB for 10K+ students.",
+            "A chatbot for educational Q&A on NoSQL that cut support tickets 40% by resolving queries automatically.",
+            "IAM for user authentication, and AWS for content delivery."
+          ]
+        }
+      ],
+      "stack": ["Angular", "MongoDB", ".NET", "AWS", "NoSQL", "REST APIs"]
+    }
+  ]
+}

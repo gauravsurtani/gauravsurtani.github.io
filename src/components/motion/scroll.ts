@@ -10,7 +10,7 @@
 // It also owns html.scrolling: set on every scroll event, cleared 180ms after the last one. Hover previews key on
 // html:not(.scrolling) so they never fire while rows pass under a still pointer (G10).
 // Users: Navigation (Scene C, nav.scrolled, section label), TraceFollow (Scene A, phone strip), Entrance (skip),
-// MotionRoot (moved(): fast reach reveals).
+// MotionRoot (moved(): fast reach reveals), Tracker (max scroll depth, activity).
 // Nothing else may listen to scroll.
 type Frame = (y: number, vh: number) => void
 

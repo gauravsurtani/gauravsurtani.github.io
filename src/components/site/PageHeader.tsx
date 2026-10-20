@@ -3,6 +3,7 @@
 //
 //   <PageHeader eyebrow="Writing" eyebrowHref="/blog" title={post.title} dek="..." />
 //
+// The eyebrow adds information (a parent link, "Index", "404", the page kind); it never repeats the title.
 // The h1 is a plain string (MaskHeading splits it into words). Styles: .ph-* in globals.css.
 // Motion (globals.css, CSS from first paint, also on a client navigation): eyebrow fades at 0, h1 mask from 40ms,
 // dek rises at 220ms. Reduced motion and no JS: static.

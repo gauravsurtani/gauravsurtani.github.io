@@ -10,9 +10,15 @@
 // - MutationObserver: blocks added later (client navigation, filter results), or a reused node that gains data-rv,
 //   are picked up automatically. Nothing else needs to call anything: render data-rv/data-ri markup (see reveal.ts).
 // - focusin: keyboard focus inside a block that is still hidden (below the 85% line) reveals it at once.
-// - Without html.mo (reduced motion, or the failsafe fired): every block gets data-in at once.
+// - Without html.mo (reduced motion, or the failsafe fired): every block gets data-in at once. Reduced motion turned on
+//   later (reduce.ts removes html.mo): every block still hidden gets data-in at once and the observers stop.
+// - Margins are pixels from innerHeight, never percentages: a rootMargin percentage resolves against the root's WIDTH
+//   (spec), so on a wide, short window the 85% line would sit far below the screen. The two observers are rebuilt
+//   on a height change, with every block not yet revealed.
+// - Safety net: a block still hidden while fully inside the viewport for 1.5s is revealed.
 // - hashchange: focus moves to the target (sections carry tabIndex={-1}).
 import { useEffect } from 'react'
+import { onReduce } from './reduce'
 import { moved } from './scroll'
 
 declare global {
@@ -23,12 +29,18 @@ export default function MotionRoot() {
   useEffect(() => {
     const d = document.documentElement
     window.__mr = 1
+    const pending = new Set<Element>()             // watched, not revealed yet: re-observed when the observers are rebuilt
+    const net = new Map<Element, number>()          // safety-net timers
     const reveal = (el: Element, instant: boolean) => {
       if (el.hasAttribute('data-in')) return
       if (instant) el.setAttribute('data-now', '')
       el.setAttribute('data-in', '')
+      pending.delete(el)
       rio.unobserve(el)
       above.unobserve(el)
+      full.unobserve(el)
+      clearTimeout(net.get(el))
+      net.delete(el)
       if (instant) requestAnimationFrame(() => requestAnimationFrame(() => el.removeAttribute('data-now')))
     }
     // Fast reach: a block that scrolled in (not one already in view when observed) gets data-fast (no stagger, 200ms)
@@ -40,7 +52,7 @@ export default function MotionRoot() {
     // First view under a page header (.ph): the records wait (--hold) for the header's third beat, 220ms after the
     // header appeared (its eyebrow fade's currentTime), so the body never rises before the dek above it.
     const seen = new WeakSet<Element>()
-    const rio = new IntersectionObserver(es => {
+    const onReach = (es: IntersectionObserverEntry[]) => {
       const vh = innerHeight
       let hold = -1
       es.forEach(e => {
@@ -56,15 +68,31 @@ export default function MotionRoot() {
         } else if (e.boundingClientRect.top < vh * 0.6 || moved() > 0.15) e.target.setAttribute('data-fast', '')
         reveal(e.target, false)
       })
-    }, { rootMargin: '0px 0px -15% 0px' })
-    const above = new IntersectionObserver(
-      es => es.forEach(e => e.isIntersecting && reveal(e.target, true)),
-      { rootMargin: '100000px 0px -100% 0px' },
-    )
+    }
+    const onAbove = (es: IntersectionObserverEntry[]) => es.forEach(e => e.isIntersecting && reveal(e.target, true))
+    let rio!: IntersectionObserver, above!: IntersectionObserver, vh0 = 0
+    const build = () => {
+      if (innerHeight === vh0) return
+      vh0 = innerHeight
+      rio?.disconnect()
+      above?.disconnect()
+      rio = new IntersectionObserver(onReach, { rootMargin: `0px 0px ${-Math.round(vh0 * 0.15)}px 0px` })
+      above = new IntersectionObserver(onAbove, { rootMargin: `100000px 0px ${-vh0}px 0px` })
+      pending.forEach(el => { rio.observe(el); above.observe(el) })
+    }
+    build()
+    const full = new IntersectionObserver(es => es.forEach(e => {
+      clearTimeout(net.get(e.target))
+      net.delete(e.target)
+      if (e.intersectionRatio > 0.99) net.set(e.target, window.setTimeout(() => reveal(e.target, false), 1500))
+    }), { threshold: 1 })
+    addEventListener('resize', build)
     const watch = (el: Element) => {
       if (d.classList.contains('mo')) {
+        pending.add(el)
         rio.observe(el)
         above.observe(el)
+        full.observe(el)
       } else el.setAttribute('data-in', '')
     }
     const scan = (root: Element | Document) => {
@@ -90,9 +118,19 @@ export default function MotionRoot() {
       t.focus({ preventScroll: true })
     }
     addEventListener('hashchange', focusHash)
-    return () => {
+    const stop = () => {
+      removeEventListener('resize', build)
       rio.disconnect()
       above.disconnect()
+      full.disconnect()
+      net.forEach(t => clearTimeout(t))
+      net.clear()
+    }
+    // reduced motion turned on: html.mo is gone, so show every block still hidden, at once
+    const offReduce = onReduce(() => { stop(); pending.forEach(el => reveal(el, true)) })
+    return () => {
+      stop()
+      offReduce()
       mo.disconnect()
       removeEventListener('focusin', onFocus)
       removeEventListener('hashchange', focusHash)

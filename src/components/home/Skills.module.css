@@ -1,7 +1,7 @@
 /* Home Skills (Skills.tsx). The default rules are the finished state (no JS, reduced motion). The motion
    (skills/SkillsMotion.tsx) writes inline transform/opacity on the items, the group rules and names and the role links,
    plus three variables on each item: --e (its evidence beat, 0..1: amber sweep, then the leader), --s (the spine
-   segment from it down to the next item) and --sp (the stream's separator dot). */
+   segment from it down to the next item) and --sp (the stream's separator dot), and data-fly while it is in flight. */
 
 .group { --fs: 16px; --c: calc(var(--fs) * .9); --W: 118px; --gap: 16px; --wire: color-mix(in srgb, var(--accent) 70%, transparent);
   max-width: 620px; padding-bottom: 28px; }
@@ -49,14 +49,17 @@
 :global(html.mo) .t::before { content: ""; position: absolute; left: -.16em; right: -.16em; top: .14em; bottom: .02em; z-index: -1; border-radius: 2px;
   background: color-mix(in srgb, var(--accent) 26%, transparent); transform-origin: 0 50%; transform: scaleX(clamp(0, calc(var(--e, 1) * 3.3), 1));
   opacity: calc(min(1, var(--e, 1) * 8) * clamp(0, calc((.8 - var(--e, 1)) * 4), 1)); }
-/* a landed skill covers the dim stream behind it; the stream's separator dot */
+/* a landed skill covers the dim stream behind it; a skill in flight (data-fly) adds a ring, so the words it passes
+   over never show through its own; the stream's separator dot */
 :global(html.mo) .t { background: var(--bg); }
+:global(html.mo) .items > li[data-fly] .t { border-radius: 2px; box-shadow: 0 0 0 4px var(--bg); }
 :global(html.mo) .t::after { content: "\00b7"; position: absolute; left: 100%; bottom: 0; width: var(--gap); text-align: center; color: var(--muted);
   opacity: var(--sp, 0); pointer-events: none; }
 /* measuring: read the finished layout */
 .sec[data-skm] :is(li, h3, .rule) { transform: none !important; }
 
-/* Desktop with room: the stage pins for 60% of a screen so the sort has time (it ends where the pin ends). A /#skills
+/* Desktop with room: the stage pins for 60% of a screen so the sort has time and then holds, finished, fully on screen
+   (SkillsMotion.tsx maps the end). A /#skills
    link lands at the pin's end (negative scroll margin), so it shows the finished state. 20px + .sec padding-top
    puts the pinned stage where a /#skills jump puts it. */
 @media (min-width: 1024px) and (min-height: 700px) {

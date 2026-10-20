@@ -6,8 +6,9 @@
      No hydration needed for the text. Entrance.tsx runs the sweep, the claim marks, skip and replay.
    - Every delay is calc(var(--d) * var(--tk)): --tk 1 (full) or .15 (html.brief, under the full-screen intro).
    - Fill mode is always `backwards`: nothing is left behind when an animation ends (no stray transform on #nav).
-   - Hidden states that JS releases (bars, caps, claim underlines) apply only while html.intro is on and not brief.
-   - html.skip: the user acted (or the head script found no hydration by 2.5s); the hold states below stop applying and
+   - Hidden states that JS releases (bars, caps, claim underlines) apply while html.intro is on (brief too: under the
+     full-screen intro they wait for the hand-off sweep).
+   - html.skip: the user acted (or skipped the full-screen intro); the hold states below stop applying and
      what they release lands with 180ms transitions; Entrance starts every waiting animation and lands all of them
      on one 180ms clock (WAAPI).
    - html.keepnav: a replay; the nav and the card frame stay put; the card's labels and gridlines come 600ms sooner.
@@ -42,15 +43,16 @@
   html.intro #trace .gl { transform-origin: 50% 0; animation: i-growY 600ms var(--e-out) calc(var(--d) * var(--tk)) backwards; }
   html.intro.keepnav #trace :is(.lbl, .yr, .gl) { animation-delay: calc(var(--d) - 600ms); }   /* replay: labels from ~120ms */
 
-  /* the JS sweep owns these until it releases them (brief: drawn from the start; skip: they land at once) */
-  html.intro:not(.brief):not(.skip) #trace .bar { transform: scaleX(0); }
-  html.intro:not(.brief):not(.skip) #trace .cap:not(.in) { opacity: 0; transform: scale(0); transition: none; }
-  html.intro:not(.brief):not(.skip) #hero .claim:not(.on) .w::after { transform: scaleX(0); transition: none; }
+  /* the JS sweep owns these until it releases them (skip: they land at once) */
+  html.intro:not(.skip) #trace .bar { transform: scaleX(0); }
+  html.intro:not(.skip) #trace .cap:not(.in) { opacity: 0; transform: scale(0); transition: none; }
+  html.intro:not(.skip) #hero .claim:not(.on) .w::after { transform: scaleX(0); transition: none; }
 
   /* the nav drops in after the verdict holds (not in brief, not on replay) */
   html.intro:not(.brief):not(.keepnav) #nav { animation: i-drop 700ms var(--e-out) calc(3000ms * var(--tk)) backwards; }
 
-  /* brief: shorter beats, so the whole thing lands by about 0.7s (the card keeps its small 10px rise) */
+  /* brief (under the full-screen intro): shorter beats, so the text, CTAs and card land by about 0.7s (the card keeps
+     its small 10px rise). The sweep waits for the intro's hand-off. */
   html.intro.brief :is(#hero .tk, #hero .av, #hero .cta > li, #hero .notes > li, #trace, #trace .notes > li, #trace .lbl, #trace .yr, #trace .gl),
   html.intro.brief #trace::after { animation-duration: 280ms; }
   html.intro.brief #trace { animation-name: i-fade, i-up10; }

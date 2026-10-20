@@ -2,9 +2,10 @@
 html.gi::after{content:"";position:fixed;inset:0;z-index:2147483646;background:var(--bg,#f4f4f1);pointer-events:none;animation:gi-safe 0s linear 6s forwards}
 html.gi-up::after{content:none}
 @keyframes gi-safe{to{visibility:hidden}}
-/* the hero's name and role (and the summary under them) stay hidden while the verdict flies onto them */
+/* the hero is drawn under the record. Its name and role stay hidden while the verdict flies onto them, and the summary
+   while the name crosses it: it goes at once and fades back as the name lands. CTAs, notes and the card stay in place. */
 html.gi-sh #h-name,html.gi-sh #h-name+p,html.gi-sh #hero>p{opacity:0!important}
-html.gi #hero>p{transition:opacity .28s ease}
+html.gi:not(.gi-sh) #hero>p{transition:opacity .28s ease}
 
 #gi-intro{position:fixed;inset:0;z-index:2147483647;overflow:hidden;contain:strict;cursor:default;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 #gi-intro.gi-out{pointer-events:none}

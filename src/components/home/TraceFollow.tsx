@@ -2,12 +2,14 @@
 // Scene A (SPEC 3.5) and the timeline camera (option B): the timeline cites, then films, what you are reading.
 // Client part of Experience; renders nothing visible on desktop and the phone evidence strip below 1024px.
 //
-// Reading line R = scrollY + 0.42 x innerHeight. Targets = every [data-cite] in DOM order (#about, the 5 roles, the
-// 4 Earlier rows); their tops are cached in measure(), never read per frame. i = the last target with top <= R.
+// Reading line R = scrollY + 0.42 x innerHeight. Targets = every [data-cite] in DOM order (#about, then every
+// Experience record); their tops are cached in measure(), never read per frame. i = the last target with top <= R.
 //   >= 1024px: the card's row indicator holds on row(i) for 88% of the record and glides to row(i+1) over the last
-//              12% (smoothstep .88 -> 1), both ways with the scroll. Active row = g < .5 ? i : i+1; it pings once on
-//              its first activation (trace-api). Does nothing while the opening or a hover preview owns the card.
-//   <  1024px: html.strip-on while R is between the first role's top and the last Earlier row's bottom. The strip
+//              12% (smoothstep .88 -> 1), both ways with the scroll; while the camera films, it glides with the
+//              camera's pan instead (shot.pos), so the lit row is the filmed row. Active row = the nearest row; it
+//              pings once on its first activation (trace-api). Does nothing while the opening or a hover preview owns
+//              the card.
+//   <  1024px: html.strip-on while R is between the first record's top and the last record's bottom. The strip
 //              shows the record under R (clamped to the records, so it is already in place when it slides in).
 //
 // Camera (html.mo and no reduced motion): from where R nears the records, the card becomes a camera on the record
@@ -18,7 +20,11 @@
 // takes it (api.watch), and Scene A re-cites from the next frame.
 // Proof phrases: each role's Mark is the intro's highlighter, scrubbed by scroll as it crosses 62% -> 46% of the
 // viewport (per word --h 0..1, --c shows the pen caret; Experience.module.css).
+// Reduced motion turned on later (motion/reduce.ts): the camera and the highlighter stop and clear every inline style,
+// attribute and class they wrote, so the section is exactly a reduced-motion load: Scene A and the phone strip keep
+// citing (no tweens, the reduced-motion CSS turns them off).
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { onReduce } from '@/components/motion/reduce'
 import { remeasure, subscribe } from '@/components/motion/scroll'
 import EvidenceStrip, { type StripState } from './EvidenceStrip'
 import { shot, type Plan, type Shot, type View } from './experience/camera'
@@ -53,12 +59,10 @@ export default function TraceFollow() {
     const rows = api?.rows ?? []
     const keys = rows.map(r => r.dataset.k!)
     const recs = keys.map(k => sec?.querySelector<HTMLElement>(`[data-cite="${k}"]`) ?? null)
-    const nRole = recs.filter(r => r?.tagName === 'ARTICLE').length
-    const early = recs[nRole]?.closest<HTMLElement>('[data-rv]') ?? null
     const ov = root?.querySelector<HTMLElement>('[data-ov]')
     const band = root?.querySelector<HTMLElement>('[data-band]')
     const cursor = root?.querySelector<HTMLElement>('[data-cursor]')
-    const camReady = !!(api && sec && ov && band && cursor && rows.length && recs.every(Boolean) && early)
+    const camReady = !!(api && sec && ov && band && cursor && rows.length && recs.every(Boolean))
     let plan: Plan | null = null
     let cw = 0, aw = 0
     let rbs: HTMLElement[] = [], pn: HTMLElement | null = null
@@ -88,8 +92,8 @@ export default function TraceFollow() {
       if (!camReady) return
       const box = (el: Element): View => { const r = el.getBoundingClientRect(); return [r.top + y, r.bottom + y] }
       plan = {
-        S: keys.map(api!.startOf), E: keys.map(api!.endOf), now: api!.now(), nRole,
-        R: recs.map(r => box(r!)), eb: box(early!), vh: innerHeight, desk: desk.matches,
+        S: keys.map(api!.startOf), E: keys.map(api!.endOf), now: api!.now(),
+        R: recs.map(r => box(r!)), vh: innerHeight, desk: desk.matches,
       }
       cardSig = stripSig = ''                           // the pen positions depend on the widths below
       cw = ov!.getBoundingClientRect().width
@@ -177,7 +181,13 @@ export default function TraceFollow() {
       if (!stripOn) return
       stripOn = false
       stripSig = ''
-      stripEl.current?.removeAttribute('data-cam')
+      const el = stripEl.current
+      if (!el) return
+      el.removeAttribute('data-cam')
+      for (const p of ['--c0', '--cs', '--vd']) el.style.removeProperty(p)
+      rbs.forEach(b => { b.style.removeProperty('--f'); b.removeAttribute('data-on') })
+      pn?.style.removeProperty('--px')
+      pn?.removeAttribute('data-on')
     }
 
     // ---- the proof phrases: the highlighter, scrubbed ----
@@ -192,6 +202,12 @@ export default function TraceFollow() {
         })
       })
     }
+
+    const unscrub = () => marks.forEach(mk => mk.parts.forEach(p => {
+      p.h = p.c = -1
+      p.w.style.removeProperty('--h')
+      p.w.style.removeProperty('--c')
+    }))
 
     const frame = (y: number, vh: number) => {
       const R = y + vh * 0.42
@@ -208,15 +224,14 @@ export default function TraceFollow() {
         if (!st?.on) cardOff()                          // first, so Scene A re-cites in this same frame
         if (i < 0) { api.setActive(null); api.placeInd(null) }
         else {
-          const a = api.keyIdx[cites[i].dataset.cite!]
-          let b = a
-          let g = 0
-          if (i + 1 < cites.length) {
-            b = api.keyIdx[cites[i + 1].dataset.cite!]
-            g = smooth(0.88, 1, (R - tops[i]) / (tops[i + 1] - tops[i]))
+          let pos = api.keyIdx[cites[i].dataset.cite!]
+          if (st?.on) pos = st.pos
+          else if (i + 1 < cites.length) {
+            const b = api.keyIdx[cites[i + 1].dataset.cite!]
+            pos += (b - pos) * smooth(0.88, 1, (R - tops[i]) / (tops[i + 1] - tops[i]))
           }
-          api.placeInd(a + (b - a) * g)
-          const k = api.rows[g < 0.5 ? a : b].dataset.k!
+          api.placeInd(pos)
+          const k = api.rows[Math.round(pos)].dataset.k!
           api.setActive(k)
           api.ping(k)
         }
@@ -240,11 +255,23 @@ export default function TraceFollow() {
 
     const off = subscribe(frame, measure)
     const unwatch = api?.watch(() => { if (api.state.intro || api.state.preview) cardOff() })
+    // reduced motion turned on (html.mo is gone, so motion() is false from now on): drop the camera and the highlighter
+    // now, then re-run a frame so Scene A re-cites the card in full space
+    const stopMotion = () => {
+      cardOff()
+      stripOff()
+      unscrub()
+      sec?.removeAttribute('data-scrub')
+      remeasure()
+    }
+    const offReduce = onReduce(stopMotion)
     return () => {
       off()
+      offReduce()
       unwatch?.()
       cardOff()
       stripOff()
+      unscrub()
       sec?.removeAttribute('data-scrub')
       d.classList.remove('strip-on')
     }

@@ -5,20 +5,21 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHeader from '@/components/site/PageHeader'
+import { pageMeta } from '@/components/site/meta'
 import TileTitle from '@/components/ui/TileTitle'
 import { ri, rv } from '@/components/motion/reveal'
 import { getAllPosts, formatDate } from '@/lib/posts'
 import s from './blog.module.css'
 
-const DEK = 'Writing on AI and machine learning.'
+const DEK = 'Posts on AI and machine learning.'
 
-export const metadata: Metadata = { title: 'Writing', description: DEK }
+export const metadata: Metadata = pageMeta('Writing', `${DEK.slice(0, -1)} by Gaurav Surtani.`, '/blog')
 
 export default function BlogPage() {
   return (
     <div className="wrap pb-[clamp(72px,12vh,140px)]">
       <div className={s.head}>
-        <PageHeader eyebrow="Writing" title="Writing" dek={DEK} />
+        <PageHeader eyebrow="Index" title="Writing" dek={DEK} />
         <Link className={`lnk ${s.side}`} href="/things-to-build">Things to build</Link>
       </div>
       <div className={s.list}>

@@ -1,11 +1,13 @@
-// Root layout: fonts, metadata, the pre-paint head script, the shared shell (skip link, nav, main, footer) and
-// MotionRoot. Pages never render their own <main>; they render sections inside this one.
+// Root layout: fonts, metadata, the pre-paint head script, the shared shell (skip link, nav, main, footer),
+// MotionRoot and Tracker (off unless NEXT_PUBLIC_TRACKER_URL is set at build time). Pages never render their own
+// <main>; they render sections inside this one.
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono, Newsreader } from 'next/font/google'
 import type { CSSProperties } from 'react'
 import MotionRoot from '@/components/motion/MotionRoot'
 import Navigation from '@/components/site/Navigation'
 import SiteFooter from '@/components/site/SiteFooter'
+import Tracker from '@/components/site/Tracker'
 import './globals.css'
 
 const sans = Geist({ subsets: ['latin'], variable: '--font-geist', display: 'swap' })
@@ -48,12 +50,13 @@ const BUILD_NOW = (() => {
 })()
 
 // Runs before first paint. ES5 only. Sets: dark (saved pick, else the OS), theme-color, --now, js, mo (motion ok),
-// intro + brief + gi for a fresh top-of-page load of "/" (not a reload or back/forward load that the
-// browser will scroll-restore below 40px: pagehide saves scrollY per path for that check), skip at 2.5s if the full
-// opening is still waiting for hydration (entrance.css lands it), and a 5s failsafe that shows everything
-// if MotionRoot never mounts. gi plays the full-screen intro (public/intro/intro.js + intro.css): the hero opening runs
-// brief under it, and the intro's reveal restarts it in full with #replay. State classes on <html> are reserved: js mo
-// intro brief keepnav skip dark scrolling menu-open strip-on gi gi-up gi-sh. No component class may reuse them.
+// intro + brief + gi for the first fresh top-of-page load of "/" in a browser session (sessionStorage "gi"; not a
+// reload or back/forward load that the browser will scroll-restore below 40px: pagehide saves scrollY per path for
+// that check), and a 5s failsafe that shows everything if MotionRoot never mounts. gi plays the full-screen intro
+// (public/intro/intro.js + intro.css): the hero draws brief under it, and the intro's reveal hands off to the card's
+// sweep (Entrance.tsx). Later loads of "/" in the session get none of these: the hero is drawn at first paint.
+// State classes on <html> are reserved: js mo intro brief keepnav skip dark scrolling menu-open strip-on gi gi-up
+// gi-sh. No component class may reuse them.
 const HEAD = `(function () {
   var d = document.documentElement, t = null;
   try { t = localStorage.getItem('theme'); } catch (e) {}
@@ -70,13 +73,16 @@ const HEAD = `(function () {
   } catch (e) {}
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
     d.classList.add('mo');
+    var seen = false;
     if (location.pathname === '/' && !location.hash && scrollY < 40 && !back) {
-      d.classList.add('intro');
-      d.classList.add('brief');
-      d.classList.add('gi');
+      try { seen = !!sessionStorage.getItem('gi'); sessionStorage.setItem('gi', '1'); } catch (e) {}
+      if (!seen) {
+        d.classList.add('intro');
+        d.classList.add('brief');
+        d.classList.add('gi');
+      }
     }
   }
-  setTimeout(function () { if (!window.__mr && d.classList.contains('intro') && !d.classList.contains('brief')) d.classList.add('skip'); }, 2500);
   setTimeout(function () { if (!window.__mr) { d.classList.remove('mo'); d.classList.remove('intro'); d.classList.remove('brief'); } }, 5000);
 })();`
 
@@ -99,6 +105,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main id="main" tabIndex={-1}>{children}</main>
         <SiteFooter />
         <MotionRoot />
+        <Tracker />
         <script src="/intro/intro.js" defer />
       </body>
     </html>

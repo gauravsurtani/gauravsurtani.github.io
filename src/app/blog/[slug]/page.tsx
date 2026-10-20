@@ -10,6 +10,7 @@ import ReactMarkdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import type { ElementContent, Root, RootContent } from 'hast'
 import MaskHeading from '@/components/motion/MaskHeading'
+import { pageMeta } from '@/components/site/meta'
 import { ri, rv } from '@/components/motion/reveal'
 import { getPostBySlug, getAllPostSlugs, formatDate } from '@/lib/posts'
 import '../prose.css'
@@ -17,8 +18,9 @@ import '../prose.css'
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const post = getPostBySlug((await params).slug)
-  return post ? { title: post.title, description: post.description } : {}
+  const slug = (await params).slug
+  const post = getPostBySlug(slug)
+  return post ? pageMeta(post.title, post.description, `/blog/${slug}`) : {}
 }
 
 export function generateStaticParams() {

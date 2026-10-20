@@ -16,78 +16,36 @@
 .ev::before { top: 12px; bottom: 8px; left: 3px; right: 3px; height: auto; z-index: -1; border-radius: 2px;
   background: color-mix(in srgb, var(--accent) 24%, transparent); box-shadow: inset 0 -2px 0 var(--accent); transform-origin: 0 50%; }
 .ev :global(.ext) { color: var(--accent-ink); }
-.car, .ring { display: none; }
-/* frame + citation layer: F px outside the tile (16, 8 on phones), where the hover tint ends. Filed reads F from left. */
-.svg { position: absolute; left: -16px; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; fill: none; }
-@media (max-width: 639px) { .svg { left: -8px; } }
-.fr, .ct { stroke-dasharray: 1 1; stroke-dashoffset: 1; }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* stamps and the frame may poke past a phone's edge: clip them at the screen edge (clip makes no scroll container) */
+  /* a settling tag is 1.1x: clip it at the screen edge (clip makes no scroll container) */
   :global(html.mo) .sec { overflow-x: clip; }
 
   /* not filed yet */
   :global(html.mo) .tile:not([data-f]) .rule,
   :global(html.mo) .tile:not([data-f]) .rule::after,
   :global(html.mo) .tile:not([data-f]) .ev::before { transform: scaleX(0); }
-  :global(html.mo) .tile:not([data-f]) .name { opacity: 0; transform: translateY(12px); }
-  :global(html.mo) .tile:not([data-f]) .desc { clip-path: inset(-4px -10px 100% -10px); }
-  :global(html.mo) .tile:not([data-f]) .tags > li { opacity: 0; transform: scale(2) rotate(-6deg); }
-  :global(html.mo) .tile:not([data-f]) .links { opacity: 0; transform: translateY(8px); }
-  :global(html.mo) .desc { position: relative; clip-path: inset(-4px -10px -8px -10px); }
+  :global(html.mo) .tile:not([data-f]) :is(.name, .meta, .desc, .links) { opacity: 0; transform: translateY(var(--rise)); }
+  :global(html.mo) .tile:not([data-f]) .tags > li { opacity: 0; transform: translateY(6px) scale(1.1); }
 
-  /* filing (data-f="in"; "now" gets the finished state with no transitions). Times after the tile's --o:
-     0 rule draws | .12 frame opens | .1 name rises | .2 description prints | .45 tags stamp (70ms apart) | .55 links |
-     .67 amber sweep across the proof link | .9 the proof pulses and the citation runs up to the rule | 1.2 tick lands |
-     1.17 to 1.62 the frame folds back into the rule */
-  .tile[data-f="in"] .rule { transition: transform .4s var(--e-out) var(--o, 0s); }
-  .tile[data-f="in"] .rule::after { animation: tick .5s var(--e-soft) calc(var(--o, 0s) + 1.2s) both; }
-  .tile[data-f="in"] .name { transition: opacity .34s var(--e-soft) calc(var(--o, 0s) + .1s), transform .45s var(--e-out) calc(var(--o, 0s) + .1s); }
-  .tile[data-f="in"] .desc { transition: clip-path .5s var(--e-io) calc(var(--o, 0s) + .2s); }
-  /* the print head: a soft graphite glow rides just above the wipe edge, then fades (a band, never a hard line) */
-  .tile[data-f="in"] .desc::after { content: ""; position: absolute; left: -10px; right: -10px; top: -4px; bottom: -2px; pointer-events: none;
-    background: linear-gradient(to bottom, transparent calc(100% - 26px), color-mix(in srgb, var(--ink) 9%, transparent) calc(100% - 8px), transparent);
-    animation: head .62s var(--e-io) calc(var(--o, 0s) + .2s) both; }
-  .tags > li { position: relative; }
-  .tile[data-f="in"] .tags > li { transition: opacity .12s linear, transform .34s cubic-bezier(.5, 0, .2, 1.3);
-    transition-delay: calc(var(--o, 0s) + .45s + var(--n, 0) * 70ms); }
-  /* the stamp's ink: a hard border while it lands, then it dries to the tag's own hairline */
-  .tile[data-f="in"] .tags > li::after { content: ""; position: absolute; inset: -1px; border: 1.5px solid var(--ink-2); border-radius: inherit; pointer-events: none;
-    animation: ink .7s var(--e-soft) calc(var(--o, 0s) + .45s + var(--n, 0) * 70ms) both; }
-  .tile[data-f="in"] .links { transition: opacity .3s var(--e-soft) calc(var(--o, 0s) + .55s), transform .4s var(--e-out) calc(var(--o, 0s) + .55s); }
-
-  /* the evidence: the sweep, its caret, then one pulse as the citation leaves it */
-  .tile[data-f="in"] .ev::before { transition: transform .36s var(--e-io) calc(var(--o, 0s) + .72s); }
-  .tile[data-f="in"] :is(.car, .ring) { display: block; position: absolute; left: 3px; right: 3px; top: 12px; bottom: 8px; pointer-events: none; }
-  .tile[data-f="in"] .car { top: 8px; bottom: 4px; animation: car .5s var(--e-io) calc(var(--o, 0s) + .67s) both; }
-  .car::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; margin-left: -1.5px; border-radius: 2px; background: var(--accent);
-    box-shadow: 0 0 10px 1px color-mix(in srgb, var(--accent) 65%, transparent); }
-  .tile[data-f="in"] .ring { border: 2px solid var(--accent); border-radius: 4px; opacity: 0; animation: ring .6s var(--e-out) calc(var(--o, 0s) + .9s) forwards; }
-
-  /* the frame and the citation */
-  .fr { stroke: var(--ink-2); stroke-width: 1.25; }
-  .tile[data-f="in"] .fr { animation: frame 1.5s linear calc(var(--o, 0s) + .12s) both; }
-  .ct { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: .42 2; stroke-dashoffset: .42; opacity: 0;
-    filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 80%, transparent)); }
-  .tile[data-f="in"] .ct { animation: cite .55s cubic-bezier(.55, 0, .35, 1) calc(var(--o, 0s) + .9s) both; }
+  /* filing (data-f="in"; "now" gets the finished state with no transitions). Five beats after the tile's --o:
+     0 the rule draws | .1 name and description rise | .3 tags settle (40ms apart) | .5 links rise, .62 the amber
+     sweep crosses the proof link | .95 the tick lands */
+  .tile[data-f="in"] .rule { transition: transform var(--d4) var(--e-out) var(--o, 0s); }
+  .tile[data-f="in"] :is(.name, .meta, .desc, .links) { transition: opacity var(--d3) var(--e-soft), transform var(--d3) var(--e-out);
+    transition-delay: calc(var(--o, 0s) + var(--t)); }
+  .tile[data-f="in"] :is(.name, .meta) { --t: .1s; }
+  .tile[data-f="in"] .desc { --t: .14s; }
+  .tile[data-f="in"] .links { --t: .5s; }
+  .tile[data-f="in"] .tags > li { transition: opacity .2s var(--e-soft), transform var(--d3) var(--e-out);
+    transition-delay: calc(var(--o, 0s) + .3s + var(--n, 0) * var(--stag)); }
+  .tile[data-f="in"] .ev::before { transition: transform .36s var(--e-io) calc(var(--o, 0s) + .62s); }
+  .tile[data-f="in"] .rule::after { animation: tick .5s var(--e-soft) calc(var(--o, 0s) + .95s) both; }
 }
 
-/* the frame is a gesture, not a box: it opens down from both ends of the rule, closes at the bottom while the exhibit
-   is filed, then folds back up into the rule */
-@keyframes frame {
-  0% { stroke-dashoffset: 1; animation-timing-function: cubic-bezier(.7, 0, .2, 1); }
-  34% { stroke-dashoffset: 0; opacity: 1; }
-  70% { stroke-dashoffset: 0; opacity: 1; animation-timing-function: cubic-bezier(.6, 0, .3, 1); }
-  100% { stroke-dashoffset: 1; opacity: .5; }
-}
-@keyframes cite { 0% { opacity: 1; stroke-dashoffset: .42; } 94% { opacity: 1; } 100% { opacity: 0; stroke-dashoffset: -1; } }
 /* the verdict tick lands: draws from the left, thickens on impact with an amber glow, settles */
 @keyframes tick {
   0% { transform: scaleX(0); filter: none; }
   45% { transform: scale(1.14, 2.6); filter: drop-shadow(0 0 6px var(--accent)); }
   100% { transform: none; filter: none; }
 }
-@keyframes head { 0% { opacity: 1; transform: translateY(-100%); } 80% { opacity: 1; transform: none; } 100% { opacity: 0; transform: none; } }
-@keyframes ink { 0%, 45% { opacity: 1; } 100% { opacity: 0; } }
-@keyframes car { 0% { opacity: 0; transform: none; } 12% { opacity: 1; transform: none; } 82% { opacity: 1; transform: translateX(100%); } 100% { opacity: 0; transform: translateX(100%); } }
-@keyframes ring { 0% { opacity: .9; transform: none; } 100% { opacity: 0; transform: scale(1.3, 1.9); } }

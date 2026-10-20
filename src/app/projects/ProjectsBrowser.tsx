@@ -3,6 +3,7 @@
 // technology select. Every change updates the grid at once; a polite live region says "Showing N of M".
 // Default view (no search, no filter): the featured repos as cards, the rest under "Archive" as one 44px row each
 // (name link + arrow, language · year · Fork). Any search or filter: every result as a card. The sort orders both.
+// A product named apart from its repo (Blog2Podcast) shows the repo name first in its meta line; search finds both.
 // Each tile is a ProjectCard reveal block and the Archive is one, so blocks that mount after a filter change rise
 // through MotionRoot's shared observer (no motion of their own). Ends with the "All on GitHub" button.
 // Without JS the controls are hidden (they cannot work) and the default view shows, rendered on the server.
@@ -19,7 +20,8 @@ type Repo = (typeof ALL_REPOSITORIES)[number]
 type L = { label: string; href: string; external?: boolean }
 
 // the slugs that have a /projects/[slug] page (keep in step with projectsData in [slug]/page.tsx)
-const DETAILS = new Set(['email-link', 'wat-to-eat', 'company-stats', 'fire-prediction', 'youtube-history-extension'])
+const DETAILS = new Set(['dlai-mcp-server', 'tech-blog-catchup', 'pair-programmer-cli', 'email-link', 'wat-to-eat', 'company-stats',
+  'fire-prediction', 'youtube-history-extension'])
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const month = (iso: string) => `${MON[+iso.slice(5, 7) - 1]} ${iso.slice(0, 4)}`   // no Date: no timezone drift
 const byName = (a: Repo, b: Repo) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
@@ -42,12 +44,12 @@ function Card({ r, tech }: { r: Repo; tech: string }) {
   const details = detailsOf(r)
   const links = [
     r.github && { label: 'GitHub', href: r.github, external: true },
-    r.homepage && { label: 'Live', href: r.homepage, external: true },
+    r.homepage && { label: r.homepage.includes('npmjs.com') ? 'npm' : 'Live', href: r.homepage, external: true },
     details && { label: 'Details', href: details },
   ].filter(Boolean) as L[]
   // the selected technology leads the tags, so a match is visible on the tile
   const tags = (tech && r.technologies.includes(tech) ? [tech, ...r.technologies.filter(t => t !== tech)] : r.technologies).slice(0, 4)
-  const meta = [r.language, `updated ${month(r.updatedAt)}`, r.forked && 'Fork', !r.github && 'Private'].filter(Boolean).join(' · ')
+  const meta = [r.repo, r.language, `updated ${month(r.updatedAt)}`, r.forked && 'Fork', !r.github && 'Private'].filter(Boolean).join(' · ')
   // no repo and no page (private work): no href, so the card has no link and no hover
   const href = details ?? r.github ?? r.homepage
   return <ProjectCard name={r.name} href={href} external={!details} description={r.description} tags={tags} links={links} meta={meta} />
@@ -57,7 +59,7 @@ function Card({ r, tech }: { r: Repo; tech: string }) {
 function Row({ r, i }: { r: Repo; i: number }) {
   const details = detailsOf(r)
   const ext = r.github ?? r.homepage
-  const meta = [r.language, r.updatedAt.slice(0, 4), r.forked && 'Fork'].filter(Boolean).join(' · ')
+  const meta = [r.repo, r.language, r.updatedAt.slice(0, 4), r.forked && 'Fork'].filter(Boolean).join(' · ')
   return (
     <li {...ri(i)}>
       {details ? <Link className={s.an} href={details}><TileTitle t={r.name} /></Link>
@@ -89,7 +91,7 @@ export default function ProjectsBrowser({ repos, github }: { repos: Repo[]; gith
       (!featured || r.featured) &&
       (!cat || r.category === cat) &&
       (!tech || r.language === tech || r.technologies.includes(tech)) &&
-      (!k || [r.name, r.description, ...r.technologies].some(x => x.toLowerCase().includes(k))),
+      (!k || [r.name, r.repo ?? '', r.description, ...r.technologies].some(x => x.toLowerCase().includes(k))),
     ).sort(sort === 'name' ? byName : byUpdated)
   }, [repos, k, sort, featured, cat, tech])
   const cards = split ? shown.filter(r => r.featured) : shown

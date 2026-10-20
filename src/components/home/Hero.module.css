@@ -29,29 +29,30 @@
 .notes > li:global(.hl) :global(.nt) { color: var(--ink-2); }
 .notes > li:global(.hl) :global(.nt)::after { transform: scaleX(1); transform-origin: left; }
 
-/* CTAs: one row on phones down to 320px (Resume shortens to "Resume"; under 380px the arrows go; under 360px tighter
-   padding and gap, every target still 44px tall and wide) */
+/* CTAs: one row on phones down to 350px (Resume shortens to "Resume"; at 400px and under, 12px padding and a 6px gap;
+   under 380px the arrows go). Narrower, Resume takes its own line, flush with the buttons, instead of squeezing them
+   together. Every target is 44px tall and wide, and every box stays inside the row: the Resume link keeps no
+   negative margin, so its 8px side padding is part of the gap to GitHub. */
 .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 8px; margin-top: 18px; }
 .cta :global(.btn) { gap: 4px; }
 .cta :global(.ext) { margin-left: 0; }
-.cta :global(.lnk) { margin-left: -2px; }   /* the .lnk box has 8px side padding */
+.cta :global(.lnk) { margin: 0; }
 .pdf { display: none; }
-@media (max-width: 380px) {
+@media (max-width: 400px) {
   .cta { column-gap: 6px; }
   .cta :global(.btn) { padding: 0 12px; }
-  .cta :global(.btn .ext) { display: none; }
-  .cta :global(.lnk) { margin-left: -4px; }
 }
-@media (max-width: 359px) {
-  .cta { column-gap: 4px; }
-  .cta :global(.btn) { padding: 0 9px; }
+@media (max-width: 380px) { .cta :global(.btn .ext) { display: none; } }
+@media (max-width: 349px) {
+  .cta > li:last-child { flex-basis: 100%; }
+  .cta :global(.lnk) { padding-left: 0; }
+  .cta :global(.lnk)::before, .cta :global(.lnk)::after { left: 0; }
 }
 
 @media (min-width: 761px) {
   .pdf { display: inline; }
   .cta { gap: 10px 12px; }
   .cta :global(.btn) { gap: 6px; }
-  .cta :global(.lnk) { margin-left: 0; }
 }
 
 @media (min-width: 1024px) {

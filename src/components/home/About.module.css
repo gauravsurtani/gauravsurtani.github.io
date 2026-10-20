@@ -28,17 +28,20 @@
   .row :global(.st), .row :global(.st)::after { transform-origin: 100% 50%; }
 }
 
-/* ---- Evidence docket. Static (no JS, reduced motion, deep link): no meter, no quote layer, plain words. Everything
-   below exists only while it runs: html.mo and data-dk on the section (Docket sets it when the ledger is still below
-   the viewport). Docket writes per frame: the stage transform (camera), each row's --q, each quote's transform,
-   opacity, filter and --s (sweep), each proof's opacity and --f (tint fade), each claim's --m (underline), the
-   threads' dash offset and opacity, the meter's --e, and .v (verdict) on rows and the fact row. ---- */
-.meter, .fly { display: none; }
+/* ---- Evidence docket. Static (no JS, reduced motion): no track, no meter, no quote layer, plain words. With motion
+   on (html.mo, set before first paint) the stage is pinned over its scroll track (.track, rendered by Docket, sized
+   in vh) from first paint, so the page is the same height whether the docket runs or not (a deep link or a restored
+   scroll keeps the static records on the pinned stage). The hidden states exist only while it runs: data-dk on the
+   section (Docket sets it when the ledger is still below the viewport). Docket writes per frame: the stage transform
+   (camera), each row's --q, each quote's transform, opacity, filter and --s (sweep), each proof's opacity and --f
+   (tint fade), each claim's --m (underline), the threads' dash offset and opacity, the meter's --e, and .v
+   (verdict) on rows and the fact row. ---- */
+.meter, .fly, .track { display: none; }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* the stage and its scroll track */
-  :global(html.mo) .root[data-dk]::after { content: ""; display: block; height: var(--dk-track, 0px); }
-  :global(html.mo) [data-dk] .stage { position: sticky; top: var(--dk-top, 64px); }
+  /* the stage and its scroll track: --dk-len viewport heights of pinned scroll (Docket) */
+  :global(html.mo) .stage { position: sticky; top: var(--dk-top, 64px); }
+  :global(html.mo) .track { display: block; height: calc(var(--dk-len) * 100vh); }
   :global(html.mo) [data-dk] .fly { display: block; position: absolute; inset: 0; pointer-events: none; z-index: 2; }
 
   /* the evidence meter on the rule above the ledger: its amber head grows one step per record filed */
@@ -47,12 +50,13 @@
     background: var(--accent); transform: scaleX(max(.05, var(--e, 1))); transform-origin: 0 50%;
     box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 45%, transparent); }
 
-  /* a record slot: hairline and name open first */
+  /* a record slot: hairline and name open first. A slot not yet opened keeps its name faint, so the ledger is never
+     an empty screen while it waits; a name steps back (--p) while a lifted quote passes over it */
   :global(html.mo) [data-dk] .row { position: relative; border-color: transparent; }
   :global(html.mo) [data-dk] .row::after, :global(html.mo) [data-dk] .row:first-child::before { content: ""; position: absolute; left: 0; right: 0;
     bottom: -1px; height: 1px; background: var(--line); transform: scaleX(var(--q, 1)); transform-origin: 0 50%; pointer-events: none; }
   :global(html.mo) [data-dk] .row:first-child::before { top: -1px; bottom: auto; }
-  :global(html.mo) [data-dk] .name { opacity: var(--q, 1); transform: translateY(calc((1 - var(--q, 1)) * 10px)); }
+  :global(html.mo) [data-dk] .name { opacity: calc((.3 + .7 * var(--q, 1)) * var(--p, 1)); transform: translateY(calc((1 - var(--q, 1)) * 10px)); }
 
   /* the lifted quote: serif, ink, curly quotes in amber ink, swept by --s */
   :global(html.mo) [data-dk] .q { position: absolute; left: 0; top: 0; transform-origin: 0 0; opacity: 0; font-family: var(--f-serif);

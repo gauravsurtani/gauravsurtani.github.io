@@ -75,28 +75,6 @@
       ]
     }
   ],
-  "earlier": [
-    {
-      "id": "r-sjsu", "k": "sjsu", "label": "San Jose State", "short": "SJSU",
-      "company": "San Jose State University", "title": "Research Assistant",
-      "when": "2023 – 2024", "sr": "2023 to 2024", "s": 2023.5, "e": 2024.167
-    },
-    {
-      "id": "r-asc", "k": "asc", "label": "Ascendion",
-      "company": "Ascendion (formerly Collabera)", "title": "Software Engineer → Senior Software Engineer",
-      "when": "2021 – 2023", "sr": "2021 to 2023", "s": 2021.917, "e": 2023.667
-    },
-    {
-      "id": "r-acc", "k": "acc", "label": "Accenture",
-      "company": "Accenture", "title": "Software Engineer",
-      "when": "2018 – 2020", "sr": "2018 to 2020", "s": 2018.75, "e": 2021
-    },
-    {
-      "id": "r-ent", "k": "ent", "label": "Enthralltech",
-      "company": "Enthralltech", "title": "Frontend Developer",
-      "when": "2018", "sr": "2018", "s": 2018.333, "e": 2018.833
-    }
-  ],
   "skills": [
     {
       "label": "AI",

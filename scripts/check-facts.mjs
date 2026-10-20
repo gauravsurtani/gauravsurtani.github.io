@@ -1,14 +1,19 @@
 #!/usr/bin/env node
 // Facts lint (npm run check:facts). No dependencies. Prints "facts ok" or every failure, then exits 1.
 // 1. The hero summary (segments joined) is in resume.md (markdown links reduced to their labels).
-// 2. Every role bullet ([[ ]] stripped, [label](url) -> label) and every role/earlier company, title, place and
-//    dates string is in resume.md.
+// 2. Every role bullet ([[ ]] stripped, [label](url) -> label) and every role company, title, place and dates string
+//    is in resume.md.
 // 3. Every role has exactly one [[Mark]] phrase.
 // 4. Every skill item is in resume.md (case-insensitive).
 // 5. If out/ exists (after npm run build): no built page's visible text has a forbidden AI-tone word
 //    (whole words, case-insensitive). out/blog/<slug>.html is Gaurav's own writing and is skipped, and so is a post's
 //    frontmatter description wherever a page quotes it (the /blog tile).
 // 6. src/ never calls api.github.com.
+// 7. Experience records (src/content/experience.json): every role, project, link, stack item and number on the page
+//    exists in resume.md or in the old portfolio's experience data (content/experience-v1.txt). Also: every resume
+//    role has a record and keeps resume.json's header and bullets; an earlier role that resume.md lists keeps its
+//    title and years; dates match the timeline months (s, e) and run newest first; no [[mark]] and no deployment-status
+//    words in the added text.
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -25,7 +30,7 @@ const summary = R.summary.map(s => (typeof s === 'string' ? s : s.text)).join(''
 if (!md.includes(summary)) fails.push(`1 summary not in resume.md: "${summary}"`)
 
 // 2 + 3
-for (const r of [...R.roles, ...R.earlier]) {
+for (const r of R.roles) {
   for (const f of ['company', 'title', 'when', 'place']) {
     if (r[f] !== undefined && !md.includes(r[f])) fails.push(`2 ${r.id}.${f} not in resume.md: "${r[f]}"`)
   }
@@ -76,6 +81,69 @@ if (fs.existsSync(OUT)) {
 // 6
 for (const f of walk(at('src'))) {
   if (fs.readFileSync(f, 'utf8').includes('api.github.com')) fails.push(`6 ${path.relative(ROOT, f)} calls api.github.com`)
+}
+
+// 7
+const OLD = fs.readFileSync(at('content/experience-v1.txt'), 'utf8')
+const X = JSON.parse(fs.readFileSync(at('src/content/experience.json'), 'utf8')).records
+const inSrc = s => md.includes(s) || OLD.includes(s)
+const flat = s => s.toLowerCase().replace(/[^a-z0-9]/g, '')
+const FLAT = `${flat(md)}|${flat(OLD)}`
+const nums = s => s.match(/\d+(?:[.,]\d+)*/g) ?? []
+const NUMS = new Set([...nums(md), ...nums(OLD)])
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const HEAD = ['k', 'label', 'short', 'company', 'companyHref', 'title', 'place', 'when', 'sr', 's', 'e', 'bullets']
+const roleIds = R.roles.map(r => r.id)
+const ids = X.map(x => x.id)
+if (new Set(ids).size !== ids.length) fails.push('7 experience.json has a duplicate record id')
+for (const id of roleIds) if (!ids.includes(id)) fails.push(`7 resume role ${id} has no Experience record`)
+let prevEnd = Infinity
+const keys = new Set()
+for (const x of X) {
+  const isRole = roleIds.includes(x.id)
+  const r = { bullets: [], ...R.roles.find(o => o.id === x.id), ...x }
+  const at7 = `7 ${r.id}`
+  if (isRole) for (const f of HEAD) if (f in x) fails.push(`${at7}.${f} overrides resume.json`)
+  if (keys.has(r.k)) fails.push(`${at7} timeline key "${r.k}" is not unique`)
+  keys.add(r.k)
+  const end = r.e === 'now' ? Infinity : r.e
+  if (end > prevEnd) fails.push(`${at7} is out of date order (newest end first)`)
+  prevEnd = end
+  if (!isRole) {
+    for (const f of ['company', 'title']) if (!inSrc(r[f] ?? '')) fails.push(`${at7}.${f} not in resume.md or the old portfolio: "${r[f]}"`)
+    if (!inSrc((r.place ?? '').split(',')[0])) fails.push(`${at7}.place not in resume.md or the old portfolio: "${r.place}"`)
+    const line = md.split('\n').find(l => l.includes(`**${r.company}**`))   // resume.md wins
+    if (line && !line.includes(r.title)) fails.push(`${at7}.title differs from resume.md: "${r.title}"`)
+    if (line) for (const y of r.when.match(/\d{4}/g) ?? []) if (!line.includes(y)) fails.push(`${at7}.when year ${y} is not in resume.md's line`)
+  }
+  const m = r.when.match(/^(\w{3}) (\d{4}) – (?:(\w{3}) (\d{4})|Present)$/)
+  if (!m || MON.indexOf(m[1]) < 0 || (m[3] && MON.indexOf(m[3]) < 0)) fails.push(`${at7}.when is not "Mon YYYY – Mon YYYY|Present": "${r.when}"`)
+  else {
+    const m1 = MON.indexOf(m[1]), m2 = m[3] ? MON.indexOf(m[3]) : -1
+    if (Math.abs(r.s - (+m[2] + m1 / 12)) > 0.001) fails.push(`${at7}.s ${r.s} does not match ${m[1]} ${m[2]}`)
+    if (m[3] ? Math.abs(r.e - (+m[4] + (m2 + 1) / 12)) > 0.001 : r.e !== 'now') fails.push(`${at7}.e ${r.e} does not match "${r.when}"`)
+    if (!md.includes(r.when)) {
+      if (!OLD.includes(`period: '${FULL[m1]} ${m[2]} -`)) fails.push(`${at7} start ${m[1]} ${m[2]} is not an old portfolio start`)
+      if (m[3] && !OLD.includes(`- ${FULL[m2]} ${m[4]}'`)) fails.push(`${at7} end ${m[3]} ${m[4]} is not an old portfolio end`)
+    }
+    if (r.sr !== r.when.replace(' – ', ' to ').replace('Present', 'present')) fails.push(`${at7}.sr does not match its dates: "${r.sr}"`)
+  }
+  for (const p of r.projects) {
+    if (!OLD.includes(`name: '${p.name}'`)) fails.push(`${at7} project not in the old portfolio: "${p.name}"`)
+    if (!p.desc) fails.push(`${at7} project "${p.name}" has no description`)
+  }
+  for (const it of r.stack) if (!FLAT.includes(flat(it))) fails.push(`${at7} stack item not in resume.md or the old portfolio: "${it}"`)
+  const text = [r.note ?? '', ...(isRole ? [] : r.bullets), ...r.projects.flatMap(p => [p.desc, ...p.points]), ...r.stack].join('\n')
+  const urls = [...text.matchAll(/\]\(([^)]+)\)/g)].map(u => u[1]).concat(r.projects.map(p => p.href).filter(Boolean))
+  for (const u of urls) if (!inSrc(u.replace(/^https?:\/\//, ''))) fails.push(`${at7} link not in resume.md or the old portfolio: ${u}`)
+  for (const n of new Set(nums(links(text)))) if (!NUMS.has(n)) fails.push(`${at7} number not in resume.md or the old portfolio: ${n}`)
+  for (const d of text.matchAll(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4})\b/g)) {
+    if (!OLD.includes(`${FULL[MON.indexOf(d[1])]} ${d[2]}`) && !md.includes(d[0])) fails.push(`${at7} date not in the old portfolio: ${d[0]}`)
+  }
+  if (text.includes('[[')) fails.push(`${at7} has a [[mark]] outside the resume bullets`)
+  const bad = text.match(/\b(in production|staging|landed|since 2024)\b/i)
+  if (bad) fails.push(`${at7} uses a deployment-status or dropped phrase: "${bad[0]}"`)
 }
 
 if (fails.length) {

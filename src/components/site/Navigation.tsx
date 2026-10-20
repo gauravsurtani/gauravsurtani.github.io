@@ -9,9 +9,11 @@
 // - nav.scrolled: hairline after 8px of scroll. Brand: on home it fades up once #h-name passes under the nav;
 //   on subpages it is always shown.
 // - G11: on phones the brand carries a second line, the current section or page name, which rolls on change.
-// - Menu (760px and below): clip-path sheet, 8 items, scrim, inert on main/footer while open, Escape / outside tap /
-//   link pick closes it, focus moves in on open and back to the button on Escape. The row for the current page or
-//   home section carries aria-current (ink, 500, the amber .rule tick).
+// - One item list (LINKS) for the desktop links and the phone menu; Resume follows it in both (the button on desktop,
+//   the last row on phones).
+// - Menu (760px and below): clip-path sheet, scrim, inert on main/footer while open, Escape / outside tap /
+//   link pick closes it, focus moves in on open and back to the button on Escape, and Tab cycles through the
+//   menu button and the rows only. The row for the active link carries aria-current (ink, 500, the amber .rule tick).
 // - All scroll work goes through the shared driver (scroll.ts). No layout reads per frame.
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -24,18 +26,10 @@ const LINKS = [
   { label: 'Experience', hash: 'experience' },
   { label: 'Projects', hash: 'projects', page: '/projects' },
   { label: 'Writing', href: '/blog' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', hash: 'contact' },
 ] as const
-
-const MENU = [
-  { label: 'About', hash: 'about' },
-  { label: 'Experience', hash: 'experience' },
-  { label: 'Projects', hash: 'projects', page: '/projects' },
-  { label: 'Skills', hash: 'skills' },
-  { label: 'Contact', hash: 'contact' },
-  { label: 'Writing', href: '/blog' },
-  { label: 'Resume (PDF)', href: '/resume.pdf', file: true },
-] as const
+const RESUME = '/resume.pdf'
 
 // Home sections for the phone label (in page order).
 const HOME_SECTIONS = [
@@ -46,11 +40,11 @@ function routeOf(path: string): { link: number; label: string } {
   if (path.startsWith('/projects')) return { link: 1, label: 'Projects' }
   if (path.startsWith('/blog')) return { link: 2, label: 'Writing' }
   if (path.startsWith('/things-to-build')) return { link: 2, label: 'Things to build' }
-  if (path.startsWith('/about')) return { link: -1, label: 'About' }
+  if (path.startsWith('/about')) return { link: 3, label: 'About' }
   return { link: -1, label: 'Page not found' }   // not home (home labels by section): only the 404 gets here
 }
 
-type Item = { label: string; hash?: string; href?: string; file?: boolean; page?: string }
+type Item = { label: string; hash?: string; href?: string; page?: string }
 
 function NavLink({ item, home, ...rest }: { item: Item; home: boolean } & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   if (item.hash && !home && item.page) return <Link href={item.page} {...rest}>{item.label}</Link>
@@ -59,7 +53,6 @@ function NavLink({ item, home, ...rest }: { item: Item; home: boolean } & React.
       ? <a href={`#${item.hash}`} {...rest}>{item.label}</a>
       : <Link href={`/#${item.hash}`} {...rest}>{item.label}</Link>
   }
-  if (item.file) return <a href={item.href} {...rest}>{item.label}</a>
   return <Link href={item.href!} {...rest}>{item.label}</Link>
 }
 
@@ -180,7 +173,15 @@ export default function Navigation() {
 
   useEffect(() => {
     if (!open) return
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setMenu(false, true) }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') return setMenu(false, true)
+      if (e.key !== 'Tab') return
+      // focus trap: the menu button and the rows; the dimmed page behind is never reached
+      const f: HTMLElement[] = [menuBtn.current!, ...sheet.current!.querySelectorAll<HTMLElement>('a')]
+      const at = f.indexOf(document.activeElement as HTMLElement)
+      const to = at < 0 ? 0 : e.shiftKey && at === 0 ? f.length - 1 : !e.shiftKey && at === f.length - 1 ? 0 : -1
+      if (to >= 0) { e.preventDefault(); f[to].focus({ preventScroll: true }) }
+    }
     const onDown = (e: PointerEvent) => {
       const t = e.target as Element
       if (!t.closest('.menu') && !t.closest('.menu-btn')) setMenu(false)
@@ -199,9 +200,8 @@ export default function Navigation() {
 
   useEffect(() => { setMenu(false) }, [path, setMenu])
 
-  // Menu row for the current page (aria-current="page") or, on home, the current section ("true").
-  const route = routeOf(path)
-  const curMenu = home ? sec.cur : route.link >= 0 ? LINKS[route.link].label : route.label
+  // The active link: on subpages known from the route at render (so the static HTML has it too), on home the section.
+  const cur = home ? active : routeOf(path).link
 
   return (
     <header id="nav" className="nav" ref={nav} data-home={home ? '' : undefined}>
@@ -219,7 +219,7 @@ export default function Navigation() {
           <ul className="links">
             {LINKS.map((l, i) => (
               <li key={l.label}>
-                <NavLink item={l} home={home} aria-current={i === active ? (home ? 'true' : 'page') : undefined} />
+                <NavLink item={l} home={home} aria-current={i === cur ? (home ? 'true' : 'page') : undefined} />
               </li>
             ))}
           </ul>
@@ -227,7 +227,7 @@ export default function Navigation() {
         </nav>
         <div className="tools">
           <ThemeToggle />
-          <a className="btn btn-sm resume" href="/resume.pdf">Resume</a>
+          <a className="btn btn-sm resume" href={RESUME}>Resume</a>
           <button
             ref={menuBtn}
             className="icon-btn menu-btn"
@@ -243,17 +243,18 @@ export default function Navigation() {
       </div>
       <nav className="menu" id="menu" aria-label="Menu" ref={sheet} inert={mounted && !open ? true : undefined}>
         <ul>
-          {MENU.map((m, i) => (
-            <li key={m.label}>
+          {LINKS.map((l, i) => (
+            <li key={l.label}>
               <NavLink
-                item={m}
+                item={l}
                 home={home}
-                aria-current={m.label === curMenu ? (home ? 'true' : 'page') : undefined}
+                aria-current={i === cur ? (home ? 'true' : 'page') : undefined}
                 style={{ '--i': i } as CSSProperties}
                 onClick={() => setMenu(false)}
               />
             </li>
           ))}
+          <li><a href={RESUME} style={{ '--i': LINKS.length } as CSSProperties} onClick={() => setMenu(false)}>Resume (PDF)</a></li>
         </ul>
       </nav>
       <div className="scrim" aria-hidden="true" onClick={() => setMenu(false)} />

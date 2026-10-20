@@ -1,6 +1,8 @@
-/* Logo slot (Logo.tsx): a monogram tile, or the logo image once logos.json lists one. 28px in a role header; the
-   timeline card sizes its copy down (experience/camera.css). */
-.logo { display: inline-grid; place-items: center; flex: none; min-width: 28px; height: 28px; padding: 0 5px; border: 1px solid var(--line);
+/* Logo slot (Logo.tsx): a monogram tile, or the logo image once logos.json lists one. A 28px square in a role header,
+   so every company name starts at the same x (a 3-4 letter monogram sets smaller); the timeline card sizes its copy
+   down (experience/camera.css). */
+.logo { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border: 1px solid var(--line);
   border-radius: 6px; background: var(--surface); font: 500 10.5px/1 var(--f-mono); letter-spacing: .02em; color: var(--ink-2); white-space: nowrap; }
-.img { aspect-ratio: 1; padding: 3px; }
+.long { font-size: 8.5px; letter-spacing: 0; }
+.img { aspect-ratio: 1; padding: 3px; }   /* the card chip keeps a square too */
 .img img { width: 100%; height: 100%; object-fit: contain; }

@@ -2,7 +2,7 @@
 
 Gaurav Surtani's portfolio, live at https://gauravsurtani.github.io/.
 
-It is a Next.js 15 static export (App Router, React 19, Tailwind CSS 4). There is no server and no runtime API call: every page is a file in `out/`.
+It is a Next.js 15 static export (App Router, React 19, Tailwind CSS 4). There is no server: every page is a file in `out/`. The only runtime call is the optional [visitor tracker](#visitor-tracking), which is off by default.
 
 The design concept is "Eval trace": claim, evidence, verdict. The hero summary is the claim, the career timeline is the evidence, and each claim is underlined when the timeline reaches the date that proves it. Amber always marks evidence.
 
@@ -34,30 +34,43 @@ A merge to `master` goes live. The workflow has no staging step.
 
 The workflow does not run `npm run check:facts`. `next build` runs ESLint and the TypeScript check, so lint errors and type errors stop the deploy. Run the [checks](#checks-before-publishing) before you merge.
 
+## Visitor tracking
+
+`src/components/site/Tracker.tsx` sends visit events to a separate Cloudflare Worker (local repo `~/projects/portfolio-tracker`: the event endpoint, the dashboard and the notifications).
+
+- Off by default. With `NEXT_PUBLIC_TRACKER_URL` unset or empty at build time, the tracker adds no listeners and sends no requests, and the footer line does not show.
+- To turn it on, set the repo variable `NEXT_PUBLIC_TRACKER_URL` (GitHub > Settings > Secrets and variables > Actions > Variables) to the Worker URL, for example `https://portfolio-tracker.<account>.workers.dev`. The deploy workflow passes it to `npm run build`. Locally: `NEXT_PUBLIC_TRACKER_URL=http://127.0.0.1:8787 npm run build`.
+- Events: `view` (each page, also on client-side navigation), `section` (each home section seen, once per session), `click` (resume, copy email, mailto, LinkedIn, GitHub, project links, other outbound links), `heartbeat` (every 30 s while the tab is visible and in use, at most 20 per page) and `leave` (engaged time and max scroll depth). Each is one `POST <url>/e` with a `text/plain` JSON body (`sendBeacon`), so there is no CORS preflight.
+- Owner mode: open any page with `?me=1` once per browser. Your events then carry `owner: true`: they are stored but never notified, and the dashboard hides them by default. `?me=0` turns it off. The flag is `localStorage["trk-me"]`.
+- Personal links: create a code in the dashboard and send `https://gauravsurtani.github.io/?r=<code>`. The code is kept for the tab session (`sessionStorage["trk-r"]`), so later pages and clicks carry it. The tracker removes `?r=` and `?me=` from the address bar.
+- Privacy: no cookies and no persistent visitor id. The session id is 16 random characters in `sessionStorage` (one tab). The Worker is built to count unique visitors with a daily-rotating hash and to never store the IP. Browsers that send Global Privacy Control or Do Not Track get no tracking at all. The footer says: "This site counts visits (page, referrer, approximate location). No cookies."
+
 ## Content
 
 | Content | File | Notes |
 |---|---|---|
-| Resume data: hero, timeline, experience, skills, contact | `src/content/resume.json` (types in `resume.ts`) | Must match `resume.md` and `public/resume.pdf`. |
+| Resume data: hero, resume roles and their bullets, skills, contact | `src/content/resume.json` (types in `resume.ts`) | Must match `resume.md` and `public/resume.pdf`. |
+| Experience records and timeline rows: every role's projects and stack, and the roles `resume.md` lists only as "Earlier" | `src/content/experience.json` (merged with `resume.json` in `resume.ts`) | Every role, project, link, stack item and number must be in `resume.md` or `content/experience-v1.txt` (the old portfolio's experience data). |
 | Resume text | `resume.md` | The source of truth. `check:facts` compares `resume.json` with it. |
 | Resume PDF | `public/resume.pdf` | Served at `/resume.pdf`. |
-| Repositories | `src/lib/constants.ts` (`ALL_REPOSITORIES`) | Used by home Projects, `/projects` and `/state`. The 4 home cards (which repos, tags, links) are in `src/components/home/Projects.tsx`. |
+| Repositories | `src/lib/constants.ts` (`ALL_REPOSITORIES`) | Used by home Projects and `/projects`. The 4 home cards (which repos, tags, links) are in `src/components/home/Projects.tsx`. |
 | Project write-ups | `src/app/projects/[slug]/page.tsx` (`projectsData`) | Keep `DETAILS` in `src/app/projects/ProjectsBrowser.tsx` in step. |
 | Posts | `content/blog/*.md` | The file name is the slug. Frontmatter: `title`, `date`, `description`, `tags`, `author`. Write `description` in double quotes on one line (check 5 depends on it). |
-| `/state` and "Building now" | `content/state.json` | Exported by gaurav-os (`export-state.py`) with a redaction pass. Read at build time. |
+| "Building now" (home and /about) | `content/building.json` + `src/components/home/about/rows.json` | Public rows only: names, plain labels (Building, In use, Built, Running) and proof lines from resume.md. The private gaurav-os status export is not published. |
 | Things to build | `src/app/things-to-build/**/page.tsx` | Written in the page files. |
 | `/about` story | `src/app/about/page.tsx` | Written in the page file. |
 
 `npm run check:facts` (`scripts/check-facts.mjs`) prints `facts ok`, or fails when:
 
 1. The hero summary is not in `resume.md` word for word.
-2. A role bullet, company, title, place or date string is not in `resume.md`.
+2. A resume role bullet, company, title, place or date string is not in `resume.md`.
 3. A role does not have exactly one `[[marked phrase]]`.
 4. A skill item is not in `resume.md` (case-insensitive).
 5. A built page in `out/` contains a forbidden AI-tone word. Posts under `out/blog/` are skipped. This check runs only if `out/` exists and reads whatever is there, so build first.
 6. A file in `src/` contains `api.github.com`.
+7. An Experience record (`experience.json`) has a role, project, link, stack item, date or number that is in neither `resume.md` nor `content/experience-v1.txt`; overrides a resume role's header or bullets; has a different title or years than `resume.md`'s Earlier line; has `s` or `e` that do not match its months; is out of date order; or uses "in production", "staging", "landed" or "since 2024".
 
-It does not read `public/resume.pdf`, the timeline months (`s`, `e`), `notes`, `aboutLede`, `education`, the `/about` story, or `DESCRIPTION` in `src/app/layout.tsx`. Check those by hand.
+It does not read `public/resume.pdf`, the resume roles' timeline months (`s`, `e`), `notes`, `aboutLede`, `education`, the `/about` story, or `DESCRIPTION` in `src/app/layout.tsx`. Check those by hand.
 
 Update the resume in 3 steps:
 
@@ -76,7 +89,6 @@ src/app/
   about/              /about
   projects/           /projects (search and filters) and /projects/[slug] (5 write-ups)
   blog/               /blog and /blog/[slug] (posts from content/blog)
-  state/              /state (from content/state.json)
   things-to-build/    /things-to-build and its two spec pages
   not-found.tsx       404 page (out/404.html)
 src/components/
@@ -84,7 +96,7 @@ src/components/
   home/               home sections, the opening (Entrance, entrance.css) and the timeline (Trace, trace-api, TraceFollow, EvidenceStrip)
   motion/             shared motion: MotionRoot, reveal, scroll, land, split, Mark, MaskHeading
   ui/                 ProjectCard (+ the Ext arrow), CopyEmail, TileTitle
-src/content/          resume.json and its types
+src/content/          resume.json, experience.json and their types (resume.ts)
 src/lib/              constants.ts (repositories), posts.ts, state.ts
 scripts/              check-facts.mjs
 ```

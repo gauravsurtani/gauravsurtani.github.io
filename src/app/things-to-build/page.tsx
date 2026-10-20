@@ -4,13 +4,14 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import PageHeader from '@/components/site/PageHeader'
+import { pageMeta } from '@/components/site/meta'
 import TileTitle from '@/components/ui/TileTitle'
 import { ri, rv } from '@/components/motion/reveal'
 import s from './spec.module.css'
 
 const DEK = "Projects I'm planning to build."
 
-export const metadata: Metadata = { title: 'Things to build', description: DEK }
+export const metadata: Metadata = pageMeta('Things to build', DEK, '/things-to-build')
 
 const SPECS = [
   {

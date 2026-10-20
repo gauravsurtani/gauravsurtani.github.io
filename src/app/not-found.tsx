@@ -4,9 +4,10 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ri, rv } from '@/components/motion/reveal'
 import PageHeader from '@/components/site/PageHeader'
+import { pageMeta } from '@/components/site/meta'
 import s from './not-found.module.css'
 
-export const metadata: Metadata = { title: 'Page not found' }
+export const metadata: Metadata = pageMeta('Page not found', 'This page does not exist on gauravsurtani.github.io.')
 
 const LINKS = [['/', 'Home'], ['/projects', 'Projects'], ['/blog', 'Writing']]
 

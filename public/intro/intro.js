@@ -61,18 +61,14 @@
   var halves = qsa(root, '.gi-half'), recs = qsa(root, '.gi-rec'), edges = qsa(root, '.gi-edge'), svg = root.querySelector('.gi-th'),
     stack = root.querySelector('.gi-st'), nameEl = root.querySelector('.gi-v'), titleEl = root.querySelector('.gi-t'), uEl = root.querySelector('.gi-u');
 
-  var lastA = -1, lastDim = '', S0 = null, REV = 3, raf = 0, rev = null, ended = false, built = false, W, H, small, cols = [], picks = [], nameW = [], titleW = [], U = null, Ys = 0;
+  var lastA = -1, lastDim = '', S0 = null, REV = 3, raf = 0, rev = null, ended = false, built = false, W, H, small, cols = [], picks = [], nameW = [], titleW = [], U = null, Ys = 0,
+    role = document.querySelector('#h-name + p');
 
-  /* input skips to a fast reveal; until the reveal the page under the overlay must not scroll */
-  var SCROLL_KEYS = {' ': 1, Spacebar: 1, ArrowDown: 1, ArrowUp: 1, PageDown: 1, PageUp: 1, Home: 1, End: 1};
-  function onInput(e) {
-    if (e.cancelable && (e.type === 'wheel' || e.type === 'touchmove' || (e.type === 'keydown' && SCROLL_KEYS[e.key]))) e.preventDefault();
-    skip();
-  }
-  var EV = ['wheel', 'touchstart', 'touchmove', 'keydown', 'pointerdown'];
-  EV.forEach(function (n) { addEventListener(n, onInput, {passive: false, capture: true}); });
+  /* any input skips to a fast reveal. Passive and never cancelled: the wheel, touch or key that skips also scrolls the page */
+  var EV = ['wheel', 'touchstart', 'keydown', 'pointerdown'];
+  EV.forEach(function (n) { addEventListener(n, skip, {passive: true, capture: true}); });
   addEventListener('resize', onResize);
-  function unlisten() { EV.forEach(function (n) { removeEventListener(n, onInput, {passive: false, capture: true}); }); removeEventListener('resize', onResize); }
+  function unlisten() { EV.forEach(function (n) { removeEventListener(n, skip, {passive: true, capture: true}); }); removeEventListener('resize', onResize); }
 
   /* a width change breaks the layout, so it skips; a height-only change (a phone's address bar) does not */
   function onResize() { if (W && innerWidth !== W) skip(); }
@@ -129,19 +125,19 @@
     if (!hn.length || !/evaluation/.test(rt.length ? rt[rt.length - 1].textContent : '')) { hn = []; rt = []; }
     var nTxt = hn.length ? hn.map(function (e) { return e.textContent; }) : ['Gaurav ', 'Surtani'],
       tTxt = rt.length ? rt.map(function (e) { return e.textContent; }) : ['AI ', 'Engineer', ', ', 'LLM ', 'applications ', 'and ', 'evaluation'];
-    function words(list, br) {
-      return list.map(function (s, i) { var sp = /\s$/.test(s) && i < list.length - 1 ? (br ? '<br>' : ' ') : ''; return '<span class="gi-w"><span>' + esc(s.trim()) + '</span></span>' + sp; }).join('');
+    function words(list) {
+      return list.map(function (s, i) { var sp = /\s$/.test(s) && i < list.length - 1 ? ' ' : ''; return '<span class="gi-w"><span>' + esc(s.trim()) + '</span></span>' + sp; }).join('');
     }
     var h1cs = hn.length ? getComputedStyle(hn[0].parentNode) : null, ls = h1cs ? parseFloat(h1cs.letterSpacing) / parseFloat(h1cs.fontSize) || -.015 : -.015;
     nameEl.style.cssText = 'font-family:' + fSans + ';font-weight:' + (h1cs ? h1cs.fontWeight : 600) + ';letter-spacing:' + ls + 'em;font-size:100px';
-    nameEl.innerHTML = words(nTxt, small);
+    nameEl.innerHTML = words(nTxt);
     var nw = qsa(nameEl, '.gi-w > span').map(function (e) { return rect(e).width; });
-    var lineW = small ? Math.max.apply(null, nw) : nw.reduce(function (s, v) { return s + v; }, 0) + 25;
-    var NF = Math.min(small ? 84 : 96, (small ? .8 : .6) * W * 100 / lineW, H * (small ? .1 : .13));
+    var lineW = nw.reduce(function (s, v) { return s + v; }, 0) + 25;
+    var NF = Math.min(96, (small ? .86 : .6) * W * 100 / lineW, H * .13);
     nameEl.style.fontSize = NF + 'px';
     var TF = small ? 15.5 : Math.max(16, Math.min(21, NF * .21));
     titleEl.style.cssText = 'font-family:' + fSans + ';font-size:' + TF + 'px;max-width:' + (small ? W - 56 : W) + 'px';
-    titleEl.innerHTML = words(tTxt, false);
+    titleEl.innerHTML = words(tTxt);
 
     /* evidence line (U) sits on the seam, the name above it, the title below */
     var UH = small ? 2.5 : Math.max(2.5, Math.round(NF * .036 * 2) / 2);
@@ -152,13 +148,13 @@
     var uL = Math.min.apply(null, ni.map(function (r) { return r.left; })), uR = Math.max.apply(null, ni.map(function (r) { return r.right; }));
     U = {l: uL, t: Ys - UH / 2, w: uR - uL, h: UH};
     uEl.style.cssText = 'left:' + U.l + 'px;top:' + U.t + 'px;width:' + U.w + 'px;height:' + U.h + 'px';
-    function meas(el, f, tw, isName) {
+    function meas(el, f, tw) {
       return qsa(el, '.gi-w').map(function (w, i) {
         var b = rect(w), r = rect(w.firstChild);
-        return {el: w, bx: b.left, by: b.top, ix: r.left - b.left, iy: r.top - b.top, f: f, tw: tw[i] || null, j: i, n: isName};
+        return {el: w, bx: b.left, by: b.top, ix: r.left - b.left, iy: r.top - b.top, f: f, tw: tw[i] || null, j: i};
       });
     }
-    nameW = meas(nameEl, NF, hn, true); titleW = meas(titleEl, TF, rt, false);
+    nameW = meas(nameEl, NF, hn); titleW = meas(titleEl, TF, rt);
     var tb = Math.max.apply(null, titleW.map(function (w) { return w.by + w.el.offsetHeight; }));
 
     /* pick the marked phrases that are on screen, spread out, and clear of the verdict */
@@ -291,19 +287,29 @@
   function startReveal(fast, t) {
     if (rev) return;
     var formed = built && t >= 2.4 && nameW.every(function (w) { return w.tw; }) && titleW.every(function (w) { return w.tw; });
-    rev = {t: t, fast: fast, formed: formed, dur: fast ? .38 : .74};
+    rev = {t: t, fast: fast, formed: formed, dur: fast ? .38 : .74, sy: scrollY};
     unlisten(); root.classList.add('gi-out');
-    var btn = document.querySelector('#replay');
-    if (btn) btn.click(); /* the hero's own opening plays while the record opens */
+    /* the hero under the record is already drawn; Entrance (src/components/home) runs the card's sweep as the hand-off,
+       or lands it at once after a skip */
+    window.__giOut = fast ? 2 : 1;
+    dispatchEvent(new CustomEvent('gi-out', {detail: fast}));
     if (formed) {
       d.classList.add('gi-sh');
       picks.forEach(function (p) { p.q.style.opacity = 0; });
       uEl.style.opacity = 1;
-      nameW.concat(titleW).forEach(function (w) {
-        var r = rect(w.tw), f = parseFloat(getComputedStyle(w.tw).fontSize), s = f / w.f;
+      /* each name word flies onto its twin in the h1 (one line, so the name moves as one unit) */
+      nameW.forEach(function (w) {
+        var r = rect(w.tw), s = parseFloat(getComputedStyle(w.tw).fontSize) / w.f;
         w.s = s; w.tx = r.left - w.bx - s * w.ix; w.ty = r.top - w.by - s * w.iy;
         w.el.style.opacity = 1; w.el.style.filter = '';
       });
+      /* the title moves as one block onto the role line's first word. If the role wraps inside the title's words
+         (phones), the block cannot land word for word, so it cross-fades into the real role on the way */
+      titleW.forEach(function (w) { w.el.style.opacity = 1; w.el.style.transform = ''; });
+      var r0 = rect(titleW[0].el.firstChild), tb = rect(titleEl), t0 = titleW[0].tw, rr = rect(t0), tops = titleW.map(function (w) { return Math.round(rect(w.tw).top); });
+      rev.tt = {tx: rr.left - r0.left, ty: rr.top - r0.top, s: parseFloat(getComputedStyle(t0).fontSize) / titleW[0].f,
+        cf: Math.max.apply(null, tops) - Math.min.apply(null, tops) > 2};
+      titleEl.style.transformOrigin = (r0.left - tb.left).toFixed(1) + 'px ' + (r0.top - tb.top).toFixed(1) + 'px';
     }
   }
 
@@ -322,18 +328,20 @@
     var ea = (fast && !rev.formed ? seg(k, 0, .1) : seg(k, .12, .05)) * (1 - seg(k, .35, .5));
     edges.forEach(function (e) { e.style.opacity = ea; });
     if (rev.formed) {
-      nameW.concat(titleW).forEach(function (w) {
-        /* x and size move together, so words on one line keep their spacing. On phones the name goes from two lines to one:
-           the first name lands first, then the last name and the title follow it up, always below it until they clear it. */
-        var ex, ey;
-        if (!small) { ex = io3(seg(k, 0, .62)); ey = io3(seg(k, .03, .6)); }
-        else if (w.n && w.j === 0) { ex = ey = io3(seg(k, 0, .42)); }
-        else { ex = io3(seg(k, .1, .48)); ey = io3(seg(k, .15, .45)); }
-        w.el.style.transform = 'translate(' + (w.tx * ex).toFixed(2) + 'px,' + (w.ty * ey).toFixed(2) + 'px) scale(' + lerp(1, w.s, ex).toFixed(4) + ')';
+      /* x and size move together, so words on one line keep their spacing. dy: the page may scroll under the flight
+         (the input that skipped scrolls it), so the words land where the hero is now */
+      var ex = io3(seg(k, 0, .62)), ey = io3(seg(k, .03, .6)), dy = rev.sy - scrollY, tt = rev.tt;
+      nameW.forEach(function (w) {
+        w.el.style.transform = 'translate(' + (w.tx * ex).toFixed(2) + 'px,' + ((w.ty + dy) * ey).toFixed(2) + 'px) scale(' + lerp(1, w.s, ex).toFixed(4) + ')';
       });
+      titleEl.style.transform = 'translate(' + (tt.tx * ex).toFixed(2) + 'px,' + ((tt.ty + dy) * ey).toFixed(2) + 'px) scale(' + lerp(1, tt.s, ex).toFixed(4) + ')';
       if (k >= .64 && d.classList.contains('gi-sh')) d.classList.remove('gi-sh');
       var fade = 1 - seg(k, .64, .14);
-      nameEl.style.opacity = titleEl.style.opacity = fade;
+      nameEl.style.opacity = fade;
+      if (tt.cf) {
+        titleEl.style.opacity = 1 - seg(k, .1, .3);
+        if (role) role.style.setProperty('opacity', seg(k, .55, .25).toFixed(3), 'important'); /* once the name is above it */
+      } else titleEl.style.opacity = fade;
     } else {
       nameEl.style.opacity = titleEl.style.opacity = 1 - seg(k, 0, .35);
     }
@@ -345,6 +353,7 @@
     if (raf) cancelAnimationFrame(raf);
     raf = 0; unlisten();
     d.classList.remove('gi-sh');
+    if (role) role.style.removeProperty('opacity');
     if (root.parentNode) root.parentNode.removeChild(root);
     d.classList.remove('gi', 'gi-up');
   }

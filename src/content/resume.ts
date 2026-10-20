@@ -1,13 +1,16 @@
-// Typed view of resume.json (home facts). Data only, no JSX.
-// Every string is copied from resume.md; `npm run check:facts` verifies it.
-// Inside bullets, [[phrase]] marks the one Mark phrase per role and [label](url) is a link (render with <Rich>).
+// Typed view of resume.json (home facts) and experience.json (the full Experience records). Data only, no JSX.
+// resume.json strings are copied from resume.md; experience.json adds the old portfolio's projects and stacks and the
+// roles that resume.md lists only as "Earlier". `npm run check:facts` verifies both.
+// Inside bullets and project points, [[phrase]] marks the one Mark phrase per role (resume bullets only) and
+// [label](url) is a link (render with <Rich>).
 import data from './resume.json'
+import exp from './experience.json'
 
 export type ClaimKey = 'all' | 'y24' | 'dlai'
 export type Claim = { claim: ClaimKey; href: string; text: string; note?: number }
 export type Segment = string | Claim
 
-/** Shared by roles and earlier rows. `k` is the timeline row key, `id` the record id (both frozen). */
+/** One timeline row. `k` is the row key, `id` the record id (both frozen once published). */
 export type Entry = {
   id: string
   k: string
@@ -15,13 +18,15 @@ export type Entry = {
   short?: string       // timeline label under 420px
   company: string
   title: string
-  when: string         // display dates, verbatim from resume.md
+  when: string         // display dates
   sr: string           // dates for screen readers on the timeline
   s: number            // start, decimal year (month m -> year + (m-1)/12)
-  e: number | 'now'    // end, decimal year or "now"
+  e: number | 'now'    // end, decimal year (end of month m -> year + m/12) or "now"
 }
 export type Role = Entry & { place: string; companyHref?: string; bullets: string[] }
-export type Earlier = Entry
+export type Project = { name: string; href?: string; desc: string; points: string[] }
+/** A full Experience record: a resume role (header and bullets from resume.json) or an earlier role, plus projects. */
+export type Rec = Role & { note?: string; projects: Project[]; stack: string[] }
 
 export type Resume = {
   name: string
@@ -35,14 +40,16 @@ export type Resume = {
   notes: { [n: string]: string }
   aboutLede: string
   roles: Role[]
-  earlier: Earlier[]
   skills: { label: string; items: string[] }[]
   education: string
 }
 
 export const resume = data as Resume
 
-/** All timeline rows in display order (roles, then earlier). */
-export const timeline: Entry[] = [...resume.roles, ...resume.earlier]
+/** Every Experience record, newest first: a resume role's header and bullets come from resume.json by id. */
+export const records: Rec[] = (exp.records as Partial<Rec>[]).map(x => ({ bullets: [], ...resume.roles.find(r => r.id === x.id), ...x }) as Rec)
+
+/** All timeline rows in display order (one per record). */
+export const timeline: Entry[] = records
 
 export const isClaim = (s: Segment): s is Claim => typeof s !== 'string'

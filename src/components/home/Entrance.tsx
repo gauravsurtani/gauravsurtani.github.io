@@ -10,12 +10,13 @@
 //   2025.667 (one pen stroke), "eight years" last at today. P9 pings: Bexorg and DeepLearning.AI as the cursor reaches
 //   them, the open caps at the end. The cited span follows the cursor from 2024; the verdict draws it back to 2018.333
 //   (600ms --e-land, visually full by about 2.95s), holds it, and fades it from 3480 to 3800ms. Cleanup at 3800ms.
-// - Brief (under the full-screen intro, public/intro): everything is drawn, CSS plays a 0.6s fade; classes cleared at
-//   700ms. The intro's reveal then clicks #replay, so the full opening plays as the intro opens.
+// - Brief (under the full-screen intro, public/intro, once per browser session): CSS draws the text, the CTAs and the
+//   card in about 0.7s; the bars, caps and claim marks stay held. The intro's reveal ("gi-out" event, or
+//   window.__giOut if it came before hydration) is the hand-off: the sweep alone runs 300ms later, or, after a skip
+//   (detail true / __giOut 2), everything lands at once. Failsafe: the hand-off runs anyway at 6.5s.
 // - Skip: wheel, touchstart, pointerdown, keydown or a 40px scroll. Every CSS animation still waiting starts now, and
 //   all of them land on one 180ms clock (updatePlaybackRate); the sweep jumps to its end with 180ms transitions.
-//   Late JS: if the head script already added html.skip (no hydration by 2.5s), the mount lands everything at once.
-//   An input from before the start is not a skip: the key or wheel that skipped the intro is what replayed this.
+//   An input from before the start is not a skip: the input that ended the intro is what handed off to this.
 // - Replay (#replay): restarts every CSS animation (class off, reflow, class on) with the nav left in place.
 // - Cites: claim hover/focus lights its evidence rows and the paired note; claim click lands on the record. Row hover
 //   (mouse, not while scrolling) previews the row and tints its claims; row click lands. The next scroll clears it.
@@ -121,7 +122,8 @@ export default function Entrance() {
     const onSkip = (e: Event) => { if (e.timeStamp >= t0) finish(true) }
     const listen = (on: boolean) => SKIPS.forEach(e => (on ? window.addEventListener(e, onSkip, { passive: true }) : window.removeEventListener(e, onSkip)))
 
-    const start = (replaying: boolean) => {
+    // wait: the hand-off from the intro; the sweep starts that many ms from now, whatever the CSS clock says
+    const start = (wait?: number) => {
       running = true
       done = {}
       year = 0
@@ -135,14 +137,14 @@ export default function Entrance() {
       // where the CSS opening is now: the #hero clock, else first paint (a browser that drops custom-property keyframes)
       const clock = hero.getAnimations().find(a => (a as CSSAnimation).animationName === 'i-clock')
       const fcp = performance.getEntriesByName('first-contentful-paint')[0]
-      el0 = clock ? Number(clock.currentTime) || 0 : fcp ? performance.now() - fcp.startTime : 0
+      el0 = wait !== undefined ? SWEEP - wait : clock ? Number(clock.currentTime) || 0 : fcp ? performance.now() - fcp.startTime : 0
       t0 = performance.now()
       sweepStart = Math.max(SWEEP, el0)                                     // late hydration: the sweep starts now
       end = Math.max(END, sweepStart + DUR + HOLD + 320)
-      y0 = replaying ? scrollY : 0                                          // a restored scroll on load is a skip
+      y0 = scrollY
       listen(true)
-      // far too late for a sweep, or the head script already landed the hidden states (html.skip): land it all,
-      // never redraw the bars from 0
+      // far too late for a sweep, or a skip already landed the hidden states (html.skip): land it all, never redraw
+      // the bars from 0
       if (el0 >= 2600 || d.classList.contains('skip')) finish(true)
       else raf = requestAnimationFrame(tick)
     }
@@ -262,7 +264,7 @@ export default function Entrance() {
       d.classList.add('keepnav')
       void d.offsetWidth                                                    // restart every CSS animation
       d.classList.add('intro')
-      start(true)
+      start()
     }
     const stop = (e: Event) => e.stopPropagation()                          // its own pointerdown is not a skip
     replay?.addEventListener('click', onReplay)
@@ -280,14 +282,27 @@ export default function Entrance() {
       if (moved && preview && !document.activeElement?.classList.contains('claim')) clearPreview()
     }, () => { api.measure(); W = ov.clientWidth })
 
+    // ---- hand-off from the full-screen intro ----
+    const handOff = (fast: boolean) => {
+      removeEventListener('gi-out', onGiOut)
+      clearTimeout(timer); timer = 0
+      if (running || !d.classList.contains('brief')) return
+      if (fast) d.classList.add('skip')                                     // start() lands it all
+      start(300)
+    }
+    const onGiOut = (e: Event) => handOff(!!(e as CustomEvent<boolean>).detail)
+
     // ---- mount ----
+    const giOut = (window as Window & { __giOut?: number }).__giOut
     if (!d.classList.contains('intro')) { d.classList.remove('skip'); claims.forEach(c => c.classList.add('on')) }
-    else if (d.classList.contains('brief')) {
-      claims.forEach(c => c.classList.add('on'))
-      timer = window.setTimeout(cleanup, 700)
-    } else start(false)
+    else if (giOut) handOff(giOut === 2)
+    else {
+      addEventListener('gi-out', onGiOut)
+      timer = window.setTimeout(() => handOff(true), 6500)
+    }
 
     return () => {
+      removeEventListener('gi-out', onGiOut)
       finish(true)
       if (timer) cleanup()
       unsub()

@@ -5,7 +5,7 @@
 // and drives the scene from the scroll position; the stage itself is CSS (Contact.module.css).
 // The axis uses the timeline card's geometry: a year y sits at (y - 2018) / (--now - 2018), --now is on <html>.
 // The heading is the site's reach reveal. The email, Copy and the links are never hidden.
-// No JS or reduced motion: no stage; axis, cursor at now, the amber line and dot drawn.
+// No JS, reduced motion or a screen under 521px tall: no stage; axis, cursor at now, the amber line and dot drawn.
 import type { CSSProperties } from 'react'
 import MaskHeading from '@/components/motion/MaskHeading'
 import { rv } from '@/components/motion/reveal'

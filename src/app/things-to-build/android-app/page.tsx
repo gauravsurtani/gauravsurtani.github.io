@@ -5,6 +5,7 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import PageHeader from '@/components/site/PageHeader'
+import { pageMeta } from '@/components/site/meta'
 import MaskHeading from '@/components/motion/MaskHeading'
 import { ri, rv } from '@/components/motion/reveal'
 import d from '@/app/projects/[slug]/detail.module.css'
@@ -12,7 +13,7 @@ import d from '@/app/projects/[slug]/detail.module.css'
 const TITLE = 'Tech Blog Catchup – Android App'
 const DEK = 'A NotebookLM-style audio experience for engineering blogs.'
 
-export const metadata: Metadata = { title: TITLE, description: DEK }
+export const metadata: Metadata = pageMeta(TITLE, DEK, '/things-to-build/android-app')
 
 const FEATURES = [
   ['URL Input', 'Simple text field to paste blog URLs'],

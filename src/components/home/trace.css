@@ -108,8 +108,8 @@ html:not(.mo) .trace .replay { display: none; }   /* no JS, reduced motion, or t
 
 @media (min-width: 1024px) {
   /* Scene B (pure CSS): the static position equals the sticky offset, so the card never jumps when it sticks.
-     --th = the card's height, measured at 1024, 1280 and 1440: 406px (header 32 + 8, axis 28, 9 rows of 34, padding, border). */
-  .trace-col { --th: 406px; --tt: max(24px, calc((100svh - var(--navh) - var(--th)) / 2 - 8px)); padding-top: var(--tt); }
+     --th = the card's height, measured at 1024, 1280 and 1440: 440px (header 32 + 8, axis 28, 10 rows of 34, padding, border). */
+  .trace-col { --th: 440px; --tt: max(24px, calc((100svh - var(--navh) - var(--th)) / 2 - 8px)); padding-top: var(--tt); }
   .trace { position: sticky; top: calc(var(--navh) + var(--tt)); }
   .trace .t-notes { display: none; }
 }

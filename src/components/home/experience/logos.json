@@ -3,5 +3,10 @@
   "r-b2p": {"mono": "B2P", "logo": "svg"},
   "r-tassel": {"mono": "T", "logo": "png"},
   "r-bexorg": {"mono": "B", "logo": "png"},
-  "r-nasa": {"mono": "NASA", "logo": null}
+  "r-nasa": {"mono": "NASA", "logo": "png"},
+  "r-sjsu": {"mono": "SJSU", "logo": null},
+  "r-asc": {"mono": "AS", "logo": null},
+  "r-libs": {"mono": "L", "logo": null},
+  "r-acc": {"mono": "AC", "logo": null},
+  "r-ent": {"mono": "E", "logo": null}
 }
