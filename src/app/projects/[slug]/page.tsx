@@ -1,322 +1,243 @@
-/* eslint-disable */
-import React from 'react'
+// /projects/[slug] (server). PageHeader (eyebrow link back to /projects), then records (each a reveal block with a
+// rule, a mask h2 and rising text or list items) and a side column of facts (Category, Technologies, links), sticky
+// at 1024px and up. Name, category, GitHub URL and the fork flag come from constants.ts; a fork's dek starts with
+// "Team project (fork)."
+// Every claim below comes from the repo's own README (gh api repos/gauravsurtani/<repo>/readme), its code, or
+// resume.md. "My part" on a fork lists only what Gaurav's own commits in that repo show. Never add a claim the
+// README does not make, and never a deployment-status word.
+// The record classes (.rec, .rule, .h, .text, .list) are shared with the /things-to-build spec pages.
+import { pageMeta } from '@/components/site/meta'
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { FaGithub, FaExternalLinkAlt, FaArrowLeft, FaCode, FaChrome, FaFire, FaEnvelope, FaUtensils, FaCheck } from 'react-icons/fa'
+import MaskHeading from '@/components/motion/MaskHeading'
+import { ri, rv } from '@/components/motion/reveal'
+import PageHeader from '@/components/site/PageHeader'
+import { Ext } from '@/components/ui/ProjectCard'
+import { ALL_REPOSITORIES } from '@/lib/constants'
+import s from './detail.module.css'
 
-type Props = {
-  params: { slug: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+type Props = { params: Promise<{ slug: string }> }
+
+type Item = string | [lead: string, rest: string]   // [lead, rest] renders "<strong>lead</strong> rest"
+type Rec = [heading: string, body: string | Item[]]  // a string is a paragraph, an array a list
+type Project = {
+  title?: string                          // overrides the constants.ts name
+  dek: string
+  records: Rec[]
+  tech: string[]
+  links?: { label: string; href: string }[]   // after "Source on GitHub"; an href starting with / is internal
 }
 
-interface Project {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  fullDescription: string;
-  problemStatement: string;
-  solution: string;
-  tech: string[];
-  github: string;
-  icon: React.ReactElement;
-  features: string[];
-  category: string;
-  highlights: string[];
-  stars?: number;
-}
-
-// Project data (in a real app, this would come from a database or CMS)
+// ProjectsBrowser.tsx (DETAILS) links to these slugs from /projects.
 const projectsData: Record<string, Project> = {
-  'email-link': {
-    id: 'email-link',
-    title: 'Email-Link',
-    subtitle: 'AI-Powered Email Management',
-    description: 'Advanced email management system leveraging NLP, Knowledge Graphs, and Agentic AI to help users find everything in their email efficiently.',
-    fullDescription: 'Email-Link is a comprehensive solution that combines Natural Language Processing, Knowledge Graph construction, and Agentic AI systems to create an intelligent email management platform. Users can query their emails using natural language and get contextual, relevant results that understand the semantic meaning behind their requests.',
-    problemStatement: 'Traditional email search is limited to keyword matching, making it difficult to find emails based on context, relationships, or complex queries. Users often struggle to locate important emails when they can only remember partial details or conceptual information.',
-    solution: 'By implementing advanced NLP techniques and knowledge graphs, Email-Link creates a semantic understanding of email content, allowing users to search using natural language queries and receive intelligent, context-aware results.',
-    tech: ['Python', 'NLP', 'Knowledge Graphs', 'Agentic AI', 'Machine Learning', 'Natural Language Processing', 'Semantic Search'],
-    github: 'https://github.com/gauravsurtani/Email-Link',
-    icon: <FaEnvelope className="text-5xl text-blue-600" />,
-    features: [
-      'Natural Language Query Processing',
-      'Knowledge Graph Construction',
-      'Agentic AI Integration',
-      'Semantic Email Search',
-      'Context-Aware Results',
-      'Email Relationship Mapping',
-      'Intelligent Content Analysis'
+  'dlai-mcp-server': {
+    dek: 'Search DeepLearning.AI courses from Claude Code, Codex and Cursor.',
+    records: [
+      ['Overview', 'An MCP server, published on npm, that makes the DeepLearning.AI course catalog searchable from AI coding tools. Ask about its 121 courses across 38 topics in plain language, from your editor.'],
+      ['How it works', [
+        'Claude picks the right tool for the question and formats the answer.',
+        'The server queries the same Algolia search index that powers deeplearning.ai/courses.',
+        'Lesson-level data is fetched on demand when you ask about one course.',
+        'Course data is cached for 24 hours.',
+        'It runs locally with npx (Node.js 18 or later), or as a remote server over Streamable HTTP.',
+      ]],
+      ['Tools', [
+        ['search_courses:', 'search by query, with optional topic, level, partner and type filters.'],
+        ['get_course_details:', 'full metadata, the lesson list with titles and durations, prerequisites, learning outcomes and the number of code examples.'],
+        ['list_topics:', 'all 38 topics with course counts and three example courses each.'],
+      ]],
     ],
-    category: 'AI & NLP',
-    highlights: [
-      'Processes complex natural language queries',
-      'Builds knowledge graphs from email content',
-      'Uses agentic AI for intelligent responses',
-      'Provides semantic search capabilities'
-    ]
+    tech: ['TypeScript', 'MCP SDK', 'Algolia', 'Cheerio', 'Zod', 'Vitest', 'npm'],
+    links: [{ label: 'npm', href: 'https://www.npmjs.com/package/dlai-mcp-server' }],
+  },
+  'tech-blog-catchup': {
+    title: 'Blog2Podcast',
+    dek: 'Engineering blogs from 15 companies, turned into daily AI-narrated podcasts.',
+    records: [
+      ['Overview', 'A side project I founded and run at blog2podcast.com. Its pipeline turns engineering blogs from 15 companies into daily AI-narrated podcasts. The public listening library needs no account, and each episode links to its original source.'],
+      ['Studio', 'The repository also holds a private studio for approved creators. A member submits text they have permission to process. Ollama Cloud writes a source-grounded summary and a two-speaker script, and Kokoro renders stock voices on CPU and records the exact timing of each turn. The member previews a private draft, and an administrator reviews and publishes it.'],
+      ['Features', [
+        'Next.js and React frontend with a persistent audio player and a reduced-motion stepper.',
+        'FastAPI backend on SQLite and SQLAlchemy, with versioned migrations and a durable, bounded generation queue.',
+        'Google and GitHub sign-in. New accounts stay pending until an operator approves them.',
+        ['Checks:', 'pytest, a quality corpus of 20 synthetic regression cases, and Playwright tests.'],
+      ]],
+    ],
+    tech: ['Next.js', 'React', 'FastAPI', 'SQLite', 'SQLAlchemy', 'Ollama Cloud', 'Kokoro', 'Playwright'],
+    links: [{ label: 'blog2podcast.com', href: 'https://blog2podcast.com' }],
+  },
+  'pair-programmer-cli': {
+    dek: 'Share one Claude Code session with a teammate through Telegram.',
+    records: [
+      ['Overview', 'Multiplayer middleware for AI coding agents. Two developers share one Claude Code session through a Telegram bot: both can talk to the agent, claim GitHub issues and hand the driver role back and forth.'],
+      ['How it works', [
+        ['Pair mode:', '/pair starts a shared session and /join adds a teammate. /pick claims a GitHub issue, /done commits and closes it, /handoff passes the driver role, and /endpair pushes and opens a pull request.'],
+        ['Split mode:', '/claim starts an isolated solo session. /park and /resume pause and continue it, /sync rebases on main, and /merge pushes and opens a pull request.'],
+      ]],
+      ['Features', [
+        ['File ownership tracking:', 'the bot knows who is editing what and warns about conflicts.'],
+        'A diff summary after every AI change, so both developers see which files changed.',
+        ['Context handoff:', 'the AI writes a full summary when drivers swap.'],
+        'Auto-commit with a proper commit message when an issue is done.',
+        'Pair sessions survive bot restarts.',
+        'A 120-second timeout stops hung sessions, and each session has a cost budget.',
+      ]],
+    ],
+    tech: ['Python', 'aiogram 3', 'aiosqlite', 'Pydantic 2', 'Claude Code CLI', 'GitHub CLI', 'Telegram'],
+  },
+  'email-link': {
+    dek: 'A Gmail export, turned into a Neo4j graph of people, emails and events.',
+    records: [
+      ['Overview', 'Email-Link parses a Gmail Takeout export (MBOX files) and loads it into a Neo4j graph database, so you can query who you write to, how often and how fast they reply. It also pulls events such as meetings and interviews out of the emails and adds them to the graph.'],
+      ['How it works', [
+        ['Parse:', 'reads the MBOX file and extracts each email’s metadata.'],
+        ['Graph:', 'loads people and emails into Neo4j.'],
+        ['Events:', 'extracts meetings, interviews and other calendar items and links them into the graph.'],
+        ['Embeddings:', 'trains TransE knowledge graph embeddings on the graph, to find similar events and recommend them.'],
+        ['Semantic data:', 'an optional step where an OpenAI model extracts entities and actions from each email and classifies it.'],
+        ['Agent:', 'an AI agent interface for exploring the email graph in natural language.'],
+      ]],
+      ['Features', [
+        'Metrics for communication frequency, response times and network centrality.',
+        'Cypher queries for top correspondents, email activity over time and communication clusters.',
+        'Event search by keyword, person, date range and location, plus event statistics.',
+        'Similar events and event recommendations from the embeddings.',
+      ]],
+    ],
+    tech: ['Python', 'Neo4j', 'Cypher', 'PyTorch', 'TransE', 'spaCy', 'OpenAI API'],
+    links: [{ label: 'Write-up', href: '/blog/email-link-knowledge-graphs' }],
   },
   'wat-to-eat': {
-    id: 'wat-to-eat',
-    title: 'wat-to-eat',
-    subtitle: 'Food Recommendation Engine',
-    description: 'Data engineering project analyzing various tags from Food.com to recommend the best food for your taste preferences using machine learning.',
-    fullDescription: 'wat-to-eat is a sophisticated data engineering pipeline that processes comprehensive Food.com data to build an intelligent recommendation system. The project uses machine learning algorithms to analyze food tags, ingredients, nutritional information, and user preferences to suggest personalized meal recommendations.',
-    problemStatement: 'Choosing what to eat can be overwhelming with countless options available. Existing recommendation systems often lack personalization and fail to consider dietary preferences, nutritional needs, and taste profiles effectively.',
-    solution: 'By analyzing Food.com\'s extensive database and applying machine learning techniques, the system creates personalized food recommendations based on individual taste preferences, dietary restrictions, and nutritional goals.',
-    tech: ['Python', 'Data Engineering', 'Machine Learning', 'Jupyter Notebook', 'Pandas', 'Data Analysis', 'Recommendation Systems'],
-    github: 'https://github.com/gauravsurtani/wat-to-eat',
-    icon: <FaUtensils className="text-5xl text-orange-600" />,
-    features: [
-      'Food.com Data Analysis',
-      'Tag-based Recommendation',
-      'Machine Learning Models',
-      'User Preference Learning',
-      'Nutritional Analysis',
-      'Dietary Restriction Support',
-      'Personalized Meal Planning'
+    dek: 'Recipe recommendations from Food.com tags, in a Streamlit app.',
+    records: [
+      ['Overview', 'A Streamlit app that recommends recipes from the Food.com recipe dataset. Pick a recipe and a tag group, and it returns the recipes whose tags in that group are most similar.'],
+      ['How it works', [
+        'Splits each recipe’s tags into groups such as time, cuisine, dietary, ingredients, taste and mood, occasion and technique.',
+        'Vectorizes each tag group with scikit-learn’s CountVectorizer.',
+        'Ranks recipes by cosine similarity to the selected recipe within the chosen group.',
+        'Caches the data and loads the first 10,000 rows, to keep the app fast.',
+      ]],
+      ['Features', [
+        'Recommendations by tag group, for example cuisine or dietary tags.',
+        'A daily diet plan (breakfast, lunch, snacks, dinner and desserts) from your preferred ingredients and a dietary goal such as weight gain or muscle building.',
+      ]],
     ],
-    category: 'Data Engineering',
-    highlights: [
-      'Processes large-scale food data from Food.com',
-      'Implements ML-based recommendation algorithms',
-      'Analyzes nutritional content and dietary patterns',
-      'Provides personalized food suggestions'
-    ]
+    tech: ['Python', 'Streamlit', 'Pandas', 'scikit-learn'],
   },
   'company-stats': {
-    id: 'company-stats',
-    title: 'company-stats',
-    subtitle: 'Job Market Analytics',
-    description: 'Comprehensive analysis synthesizing Simplify and H1B grader data to identify interesting trends in the job market over recent years.',
-    fullDescription: 'company-stats is a comprehensive data science project that combines multiple job market datasets to provide insights into hiring trends, salary patterns, and industry movements. The project focuses particularly on H1B visa data and tech industry hiring patterns to understand market dynamics.',
-    problemStatement: 'The job market is complex and constantly evolving, making it difficult for job seekers and employers to understand current trends, salary expectations, and hiring patterns across different industries and visa categories.',
-    solution: 'By synthesizing data from multiple sources including Simplify and H1B grader databases, the project provides comprehensive analytics and visualizations that reveal hidden patterns and trends in the job market.',
-    tech: ['Python', 'Data Science', 'Jupyter Notebook', 'Data Visualization', 'Statistics', 'Pandas', 'Market Analysis'],
-    github: 'https://github.com/gauravsurtani/company-stats',
-    icon: <FaCode className="text-5xl text-green-600" />,
-    features: [
-      'Multi-source Data Integration',
-      'H1B Visa Trend Analysis',
-      'Salary Pattern Recognition',
-      'Interactive Visualizations',
-      'Market Prediction Models',
-      'Industry Comparison Tools',
-      'Geographic Analysis'
+    dek: 'Simplify company data joined with H1B wage data.',
+    records: [
+      ['Overview', 'Merges two job-market sources into company-wise job statistics. Simplify gives company data (funding, founding details, number of jobs, growth) and job descriptions. USCIS and H1B Grader give company-wise job wages and H1B visa information.'],
+      ['My part', 'My commits added the H1B Grader scraper notebook and the company-wise wage files it collected, cleaned the Simplify job data into one format for the final datasets, and wrote the README.'],
+      ['What it answers', [
+        'Job roles and descriptions, from Simplify.',
+        'The number of hires for the same role last year.',
+        'The confidence level of getting an H1B visa for the role.',
+        'Salary information for the role.',
+      ]],
     ],
-    category: 'Data Science',
-    highlights: [
-      'Integrates multiple job market data sources',
-      'Analyzes H1B visa and hiring trends',
-      'Creates predictive models for market patterns',
-      'Provides actionable insights for job seekers'
-    ]
+    tech: ['Python', 'Jupyter Notebook', 'Pandas', 'Requests'],
+    links: [{ label: 'Team repository', href: 'https://github.com/Rajat123456789/Synthesizing-Job-Market-Data-for-Unified-Insights' }],
   },
   'fire-prediction': {
-    id: 'fire-prediction',
-    title: 'fire-prediction',
-    subtitle: 'Environmental ML Model',
-    description: 'Machine learning model for forest fire prediction using weather variables. Features comprehensive data science workflows and visualization.',
-    fullDescription: 'fire-prediction is an environmental science application using machine learning to predict forest fire risk based on meteorological data. The project includes comprehensive data preprocessing, feature engineering, and model evaluation with visualization dashboards to help environmental agencies assess fire risk.',
-    problemStatement: 'Forest fires cause significant environmental and economic damage. Early prediction and risk assessment are crucial for prevention and resource allocation, but traditional methods often lack the precision needed for effective fire management.',
-    solution: 'By leveraging machine learning algorithms and meteorological data, the system provides accurate fire risk predictions, enabling proactive measures and better resource management for fire prevention and response.',
-    tech: ['Python', 'Machine Learning', 'Data Visualization', 'Environmental Science', 'Jupyter Notebook', 'Scikit-learn', 'Meteorological Analysis'],
-    github: 'https://github.com/gauravsurtani/fire-prediction',
-    icon: <FaFire className="text-5xl text-red-600" />,
-    features: [
-      'Weather Data Analysis',
-      'Fire Risk Prediction',
-      'Feature Engineering',
-      'Model Evaluation',
-      'Environmental Impact Assessment',
-      'Risk Visualization',
-      'Predictive Analytics'
+    dek: 'Predicting Bay Area wildfires from NASA fire data and weather data.',
+    records: [
+      ['Overview', 'A model that predicts wildfire occurrence in the Bay Area. It joins NASA FIRMS fire records, which have confidence scores and timestamps, with historical weather from the Open-Meteo API. The first version is a binary classifier on 5 to 6 weather parameters over one county. A second approach uses regression to predict fire severity.'],
+      ['My part', 'My commits built the train, test and validation data for the first version, compared five classifiers and wrote the first version of the README, and added an SVM model with PCA on the weather data.'],
+      ['Findings', [
+        'Logistic regression and an SGD classifier did not recognize fire cases well.',
+        'Random forest was more accurate but still missed fire cases.',
+        'AdaBoost had a much higher recall and a higher F1 score, which matters on this imbalanced dataset.',
+        'XGBoost had better F1 and recall than AdaBoost.',
+        'The team also trained TabNet, an attention-based network for tabular data.',
+        'The San Jose fire dataset (2018 to 2023) was dropped: it covers vegetation fires, not forest fires.',
+      ]],
     ],
-    category: 'Machine Learning',
-    stars: 4,
-    highlights: [
-      'Analyzes meteorological data for fire prediction',
-      'Implements multiple ML algorithms for accuracy',
-      'Provides comprehensive risk assessment tools',
-      'Supports environmental conservation efforts'
-    ]
+    tech: ['Python', 'Jupyter Notebook', 'scikit-learn', 'XGBoost', 'TabNet', 'NASA FIRMS', 'Open-Meteo API'],
+    links: [{ label: 'Team repository', href: 'https://github.com/rishabh-kr-jain/cmpe257_project' }],
   },
   'youtube-history-extension': {
-    id: 'youtube-history-extension',
-    title: 'YouTube History Extension',
-    subtitle: 'Chrome Browser Extension',
-    description: 'Innovative Chrome extension that provides a sneaky way to access YouTube history, bypassing limitations of the outdated YouTube API.',
-    fullDescription: 'YouTube History Extension is a clever browser extension that solves the problem of accessing YouTube viewing history when the official API is limited or outdated. The extension uses creative web scraping and browser automation techniques to provide users with better control over their viewing data and history management.',
-    problemStatement: 'YouTube\'s official API has limitations that prevent users from fully accessing their viewing history and data. This creates frustration for users who want to manage, analyze, or export their viewing patterns and preferences.',
-    solution: 'The Chrome extension bypasses API limitations through innovative web automation techniques, giving users direct access to their YouTube history with enhanced features and better data control.',
-    tech: ['JavaScript', 'Chrome Extension API', 'Web Development', 'DOM Manipulation', 'Browser APIs', 'Web Scraping', 'User Interface Design'],
-    github: 'https://github.com/gauravsurtani/youtube-history-extension',
-    icon: <FaChrome className="text-5xl text-purple-600" />,
-    features: [
-      'YouTube History Access',
-      'Chrome Extension Integration',
-      'API Workaround Solutions',
-      'User Data Control',
-      'Privacy-Focused Design',
-      'History Export Features',
-      'Enhanced User Interface'
+    dek: 'A Chrome extension that logs your YouTube watch history.',
+    records: [
+      ['Overview', 'A Chrome extension that reads your YouTube history page and keeps a list of the videos you watched, without the YouTube API. It can also send that history to a local API, for a chatbot or another app. It runs in your browser, and the example API keeps the data on your machine.'],
+      ['How it works', [
+        'Runs when you open your YouTube history page, and keeps scanning as you scroll.',
+        'Logs up to 200 videos per run and stores the 100 most recent.',
+        'The popup shows each video’s title, channel and time.',
+        'Optionally sends new videos to a local API. An example Node.js server is included.',
+      ]],
+      ['Features', [
+        'Deduplication that keeps the original order.',
+        'Tracks which videos were already sent, so none is sent twice.',
+        'Sends data only when new videos appear.',
+        'Refreshes every minute to catch new videos.',
+      ]],
     ],
-    category: 'Web Development',
-    highlights: [
-      'Bypasses YouTube API limitations creatively',
-      'Provides enhanced history management features',
-      'Maintains user privacy and data control',
-      'Demonstrates innovative web automation techniques'
-    ]
-  }
+    tech: ['JavaScript', 'Chrome Extension API', 'Node.js', 'Express'],
+  },
 }
 
-const ProjectDetail = ({ params }: Props) => {
-  const project = projectsData[params.slug]
+// the page data plus the constants.ts repo; undefined for an unknown slug
+const load = (slug: string) => {
+  const p = projectsData[slug]
+  const repo = ALL_REPOSITORIES.find(r => r.id === slug)
+  if (!p || !repo?.github) return undefined
+  return { ...p, name: p.title ?? repo.name, category: repo.category, github: repo.github, dek: repo.forked ? `Team project (fork). ${p.dek}` : p.dek }
+}
 
-  if (!project) {
-    notFound()
-  }
+export function generateStaticParams() {
+  return Object.keys(projectsData).map(slug => ({ slug }))
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params
+  const p = load(slug)
+  return p ? pageMeta(p.name, p.dek, `/projects/${slug}`) : {}
+}
+
+const item = (t: Item) => (typeof t === 'string' ? t : <><strong>{t[0]}</strong> {t[1]}</>)
+
+export default async function ProjectDetail({ params }: Props) {
+  const { slug } = await params
+  const p = load(slug)
+  if (!p) notFound()
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <section className="bg-white border-b">
-        <div className="container mx-auto px-6 py-8">
-          <Link href="/projects" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 mb-6 transition-colors">
-            <FaArrowLeft /> Back to Projects
-          </Link>
-          
-          <div className="flex items-center gap-6 mb-6">
-            {project.icon}
-            <div>
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">{project.title}</h1>
-              <p className="text-xl text-blue-600 font-medium">{project.subtitle}</p>
-              <div className="flex items-center gap-4 mt-2">
-                <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                  {project.category}
-                </span>
-                {project.stars && (
-                  <span className="text-yellow-500 text-lg">{project.stars} stars</span>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <p className="text-lg text-gray-700 max-w-4xl leading-relaxed">
-            {project.fullDescription}
-          </p>
+    <div className={`wrap ${s.page}`}>
+      <PageHeader eyebrow="Projects" eyebrowHref="/projects" title={p.name} dek={p.dek} />
+      <div className={s.grid}>
+        <div className={s.body}>
+          {p.records.map(([h, body], i) => (
+            <section key={h} className={s.rec} aria-labelledby={`d-h${i}`} {...rv()}>
+              <div className={`rule ${s.rule}`} />
+              <MaskHeading as="h2" id={`d-h${i}`} className={`h3 ${s.h}`}>{h}</MaskHeading>
+              {typeof body === 'string'
+                ? <p className={s.text} {...ri(0)}>{body}</p>
+                : <ul className={s.list}>{body.map((t, n) => <li key={n} {...ri(n)}>{item(t)}</li>)}</ul>}
+            </section>
+          ))}
         </div>
-      </section>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-3 gap-12">
-          {/* Left Column - Main Content */}
-          <div className="lg:col-span-2 space-y-12">
-            {/* Problem & Solution */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Problem & Solution</h2>
-              <div className="space-y-6">
-                <div className="bg-red-50 border-l-4 border-red-400 p-6 rounded-r-lg">
-                  <h3 className="text-lg font-semibold text-red-800 mb-2">Problem Statement</h3>
-                  <p className="text-red-700">{project.problemStatement}</p>
-                </div>
-                <div className="bg-green-50 border-l-4 border-green-400 p-6 rounded-r-lg">
-                  <h3 className="text-lg font-semibold text-green-800 mb-2">Solution</h3>
-                  <p className="text-green-700">{project.solution}</p>
-                </div>
-              </div>
-            </section>
-
-            {/* Key Features */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Key Features</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                {project.features.map((feature: string, index: number) => (
-                  <div key={index} className="flex items-center gap-3 bg-white p-4 rounded-lg border border-gray-200">
-                    <FaCheck className="text-green-500 flex-shrink-0" />
-                    <span className="text-gray-700">{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Project Highlights */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Project Highlights</h2>
-              <div className="bg-white rounded-lg border border-gray-200 p-6">
-                <ul className="space-y-3">
-                  {project.highlights.map((highlight: string, index: number) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="bg-blue-100 text-blue-600 rounded-full p-1 mt-1">
-                        <FaCheck className="text-xs" />
-                      </span>
-                      <span className="text-gray-700">{highlight}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </section>
+        <aside className={s.side} aria-label="Project facts" {...rv()}>
+          <div className="rule" />
+          <dl className={s.facts}>
+            <div {...ri(0)}>
+              <dt className="meta">Category</dt>
+              <dd className={s.dd}>{p.category}</dd>
+            </div>
+            <div {...ri(1)}>
+              <dt className="meta">Technologies</dt>
+              <dd className={s.dd}><ul className="tags">{p.tech.map(t => <li key={t} className="tag">{t}</li>)}</ul></dd>
+            </div>
+          </dl>
+          <div className={s.cta} {...ri(2)}>
+            <a className="btn btn-ink" href={p.github} target="_blank" rel="noopener noreferrer">Source on GitHub<Ext /></a>
+            {p.links?.map(l => l.href.startsWith('/')
+              ? <Link key={l.href} className="lnk" href={l.href}>{l.label}</Link>
+              : <a key={l.href} className="lnk" href={l.href} target="_blank" rel="noopener noreferrer">{l.label}<Ext /></a>)}
           </div>
-
-          {/* Right Column - Sidebar */}
-          <div className="space-y-8">
-            {/* Actions */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Project Links</h3>
-              <div className="space-y-3">
-                <a 
-                  href={project.github} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-full bg-gray-900 text-white px-4 py-3 rounded-lg hover:bg-gray-800 transition-colors flex items-center gap-2 justify-center font-medium"
-                >
-                  <FaGithub /> View Source Code
-                </a>
-                <Link 
-                  href="/projects"
-                  className="w-full bg-blue-600 text-white px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2 justify-center font-medium"
-                >
-                  <FaExternalLinkAlt /> Back to All Projects
-                </Link>
-              </div>
-            </div>
-
-            {/* Technologies */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Technologies Used</h3>
-              <div className="flex flex-wrap gap-2">
-                {project.tech.map((tech: string, index: number) => (
-                  <span 
-                    key={index} 
-                    className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium"
-                  >
-                    {tech}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Category */}
-            <div className="bg-white rounded-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Category</h3>
-              <span className="bg-gray-100 text-gray-800 px-4 py-2 rounded-lg font-medium">
-                {project.category}
-              </span>
-            </div>
-          </div>
-        </div>
+        </aside>
       </div>
     </div>
   )
 }
-
-export default ProjectDetail
-
-// Generate static params for all projects
-export async function generateStaticParams() {
-  return Object.keys(projectsData).map((slug) => ({
-    slug: slug,
-  }))
-} 

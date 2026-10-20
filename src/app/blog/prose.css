@@ -1,0 +1,50 @@
+/* Blog post body (.prose), global because ReactMarkdown renders plain elements. Every selector starts with .prose.
+   Newsreader 19px/1.68 (18px under 760px), 68ch measure, Geist headings, Geist Mono code. Tokens only.
+   Code blocks and tables scroll inside themselves, so the page never scrolls sideways at 320.
+   Motion: each h2 and its text are one record, section[data-rv] > h2.mh + .p-b[data-ri] (see blog/[slug]/page.tsx).
+   The text before the first h2 is static. */
+.prose { max-width: 68ch; font: 400 19px/1.68 var(--f-serif); font-optical-sizing: auto; color: var(--ink-2); overflow-wrap: break-word; }
+@media (max-width: 760px) { .prose { font-size: 18px; } }
+
+.prose > * + *, .prose :where(.p-b) > * + * { margin-top: 1.1em; }
+.prose > section { margin-top: 48px; }
+.prose > section > h2 { margin-top: 0; }
+.prose h2, .prose h3, .prose h4 { font-family: var(--f-sans); font-weight: 600; color: var(--ink); }
+.prose h2 { margin-top: 48px; font-size: 26px; line-height: 1.2; letter-spacing: -.02em; }
+.prose h3 { margin-top: 32px; font-size: 20px; line-height: 1.3; letter-spacing: -.015em; }
+.prose h4 { margin-top: 24px; font-size: 17px; line-height: 1.35; }
+.prose :is(h2, h3, h4) + * { margin-top: 12px; }
+
+.prose strong { font-weight: 600; color: var(--ink); }
+
+/* inline links: native underline, color change only */
+.prose a:not(.lnk) { color: inherit; text-decoration: underline; text-decoration-color: var(--muted); text-decoration-thickness: 1px;
+  text-underline-offset: .18em; transition: color var(--d2), text-decoration-color var(--d2); }
+.prose a:not(.lnk):hover { color: var(--ink); text-decoration-color: var(--ink); }
+
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose ul { list-style: disc; }
+.prose ol { list-style: decimal; }
+.prose li + li { margin-top: .35em; }
+.prose li::marker { color: var(--muted); }
+
+.prose blockquote { padding-left: 1em; border-left: 2px solid var(--line-2); color: var(--muted); font-style: italic; }
+/* the real Newsreader italic (layout.tsx loads it without preload), so the browser never fakes the slant */
+.prose blockquote, .prose :is(em, i):not(:is(h2, h3, h4) *) { font-family: var(--font-newsreader-italic), var(--f-serif); }
+
+.prose code { font: 400 .76em/1.5 var(--f-mono); color: var(--ink); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 4px; padding: .1em .35em; }
+.prose pre { max-width: 100%; overflow-x: auto; padding: 16px 18px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--r-md); font: 400 14px/1.6 var(--f-mono); color: var(--ink); }
+.prose pre code { font-size: inherit; background: none; border: 0; padding: 0; }
+
+.prose hr { border: 0; border-top: 1px solid var(--line); margin: 2em 0; }
+.prose img { display: block; max-width: 100%; height: auto; border-radius: var(--r-md); }
+
+.prose table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; font: 400 15px/1.5 var(--f-sans); }
+.prose th, .prose td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+.prose th { background: var(--surface); font-weight: 600; color: var(--ink); }
+
+/* end of post: rule + "All posts" (.lnk keeps its own look) */
+.prose .p-end { margin-top: 64px; font-family: var(--f-sans); }
+.prose .p-end p { margin-top: 12px; }

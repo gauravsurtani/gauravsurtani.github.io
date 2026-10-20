@@ -1,0 +1,93 @@
+{
+  "name": "Gaurav Surtani",
+  "title": "AI Engineer, LLM applications and evaluation",
+  "location": "San Francisco Bay Area",
+  "email": "gaurav.surtani.tech@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/gaurav-surtani/",
+  "github": "https://github.com/gauravsurtani",
+  "resume": "/resume.pdf",
+  "summary": [
+    "AI engineer with ",
+    { "claim": "all", "href": "#experience", "text": "eight years", "note": 1 },
+    " in full-stack, data and ML engineering, ",
+    { "claim": "y24", "href": "#r-bexorg", "text": "building LLM applications", "note": 2 },
+    ". Currently the ",
+    { "claim": "dlai", "href": "#r-dlai", "text": "founding and sole engineer" },
+    " on DeepLearning.AI's ",
+    { "claim": "dlai", "href": "#about", "text": "three AI recruiting products", "note": 3 },
+    "."
+  ],
+  "notes": {
+    "1": "Since 2018: Enthralltech, Accenture, LIBS, Ascendion, San Jose State, NASA Ames, Bexorg, Tassel, DeepLearning.AI",
+    "2": "LLM applications at Bexorg, Tassel, DeepLearning.AI and Blog2Podcast",
+    "3": "At DeepLearning.AI: AI technical interviewer, recruiter sourcing and review tool, Valence Career Agent"
+  },
+  "aboutLede": "I build LLM applications. At DeepLearning.AI I am the founding and sole engineer on three AI recruiting products: an AI technical interviewer used in live hiring, a recruiter sourcing and review tool, and a candidate-facing career agent. Before that I built data and AI tools at Bexorg and Tassel, and flight-path analysis at NASA Ames.",
+  "roles": [
+    {
+      "id": "r-dlai", "k": "dlai", "label": "DeepLearning.AI", "short": "DLAI",
+      "company": "DeepLearning.AI", "title": "Founding AI Engineer", "place": "San Francisco Bay Area",
+      "when": "Sep 2025 – Present", "sr": "Sep 2025 to present", "s": 2025.667, "e": "now",
+      "bullets": [
+        "Built the AI technical interviewer used in live hiring, with evidence-based grading that ties [[every skill score to a verified transcript quote]], so hiring managers can decide from the report alone.",
+        "Built and maintain the recruiter sourcing and review tool: migrated it from Railway to AWS with zero-downtime deploys, added bulk actions for 1,000 candidates, and cut LLM scoring costs.",
+        "Designed and built the Valence Career Agent, which helps candidates find their next role: it learns their goal, background and job constraints, runs a technical assessment, and returns a growth report with a positioning statement, answer coaching and a three-part growth plan.",
+        "Built a job-data pipeline tracking careers pages at 1,400+ companies, with 99,000+ jobs collected and 78,000+ live, to power role recommendations.",
+        "Exposed the sourcing tool as a scoped API for internal tools, and published [dlai-mcp-server](https://www.npmjs.com/package/dlai-mcp-server) on npm for searching DeepLearning.AI courses from Claude Code, Codex and Cursor."
+      ]
+    },
+    {
+      "id": "r-b2p", "k": "b2p", "label": "Blog2Podcast",
+      "company": "Blog2Podcast", "companyHref": "https://blog2podcast.com", "title": "Founder, side project", "place": "blog2podcast.com",
+      "when": "Mar 2026 – Present", "sr": "Mar 2026 to present", "s": 2026.167, "e": "now",
+      "bullets": [
+        "Built and run a pipeline that turns engineering blogs from [[15 companies]] into daily AI-narrated podcasts."
+      ]
+    },
+    {
+      "id": "r-tassel", "k": "tassel", "label": "Tassel",
+      "company": "Tassel", "title": "Full Stack AI Engineer", "place": "Remote",
+      "when": "Jun 2025 – Sep 2025", "sr": "Jun 2025 to Sep 2025", "s": 2025.417, "e": 2025.75,
+      "bullets": [
+        "Built a video pipeline that segments graduation ceremony recordings by student and delivers personalized clips to [[2M+ students]], an $8M+ revenue opportunity.",
+        "Built a multi-agent transliteration chain on OpenAI that converts each student's name into its native-language script, so an ElevenLabs native voice pronounces it correctly in ceremony announcements.",
+        "Moved heavy Azure pipelines from always-on to on-demand scaling, cutting costs 40% and processing 8x faster."
+      ]
+    },
+    {
+      "id": "r-bexorg", "k": "bexorg", "label": "Bexorg",
+      "company": "Bexorg", "title": "Full Stack AI Engineer", "place": "New Haven, CT",
+      "when": "May 2024 – May 2025", "sr": "May 2024 to May 2025", "s": 2024.333, "e": 2025.417,
+      "bullets": [
+        "Built a natural-language analytics tool that turns plain-English questions into Plotly and D3 dashboards, [[cutting analysis time 75%]]; a key sales differentiator that helped convert pilots to contracts.",
+        "Built a real-time data visualization platform on Neo4j and BigQuery with role-based access for 40+ users, cutting retrieval time 45%.",
+        "Built an ML quality-control system for time-series data with real-time anomaly detection, reducing data issues 70%.",
+        "Resolved critical pipeline bottlenecks, improving throughput 10x and enabling new enterprise customers."
+      ]
+    },
+    {
+      "id": "r-nasa", "k": "nasa", "label": "NASA Ames", "short": "NASA",
+      "company": "NASA Ames Research Center", "title": "Machine Learning Developer", "place": "Mountain View, CA",
+      "when": "Dec 2023 – Mar 2024", "sr": "Dec 2023 to Mar 2024", "s": 2023.917, "e": 2024.25,
+      "bullets": [
+        "Analyzed flight-path adherence to air traffic control procedures with GeoPandas and Pyproj, identifying navigation patterns that informed aviation fuel-cost optimization.",
+        "Automated data validation across 1,000+ flight paths, reducing manual verification [[from 4 hours to 15 minutes]], and containerized the legacy analysis system."
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "label": "AI",
+      "items": ["LLM applications and agents (Gemini, Claude, OpenAI)", "LLM evaluation", "Retrieval and vector search", "MCP servers", "Speech (STT, TTS, real-time voice)", "LangChain"]
+    },
+    {
+      "label": "Engineering",
+      "items": ["Python", "TypeScript", "FastAPI", "React", "Next.js", "PostgreSQL", "Redis", "Neo4j", "BigQuery", "Playwright"]
+    },
+    {
+      "label": "Infrastructure",
+      "items": ["AWS (ECS, RDS, Terraform)", "GCP", "Azure", "Docker", "Kubernetes", "GitHub Actions"]
+    }
+  ],
+  "education": "MS, Artificial Intelligence, San Jose State University"
+}

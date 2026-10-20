@@ -28,7 +28,7 @@ Applied to email graphs, TransE lets the system surface non-obvious links: "thes
 
 ## What I Learned
 
-Building this taught me that the hard problem isn't the AI — it's data quality. Email is noisy. Entity resolution (figuring out that "Sarah," "Sarah J.," and "s.johnson@company.com" are the same node) consumed more engineering time than the graph queries themselves.
+Building this taught me that the hard problem isn't the AI — it's data quality. Email is noisy. Entity resolution (figuring out that "Sarah," "Sarah J.," and "`s.johnson@company.com`" are the same node) consumed more engineering time than the graph queries themselves.
 
 The second lesson: embedding-based inference needs careful calibration. TransE can find patterns that don't exist if the training data is sparse. Confidence thresholds and graceful fallback to explicit-only results matter more than raw recall.
 

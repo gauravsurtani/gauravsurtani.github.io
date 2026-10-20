@@ -1,0 +1,79 @@
+/* The home opening, CSS half (SPEC 3.4, 4.8): "claims, then evidence, then verdict".
+   Global sheet: every selector starts with html.intro, html.skip, #hero, #trace or #nav. Targets plain classes only
+   (tk, av, cta, notes, claim, w; the card's yr, lbl, gl, bar, cap).
+
+   - Plays from first paint as keyframes keyed on html.intro (set by the head script on a fresh top-of-page load of "/").
+     No hydration needed for the text. Entrance.tsx runs the sweep, the claim marks, skip and replay.
+   - Every delay is calc(var(--d) * var(--tk)): --tk 1 (full) or .15 (html.brief, under the full-screen intro).
+   - Fill mode is always `backwards`: nothing is left behind when an animation ends (no stray transform on #nav).
+   - Hidden states that JS releases (bars, caps, claim underlines) apply while html.intro is on (brief too: under the
+     full-screen intro they wait for the hand-off sweep).
+   - html.skip: the user acted (or skipped the full-screen intro); the hold states below stop applying and
+     what they release lands with 180ms transitions; Entrance starts every waiting animation and lands all of them
+     on one 180ms clock (WAAPI).
+   - html.keepnav: a replay; the nav and the card frame stay put; the card's labels and gridlines come 600ms sooner.
+   - #hero carries a 3800ms "clock" animation (a custom property, renders nothing; = END in Entrance.tsx). Entrance
+     reads its currentTime on mount, so the JS sweep stays on the CSS schedule even when hydration is late.
+
+   Beats (ms): name 0, summary 260 to ~1480, card 640 (shadow 790), labels and gridlines 720, notes and CTAs 1450,
+   sweep 1100 to 2500, verdict 2500 (span drawn by ~2950, fades 3480 to 3800), nav 3000 (landed ~3300), cleanup 3800.
+   Brief: everything by ~700; the hand-off sweep runs 150ms after the intro's reveal for 700ms, closing 450ms later. */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.intro { --tk: 1; }
+  html.intro.brief { --tk: .15; }
+  html.intro:not(.brief) #hero { animation: i-clock 3800ms linear backwards; }
+
+  /* P1 Stream: tokens fade in; blur only on fine pointers and only in the full version */
+  html.intro #hero .tk { animation: i-fade 300ms var(--e-soft) calc(var(--d, 0ms) * var(--tk)) backwards; }
+  @media (pointer: fine) { html.intro:not(.brief) #hero .tk { animation-name: i-stream; } }
+
+  html.intro #hero .av { animation: i-fade 300ms var(--e-soft) backwards, i-grow 600ms var(--e-out) backwards; }
+  html.intro #hero .cta > li { animation: i-fade 300ms var(--e-soft) calc(var(--d) * var(--tk)) backwards,
+    i-up8 500ms var(--e-out) calc(var(--d) * var(--tk)) backwards; }
+  html.intro #hero .notes::before { animation: i-fade 300ms var(--e-soft) calc(1450ms * var(--tk)) backwards; }   /* the footnote rule */
+  html.intro :is(#hero, #trace) .notes > li { animation: i-fade var(--d3) var(--e-soft) calc(var(--d) * var(--tk)) backwards,
+    i-rise var(--d3) var(--e-out) calc(var(--d) * var(--tk)) backwards; }
+
+  /* the evidence card: rises at 640ms (the cue to look right) as a layer: up 28px and from .965, its shadow fades in
+     150ms later. Then labels fade and gridlines grow from the top.
+     On replay the card itself stays put (the button the user just pressed must not vanish); its contents replay. */
+  html.intro:not(.keepnav) #trace { animation: i-fade 500ms var(--e-soft) calc(640ms * var(--tk)) backwards, i-card 800ms var(--e-out) calc(640ms * var(--tk)) backwards; }
+  html.intro:not(.keepnav) #trace::after { animation: i-fade 500ms var(--e-soft) calc(790ms * var(--tk)) backwards; }
+  html.intro #trace :is(.lbl, .yr) { animation: i-fade 300ms var(--e-soft) calc(var(--d) * var(--tk)) backwards; }
+  html.intro #trace .gl { transform-origin: 50% 0; animation: i-growY 600ms var(--e-out) calc(var(--d) * var(--tk)) backwards; }
+  html.intro.keepnav #trace :is(.lbl, .yr, .gl) { animation-delay: calc(var(--d) - 600ms); }   /* replay: labels from ~120ms */
+
+  /* the JS sweep owns these until it releases them (skip: they land at once) */
+  html.intro:not(.skip) #trace .bar { transform: scaleX(0); }
+  html.intro:not(.skip) #trace .cap:not(.in) { opacity: 0; transform: scale(0); transition: none; }
+  html.intro:not(.skip) #hero .claim:not(.on) .w::after { transform: scaleX(0); transition: none; }
+
+  /* the nav drops in after the verdict holds (not in brief, not on replay) */
+  html.intro:not(.brief):not(.keepnav) #nav { animation: i-drop 700ms var(--e-out) calc(3000ms * var(--tk)) backwards; }
+
+  /* brief (under the full-screen intro): shorter beats, so the text, CTAs and card land by about 0.7s (the card keeps
+     its small 10px rise). The sweep waits for the intro's hand-off. */
+  html.intro.brief :is(#hero .tk, #hero .av, #hero .cta > li, #hero .notes > li, #trace, #trace .notes > li, #trace .lbl, #trace .yr, #trace .gl),
+  html.intro.brief #trace::after { animation-duration: 280ms; }
+  html.intro.brief #trace { animation-name: i-fade, i-up10; }
+  /* the hand-off sweep's shorter closing beat (Entrance B_HOLD, B_FADE): the span draws back in 300ms and fades in
+     200ms, the end pings last 400ms, all over before cleanup drops html.brief */
+  html.intro.brief #trace .band.vd { transition: opacity 200ms var(--e-soft), transform 300ms var(--e-land); }
+  html.intro.brief #trace .ping::after { animation-duration: 400ms; }
+
+  /* skip: whatever the landing triggers runs at 180ms */
+  html.skip #trace .bar, html.skip #trace .cap, html.skip #trace .cursor, html.skip #hero .claim .w::after {
+    transition: transform 180ms var(--e-out), opacity 180ms !important; }
+}
+
+@keyframes i-clock { to { --intro-clock: 1; } }
+@keyframes i-stream { from { opacity: 0; filter: blur(3px); } }
+@keyframes i-fade { from { opacity: 0; } }
+@keyframes i-grow { from { transform: scale(.9); } }
+@keyframes i-up8 { from { transform: translateY(8px); } }
+@keyframes i-up10 { from { transform: translateY(10px); } }
+@keyframes i-card { from { transform: translateY(28px) scale(.965); } }
+@keyframes i-rise { from { transform: translateY(var(--rise)); } }
+@keyframes i-growY { from { transform: scaleY(0); } }
+@keyframes i-drop { from { transform: translateY(-100%); } }

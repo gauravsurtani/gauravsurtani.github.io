@@ -1,0 +1,11 @@
+/* Logo slot (Logo.tsx): the logo image once logos.json lists one, else the company's initial. A 28px square with the
+   same hairline either way, so every company name starts at the same x; the timeline card sizes its copy down
+   (experience/camera.css). */
+.logo { display: inline-grid; place-items: center; flex: none; width: 28px; height: 28px; border: 1px solid var(--line);
+  border-radius: 6px; background: var(--surface); white-space: nowrap; }
+.img { aspect-ratio: 1; padding: 3px; }   /* the card chip keeps a square too */
+.img img { width: 100%; height: 100%; object-fit: contain; }
+.img[data-fill] { padding: 0; overflow: hidden; }   /* a mark on its own square: the square is the tile */
+/* no usable mark (LIBS, Enthralltech): the initial, quiet, on a faint ink wash, so it reads as a set tile, not a gap */
+.mono { background: color-mix(in srgb, var(--ink) 5%, var(--surface)); font: 600 13px/1 var(--f-sans); color: var(--muted); }
+.long { font: 500 8.5px/1 var(--f-mono); }   /* a 3-4 letter monogram */

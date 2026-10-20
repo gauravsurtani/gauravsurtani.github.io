@@ -1,0 +1,21 @@
+/* Writing index. Header row: PageHeader left, "Things to build" right on the dek's baseline (under it on phones).
+   Post tile at 761px and up: date column left (date, then reading time), title / description / tags right. Hover and focus come from .tile. */
+.head { display: grid; }
+.side { justify-self: start; margin-block: calc(8px - clamp(32px, 6vh, 56px)) clamp(32px, 6vh, 56px); }
+@media (min-width: 761px) {
+  .head { grid-template-columns: minmax(0, 1fr) auto; align-items: end; column-gap: 32px; }
+  .side { margin-block: 0 calc(clamp(32px, 6vh, 56px) - 10px); }
+}
+
+.list { display: grid; gap: 40px; }
+
+.meta { margin-bottom: 6px; }
+.desc { margin-top: 8px; max-width: 62ch; color: var(--ink-2); font-size: 16px; line-height: 1.6; }
+.tags { margin-top: 14px; }
+@media (min-width: 761px) {
+  .in { display: grid; grid-template-columns: 200px minmax(0, 1fr); column-gap: 32px; align-content: start; }
+  .in > * { grid-column: 2; }
+  .in > .meta { grid-column: 1; grid-row: 1 / span 3; margin: 4px 0 0; }
+  .dot { display: none; }   /* date and reading time stack in the date column */
+  .rt { display: block; }
+}

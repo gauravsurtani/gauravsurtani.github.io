@@ -1,105 +1,45 @@
-import React from 'react'
+// Writing index (server). PageHeader + a "Things to build" link, then one tile per post (newest first).
+// Each tile is a reveal block: .rule draws (P4), then meta, title, description and tags rise (P3). The title link is
+// stretched over the tile (.tile-a); hover (fine pointer, not while scrolling) or focus-within tints it and nudges
+// the arrow 2px toward the post. Text never moves.
 import Link from 'next/link'
-import { getAllPosts, formatDate } from '@/lib/posts'
 import type { Metadata } from 'next'
+import PageHeader from '@/components/site/PageHeader'
+import { pageMeta } from '@/components/site/meta'
+import TileTitle from '@/components/ui/TileTitle'
+import { ri, rv } from '@/components/motion/reveal'
+import { getAllPosts, formatDate } from '@/lib/posts'
+import s from './blog.module.css'
 
-export const metadata: Metadata = {
-  title: 'Blog — Gaurav Surtani',
-  description: 'Writing on AI, machine learning, software engineering, and building things that matter.',
-}
+const DEK = 'Posts on AI and machine learning.'
+
+export const metadata: Metadata = pageMeta('Writing', `${DEK.slice(0, -1)} by Gaurav Surtani.`, '/blog')
 
 export default function BlogPage() {
-  const posts = getAllPosts()
-
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
-      {/* Header */}
-      <div
-        className="border-b"
-        style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
-      >
-        <div className="container mx-auto px-6 py-8 max-w-4xl">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm mb-6 transition-colors"
-            style={{ color: 'var(--accent)' }}
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Portfolio
-          </Link>
-          <h1 className="text-4xl font-bold mb-3">Blog</h1>
-          <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-            Writing on AI, machine learning, and building things that matter.
-          </p>
-        </div>
+    <div className="wrap pb-[clamp(72px,12vh,140px)]">
+      <div className={s.head}>
+        <PageHeader eyebrow="Index" title="Writing" dek={DEK} />
+        <Link className={`lnk ${s.side}`} href="/things-to-build">Things to build</Link>
       </div>
-
-      {/* Post List */}
-      <div className="container mx-auto px-6 py-12 max-w-4xl">
-        {posts.length === 0 ? (
-          <div className="text-center py-24">
-            <p className="text-lg" style={{ color: 'var(--muted-foreground)' }}>
-              No posts yet. Check back soon.
-            </p>
-          </div>
-        ) : (
-          <div className="space-y-0 divide-y" style={{ borderColor: 'var(--card-border)' }}>
-            {posts.map((post) => (
-              <article key={post.slug} className="py-8 group">
-                <Link href={`/blog/${post.slug}`} className="block">
-                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
-                    <time
-                      className="text-sm font-medium shrink-0"
-                      style={{ color: 'var(--muted-foreground)' }}
-                      dateTime={post.date}
-                    >
-                      {formatDate(post.date)}
-                    </time>
-                    <span
-                      className="text-xs shrink-0"
-                      style={{ color: 'var(--muted-foreground)' }}
-                    >
-                      {post.readingTime} min read
-                    </span>
-                  </div>
-
-                  <h2
-                    className="text-xl font-semibold mb-2 group-hover:underline transition-colors"
-                    style={{ color: 'var(--foreground)', textDecorationColor: 'var(--accent)' }}
-                  >
-                    {post.title}
-                  </h2>
-
-                  <p
-                    className="text-sm leading-relaxed mb-4"
-                    style={{ color: 'var(--muted-foreground)' }}
-                  >
-                    {post.description}
-                  </p>
-
-                  {post.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 rounded text-xs font-medium"
-                          style={{
-                            backgroundColor: 'var(--muted)',
-                            color: 'var(--muted-foreground)',
-                          }}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </Link>
-              </article>
-            ))}
-          </div>
-        )}
+      <div className={s.list}>
+        {getAllPosts().map(p => (
+          <article key={p.slug} className="tile" {...rv()}>
+            <div className="rule" />
+            <div className={`tile-in ${s.in}`}>
+              <p className={`meta ${s.meta}`} {...ri(0)}>
+                <time dateTime={p.date}>{formatDate(p.date)}</time><span className={s.dot}> ·</span> <span className={s.rt}>{p.readingTime} min read</span>
+              </p>
+              <h2 className="h3" {...ri(1)}>
+                <Link className="tile-a" href={`/blog/${p.slug}`}><TileTitle t={p.title} /></Link>
+              </h2>
+              <p className={s.desc} {...ri(2)}>{p.description}</p>
+              {p.tags.length > 0 && (
+                <ul className={`tags ${s.tags}`} aria-label="Tags" {...ri(3)}>{p.tags.map(t => <li key={t} className="tag">{t}</li>)}</ul>
+              )}
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   )
