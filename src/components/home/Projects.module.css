@@ -17,6 +17,10 @@
   background: color-mix(in srgb, var(--accent) 24%, transparent); box-shadow: inset 0 -2px 0 var(--accent); transform-origin: 0 50%; }
 .ev :global(.ext) { color: var(--accent-ink); }
 
+/* the title link's own box is 44px tall, a full touch target on its own (not only through the stretched ::before);
+   the negative margin gives the height back, so the line box and the look do not change */
+.name :global(.tile-a) { display: inline-block; padding-block: 11px; margin-block: -11px; }
+
 @media (prefers-reduced-motion: no-preference) {
   /* a settling tag is 1.1x: clip it at the screen edge (clip makes no scroll container) */
   :global(html.mo) .sec { overflow-x: clip; }

@@ -9,14 +9,17 @@
 //
 // Left: the short company label. Right: an axis 2018 to now (ticks at 2018, 2022, 2026), the cited span (4px
 // amber) and an open cap when the role is current. Geometry is CSS from --now, like the timeline card.
-// aria-hidden (every record carries its dates in text). Portaled to <body>: it is page chrome like the nav, and
-// it mounts only with JS, so the static HTML has no strip. Reduced motion: shows and hides with no tween.
+// The strip is a link to the cited record's start (land + flash, like the timeline rows): its name is the label plus
+// what it does, the axis is decorative (every record carries its dates in text). Hidden, it is not focusable or tappable.
+// Portaled to <body>: it is page chrome like the nav, and it mounts only with JS, so the static HTML has no strip.
+// Reduced motion: shows and hides with no tween.
 //
 // Timeline camera (motion on): TraceFollow sets data-cam on the strip and the view (--c0, --cs, --aw = axis width,
 // --vd = pull-back) and drives .cv: the camera's bar (one .rb per timeline row, --f written) and the pen (.pn).
 // The axis then shows every year in view; the static span and cap step aside.
-import { useEffect, useState, type CSSProperties, type Ref } from 'react'
+import { useEffect, useState, type CSSProperties, type MouseEvent, type Ref } from 'react'
 import { createPortal } from 'react-dom'
+import { land } from '@/components/motion/land'
 import { timeline } from '@/content/resume'
 import s from './EvidenceStrip.module.css'
 
@@ -27,16 +30,22 @@ const v = (o: { [k: string]: string | number }) => o as CSSProperties
 const entry = (k: string | null) => timeline.find(t => t.k === k)
 const label = (k: string | null) => { const e = entry(k); return e ? e.short ?? e.label : '' }
 
-export default function EvidenceStrip({ k, prev, n, onRolled, rootRef }: StripState & { onRolled: () => void; rootRef?: Ref<HTMLDivElement> }) {
+export default function EvidenceStrip({ k, prev, n, onRolled, rootRef }: StripState & { onRolled: () => void; rootRef?: Ref<HTMLAnchorElement> }) {
   const [host, setHost] = useState<HTMLElement | null>(null)
   useEffect(() => setHost(document.body), [])
   if (!host) return null
   const e = entry(k)
   const span = e ? v(e.e === 'now' ? { '--s': e.s } : { '--s': e.s, '--e': e.e }) : undefined
+  const href = e ? `#${e.id}` : undefined
+  const go = (ev: MouseEvent<HTMLAnchorElement>) => {
+    if (!href || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return    // open in a new tab etc. stays native
+    ev.preventDefault()
+    land(href)
+  }
 
   return createPortal(
-    <div className={s.strip} aria-hidden="true" ref={rootRef}>
-      <div className={`${s.in} ${n ? s.moved : ''}`}>
+    <a className={s.strip} href={href} ref={rootRef} onClick={go} aria-label={e ? `${label(k)}: back to the start of this role` : undefined}>
+      <div className={`${s.in} ${n ? s.moved : ''}`} aria-hidden="true">
         <span className={s.lbl}>
           <span key={`i${n}`} className={s.cur}>{label(k)}</span>
           {prev && <span key={`o${n}`} className={s.prev} onAnimationEnd={onRolled}>{label(prev)}</span>}
@@ -52,7 +61,7 @@ export default function EvidenceStrip({ k, prev, n, onRolled, rootRef }: StripSt
           </span>
         </span>
       </div>
-    </div>,
+    </a>,
     host,
   )
 }

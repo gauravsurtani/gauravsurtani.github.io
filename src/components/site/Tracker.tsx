@@ -1,14 +1,18 @@
 'use client'
 // Visitor tracker, in the root layout once. Renders nothing. A complete no-op (no listeners, no requests) unless
 // NEXT_PUBLIC_TRACKER_URL was set at build time, and always under GPC or DNT. Backend: ~/projects/portfolio-tracker.
-// Each event is one POST {url}/e, JSON sent as text/plain (sendBeacon, else fetch keepalive), so no CORS preflight.
+// GPC/DNT is checked again before every event: once it is on, tracking stops (listeners, timers, observer removed).
+// Each event is one POST {url}/e: fetch keepalive, JSON as text/plain (a simple request: no CORS preflight),
+// credentials omitted (no cookie ever rides along) and no Referer.
 //
 //   view       on load and on every client-side route change; ref + utm on the session's first view only
 //   section    home only: a main section[id] that is 50% visible (of itself, or of the viewport when it is taller),
 //              once per session per id, one IntersectionObserver
 //   click      resume | email-copy | mailto | linkedin | github | project:<name> | outbound:<host>
 //   heartbeat  every 30 s while the page is visible and active, at most 20 per page
-//   leave      pagehide, visibilitychange to hidden, or a client-side route change; once per page
+//   leave      pagehide, visibilitychange to hidden, or a client-side route change. Re-armed when the tab comes back
+//              (or the page returns from bfcache): a later leave repeats this page's cumulative ms, and the backend
+//              keeps the max ms per path, so a repeat never double counts.
 //   ms = engaged time on this page (visible, with input in the last 30 s); depth = max scroll depth % on this page.
 //
 // No cookies. sessionStorage: trk-sid (16 random chars, one tab session), trk-r (the ?r= ref code), trk-sec (sections
@@ -31,7 +35,7 @@ const put = (s: Store, k: string, v: string | null) => {
   try { if (v === null) s().removeItem(k); else s().setItem(k, v) } catch {}
 }
 
-let started = false
+let off: (() => void) | undefined      // set while tracking runs: removes every listener start() added
 let sid = '', code = '', owner = false, first = false
 let utm = { source: '', medium: '', campaign: '' }
 let page = '', title = '', left = false  // the current page's path and title, and whether its leave went out
@@ -40,7 +44,22 @@ let H = 1, deep = 0                     // page height (cached by the scroll dri
 const seen = new Set<string>()
 let io: IntersectionObserver | undefined
 
+const blocked = () => {
+  const n = navigator as Navigator & { globalPrivacyControl?: boolean }
+  return n.globalPrivacyControl === true || n.doNotTrack === '1'
+}
+
+function stop() {
+  off?.()
+  off = undefined
+  clearInterval(timer)
+  io?.disconnect()
+  page = ''                               // a later start() begins a fresh page, without a leave for this one
+}
+
 function send(t: string, x: Record<string, unknown> = {}) {
+  if (!off) return
+  if (blocked()) return stop()
   const e: Record<string, unknown> = {
     v: 1, t, sid, path: page, title, lang: navigator.language,
     tz: Intl.DateTimeFormat().resolvedOptions().timeZone, vw: innerWidth, vh: innerHeight, dpr: devicePixelRatio,
@@ -48,9 +67,10 @@ function send(t: string, x: Record<string, unknown> = {}) {
   }
   if (code) e.r = code
   if (owner) e.owner = true
-  const body = JSON.stringify(e)
-  try { if (navigator.sendBeacon(EP, body)) return } catch {}   // a string body goes as text/plain;charset=UTF-8
-  fetch(EP, { method: 'POST', body, keepalive: true, mode: 'cors', headers: { 'content-type': 'text/plain;charset=UTF-8' } }).catch(() => {})
+  fetch(EP, {
+    method: 'POST', body: JSON.stringify(e), keepalive: true, credentials: 'omit', referrerPolicy: 'no-referrer', mode: 'cors',
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+  }).catch(() => {})
 }
 
 // Engaged time: the part of [mark, now] that is visible and within IDLE of the last input.
@@ -121,8 +141,17 @@ function sections(home: boolean) {
   document.querySelectorAll('main section[id]').forEach(s => { if (!seen.has(s.id)) io!.observe(s) })
 }
 
+function visibility() {
+  tick()
+  vis = document.visibilityState === 'visible'
+  if (!vis) return leave()
+  active = performance.now()
+  left = false
+}
+const restored = (e: PageTransitionEvent) => { if (e.persisted) visibility() }
+const acts = ['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart']
+
 function start() {
-  started = true
   const q = new URLSearchParams(location.search)
   const me = q.get('me')
   if (me === '1') put(L, 'trk-me', '1')
@@ -147,18 +176,23 @@ function start() {
     setTimeout(() => history.replaceState(null, '', location.pathname + (s ? '?' + s : '') + location.hash))
   }
   vis = document.visibilityState === 'visible'
-  const o = { passive: true }
-  for (const k of ['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart']) addEventListener(k, act, o)
-  document.addEventListener('click', click, { capture: true, passive: true })
-  document.addEventListener('auxclick', click, { capture: true, passive: true })
-  document.addEventListener('visibilitychange', () => {
-    tick()
-    vis = document.visibilityState === 'visible'
-    if (vis) active = performance.now()
-    else leave()
-  })
+  const o = { passive: true }, c = { capture: true, passive: true }
+  acts.forEach(k => addEventListener(k, act, o))
+  document.addEventListener('click', click, c)
+  document.addEventListener('auxclick', click, c)
+  document.addEventListener('visibilitychange', visibility)
   addEventListener('pagehide', leave)
-  subscribe((y, vh) => { deep = Math.max(deep, (y + vh) / H); act() }, () => { H = document.documentElement.scrollHeight })
+  addEventListener('pageshow', restored)
+  const unsub = subscribe((y, vh) => { deep = Math.max(deep, (y + vh) / H); act() }, () => { H = document.documentElement.scrollHeight })
+  off = () => {
+    acts.forEach(k => removeEventListener(k, act))
+    document.removeEventListener('click', click, true)
+    document.removeEventListener('auxclick', click, true)
+    document.removeEventListener('visibilitychange', visibility)
+    removeEventListener('pagehide', leave)
+    removeEventListener('pageshow', restored)
+    unsub()
+  }
 }
 
 function view(path: string) {
@@ -180,9 +214,9 @@ function view(path: string) {
 export default function Tracker() {
   const path = usePathname()
   useEffect(() => {
-    const n = navigator as Navigator & { globalPrivacyControl?: boolean }
-    if (!EP || n.globalPrivacyControl === true || n.doNotTrack === '1') return
-    if (!started) start()
+    if (!EP) return
+    if (blocked()) return stop()
+    if (!off) start()
     view(path)
   }, [path])
   return null

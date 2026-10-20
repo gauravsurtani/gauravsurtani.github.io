@@ -15,7 +15,8 @@
 // Camera (html.mo and no reduced motion): from where R nears the records, the card becomes a camera on the record
 // (experience/camera.ts says where it looks, experience/camera.css re-maps the card's own marks): it zooms into the
 // role being read, writes that role's bar in amber with the sweep's pen as you read, pans between roles, and at the
-// end pulls back to 2018 - now with every bar written. Phones: the same camera inside the evidence strip. A pure
+// end pulls back to 2018 - now with every bar written; the card header reads the view's dates meanwhile (camera.ts
+// range). Phones: the same camera inside the evidence strip. A pure
 // function of the scroll, so it runs both ways. It hands the card back at once when the opening or a hover preview
 // takes it (api.watch), and Scene A re-cites from the next frame.
 // Proof phrases: each role's Mark is the intro's highlighter, scrubbed by scroll as it crosses 62% -> 46% of the
@@ -27,7 +28,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { onReduce } from '@/components/motion/reduce'
 import { remeasure, subscribe } from '@/components/motion/scroll'
 import EvidenceStrip, { type StripState } from './EvidenceStrip'
-import { shot, type Plan, type Shot, type View } from './experience/camera'
+import { range, shot, type Plan, type Shot, type View } from './experience/camera'
 import { getTraceApi } from './trace-api'
 
 const smooth = (a: number, b: number, x: number) => {
@@ -38,7 +39,7 @@ const clamp = (v: number) => (v < 0 ? 0 : v > 1 ? 1 : v)
 
 export default function TraceFollow() {
   const [strip, setStrip] = useState<StripState>({ k: null, prev: null, n: 0 })
-  const stripEl = useRef<HTMLDivElement | null>(null)
+  const stripEl = useRef<HTMLAnchorElement | null>(null)
 
   useEffect(() => {
     const d = document.documentElement
@@ -62,6 +63,8 @@ export default function TraceFollow() {
     const ov = root?.querySelector<HTMLElement>('[data-ov]')
     const band = root?.querySelector<HTMLElement>('[data-band]')
     const cursor = root?.querySelector<HTMLElement>('[data-cursor]')
+    const title = root?.querySelector<HTMLElement>('.t-title')
+    const rest = title?.textContent ?? ''               // "2018 – now"
     const camReady = !!(api && sec && ov && band && cursor && rows.length && recs.every(Boolean))
     let plan: Plan | null = null
     let cw = 0, aw = 0
@@ -123,6 +126,7 @@ export default function TraceFollow() {
       root!.style.setProperty('--c0', v0.toFixed(5))
       root!.style.setProperty('--cs', cs.toFixed(5))
       root!.style.setProperty('--vd', st.vd.toFixed(3))
+      if (title) { const t = range(v0, v1, plan!.now); if (title.textContent !== t) title.textContent = t }
       const cc = st.cur >= 0 ? st.cur : st.vd > 0 ? rows.length - 1 : -1   // the last row stays lit into the pull-back
       rows.forEach((r, i) => {
         const f = st.f[i]
@@ -145,6 +149,7 @@ export default function TraceFollow() {
       cardOn = false
       cardSig = ''
       root!.classList.remove('cam')
+      if (title) title.textContent = rest
       for (const p of ['--c0', '--cs', '--vd']) root!.style.removeProperty(p)
       rows.forEach(r => { r.classList.remove('cc', 'cw', 'wr'); r.style.removeProperty('--f') })
       lastF.length = 0
@@ -277,8 +282,25 @@ export default function TraceFollow() {
     }
   }, [])
 
+  // Projects folds (Experience). Motion on: phones close every fold at load (the CSS already shows them closed until
+  // data-fold is set, so nothing moves) and desktop keeps them open; a resize past 1024px opens them (desktop has no
+  // summary to open one with). Reduced motion (at load or turned on later) and no JS: every fold open.
+  useEffect(() => {
+    const sec = document.getElementById('experience')
+    if (!sec || !document.documentElement.classList.contains('mo')) return
+    const folds = [...sec.querySelectorAll<HTMLDetailsElement>('details')]
+    const desk = matchMedia('(min-width: 1024px)')
+    const open = () => folds.forEach(f => { f.open = true })
+    if (!desk.matches) folds.forEach(f => { f.open = false })
+    sec.setAttribute('data-fold', '')
+    const wide = () => { if (desk.matches) open() }
+    desk.addEventListener('change', wide)
+    const offReduce = onReduce(open)
+    return () => { desk.removeEventListener('change', wide); offReduce() }
+  }, [])
+
   // the strip mounts after hydration (a portal): measure it once it is there
-  const onStrip = useCallback((el: HTMLDivElement | null) => { stripEl.current = el; if (el) remeasure() }, [])
+  const onStrip = useCallback((el: HTMLAnchorElement | null) => { stripEl.current = el; if (el) remeasure() }, [])
 
   return <EvidenceStrip {...strip} rootRef={onStrip} onRolled={() => setStrip(s => ({ ...s, prev: null }))} />
 }

@@ -34,12 +34,6 @@
   .recHead { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 8px; }
 }
 
-/* the creed closes the list */
-.creed { margin-top: 8px; }
-.line { margin-top: 22px; font-family: var(--f-serif); font-optical-sizing: auto; font-size: clamp(22px, 2vw, 28px); line-height: 1.3;
-  letter-spacing: -.012em; color: var(--ink); max-width: 16.9em; }   /* 30ch of Newsreader, in em: no re-wrap when the font arrives late */
-.creed .line + p { margin-top: 6px; }
-
 /* facts: mono key above its value. Link values keep the .lnk 44px box; nothing pulls that box up into the key, so
    the focus ring never crosses the key text. Plain values get the same 12px inset, so every value sits on one rhythm.
    No row borders: the .lnk hairline is the link cue and the aside's .rule frames the list; spacing separates rows. */

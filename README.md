@@ -74,7 +74,7 @@ It does not read `public/resume.pdf`, the resume roles' timeline months (`s`, `e
 
 Update the resume in 3 steps:
 
-1. Edit `resume.md`. Export the same text to `public/resume.pdf`.
+1. Edit `resume.md`. Run `node scripts/resume/build.mjs` to rebuild `public/resume.pdf` from it (needs python3 with Playwright, and pdftotext for its check that the PDF text matches `resume.md`).
 2. Copy the changed strings into `src/content/resume.json` word for word. Mark one phrase per role with `[[...]]`. For a new start or end month, set `s` or `e` to a decimal year (month m is `year + (m - 1) / 12`), or `"now"` for a current role. If the summary changed, also update `DESCRIPTION` in `src/app/layout.tsx` and the `/about` story.
 3. Run `npm run build`, then `npm run check:facts`. Fix every line it prints.
 

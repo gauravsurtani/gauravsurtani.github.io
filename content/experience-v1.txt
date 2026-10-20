@@ -1,4 +1,5 @@
-// The old portfolio's experience data, verbatim from master:src/lib/constants.ts (PROFESSIONAL_EXPERIENCE).
+// The old portfolio's experience data, verbatim from master:src/lib/constants.ts (PROFESSIONAL_EXPERIENCE), less two
+// internal details (a release list and the API's limits) that the site does not show.
 // Not built or imported. scripts/check-facts.mjs reads it as text: every role, project, link, stack item and number
 // in src/content/experience.json must exist here or in resume.md. resume.md wins where the two disagree.
 
@@ -27,8 +28,7 @@ export const PROFESSIONAL_EXPERIENCE = [
         description: 'Structured technical interviews used in live hiring, graded from the transcript',
         achievements: [
           'Evidence-based grading: every skill score is tied to a verified quote from the transcript',
-          'Hiring managers decide from the report rather than the recording',
-          'Four production releases in September 2026: reminders and reinvites, admin activation, 90-day interview windows, clean turn-limit closing'
+          'Hiring managers decide from the report rather than the recording'
         ]
       },
       {
@@ -38,7 +38,7 @@ export const PROFESSIONAL_EXPERIENCE = [
           'Migrated from Railway to AWS (ECS, Terraform) with zero-downtime deploys',
           'Bulk actions that move up to 1,000 candidates through a hiring stage at once',
           'Scores from existing profile data first and calls a model only when needed, cutting LLM costs',
-          'Scoped API with usage limits so other internal tools pull candidate and company enrichment directly'
+          'Scoped API so other internal tools can use it'
         ]
       },
       {

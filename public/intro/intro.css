@@ -6,6 +6,17 @@ html.gi-up::after{content:none}
    while the name crosses it: it goes at once and fades back as the name lands. CTAs, notes and the card stay in place. */
 html.gi-sh #h-name,html.gi-sh #h-name+p,html.gi-sh #hero>p{opacity:0!important}
 html.gi:not(.gi-sh) #hero>p{transition:opacity .28s ease}
+/* the same for what the flight passes over on the way up from the middle of the screen: the card's labels (the card
+   sits beside the hero from 1024px, below it under that) and, below 1024px, the buttons and the card's head and axis.
+   Phones skip the labels: their title fades before the split and the name passes above them. */
+@media (min-width:640px){
+  html.gi-sh #trace .lbl{opacity:0!important}
+  html.gi:not(.gi-sh) #trace .lbl{transition:opacity .28s ease}
+}
+@media (max-width:1023.98px){
+  html.gi-sh :is(#hero .cta,#trace .t-head,#trace .axis){opacity:0!important}
+  html.gi:not(.gi-sh) :is(#hero .cta,#trace .t-head,#trace .axis){transition:opacity .28s ease}
+}
 
 #gi-intro{position:fixed;inset:0;z-index:2147483647;overflow:hidden;contain:strict;cursor:default;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
 #gi-intro.gi-out{pointer-events:none}

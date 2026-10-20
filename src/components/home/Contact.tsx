@@ -1,11 +1,13 @@
 // Home Contact (server), the bookend of the opening: scroll option C "The record closes", the intro run backwards.
-// Under motion the section is a tall stage whose frame stays pinned with the email set full width, while his resume
-// record closes in from the top and bottom onto a seam under the email; the seam becomes the verdict line under the
-// address and the "now" cursor drops onto its open end. ContactScene (contact/ContactScene.tsx) renders the record
-// and drives the scene from the scroll position; the stage itself is CSS (Contact.module.css).
+// His resume record closes in from the top and bottom onto a seam under the email; the seam becomes the verdict line
+// under the address and the "now" cursor drops onto its open end. On a screen at least 641px wide and 521px tall the
+// frame is pinned for 0.6 screens and the scroll drives the scene; elsewhere (phones) there is no pin and the scene
+// plays once when the reader reaches the email. ContactScene (contact/ContactScene.tsx) renders the record and drives
+// the scene; the stage itself is CSS (Contact.module.css).
 // The axis uses the timeline card's geometry: a year y sits at (y - 2018) / (--now - 2018), --now is on <html>.
 // The heading is the site's reach reveal. The email, Copy and the links are never hidden.
-// No JS, reduced motion or a screen under 521px tall: no stage; axis, cursor at now, the amber line and dot drawn.
+// No JS or reduced motion: no scene; the scene's end state (the email fills the column, axis, cursor at now, the amber
+// line and its dot under the "now" tick).
 import type { CSSProperties } from 'react'
 import MaskHeading from '@/components/motion/MaskHeading'
 import { rv } from '@/components/motion/reveal'

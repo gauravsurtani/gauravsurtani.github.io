@@ -16,7 +16,8 @@
      reads its currentTime on mount, so the JS sweep stays on the CSS schedule even when hydration is late.
 
    Beats (ms): name 0, summary 260 to ~1480, card 640 (shadow 790), labels and gridlines 720, notes and CTAs 1450,
-   sweep 1100 to 2500, verdict 2500 (span drawn by ~2950, fades 3480 to 3800), nav 3000 (landed ~3300), cleanup 3800. */
+   sweep 1100 to 2500, verdict 2500 (span drawn by ~2950, fades 3480 to 3800), nav 3000 (landed ~3300), cleanup 3800.
+   Brief: everything by ~700; the hand-off sweep runs 150ms after the intro's reveal for 700ms, closing 450ms later. */
 
 @media (prefers-reduced-motion: no-preference) {
   html.intro { --tk: 1; }
@@ -56,6 +57,10 @@
   html.intro.brief :is(#hero .tk, #hero .av, #hero .cta > li, #hero .notes > li, #trace, #trace .notes > li, #trace .lbl, #trace .yr, #trace .gl),
   html.intro.brief #trace::after { animation-duration: 280ms; }
   html.intro.brief #trace { animation-name: i-fade, i-up10; }
+  /* the hand-off sweep's shorter closing beat (Entrance B_HOLD, B_FADE): the span draws back in 300ms and fades in
+     200ms, the end pings last 400ms, all over before cleanup drops html.brief */
+  html.intro.brief #trace .band.vd { transition: opacity 200ms var(--e-soft), transform 300ms var(--e-land); }
+  html.intro.brief #trace .ping::after { animation-duration: 400ms; }
 
   /* skip: whatever the landing triggers runs at 180ms */
   html.skip #trace .bar, html.skip #trace .cap, html.skip #trace .cursor, html.skip #hero .claim .w::after {

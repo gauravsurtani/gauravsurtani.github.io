@@ -15,7 +15,7 @@ export const metadata: Metadata = pageMeta('Things to build', DEK, '/things-to-b
 
 const SPECS = [
   {
-    title: 'Tech Blog Catchup – Android App',
+    title: 'Blog2Podcast Android app',
     description: 'A "NotebookLM-style" audio experience for engineering blogs. Users input URLs from tech blogs (Uber, Netflix, Meta, etc.), and the app converts them into conversational audio podcasts using LLMs and TTS.',
     tags: ['Mobile', 'Flutter', 'AI', 'Audio'],
     href: '/things-to-build/android-app',

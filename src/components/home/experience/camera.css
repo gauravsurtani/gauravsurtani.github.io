@@ -15,6 +15,7 @@
 .trace .mt.q { bottom: 0; height: auto; }   /* quarters run the full height, other months are 4px ticks */
 .trace .ql { position: absolute; top: 1px; left: calc((var(--y) - var(--t0)) / var(--span) * 100%); font: 400 10.5px/1 var(--f-mono); color: var(--muted); }
 .trace .chip { position: absolute; left: 0; top: 50%; width: auto; min-width: 20px; height: 20px; margin-top: -10px; padding: 0 4px; border-radius: 5px; font-size: 9px; }
+.trace .chip[data-fill] { padding: 0; }
 
 #trace.cam { --ppy: calc(var(--cw) / var(--cs)); }   /* px per year in view */
 #trace.cam .ov { clip-path: inset(0 -1px); }

@@ -4,8 +4,9 @@
 // bracket: each skill's leader runs to a shared spine, and the role link (company name, links to its record in
 // #experience) sits on the bundle's first row. A null link renders the skill plain, with no line.
 // Desktop (>= 960px): the groups are three columns. Below: one group under the other, dash markers on phones.
-// Motion ("Sorted", skills/SkillsMotion.tsx): the 22 skills start as one dim shuffled stream and, with the reader's
-// scroll, arc into their groups one by one; each lands, gets an amber sweep and draws its leader into its bundle.
+// Motion ("Sorted", skills/SkillsMotion.tsx): from 1024px the 22 skills start as one dim shuffled stream and arc into
+// their groups one by one with the reader's scroll; each lands, gets an amber sweep and draws its leader into its
+// bundle. Below 1024px each group plays once when it is reached: its skills rise in, then draw their leaders.
 // No JS or reduced motion: this markup is the finished state.
 import MaskHeading from '@/components/motion/MaskHeading'
 import { rv } from '@/components/motion/reveal'

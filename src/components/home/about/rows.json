@@ -17,6 +17,6 @@
   },
   "gaurav-os": {
     "label": "Running",
-    "proof": "refreshes every ten minutes, 1,400+ unattended runs"
+    "proof": "refreshes itself every ten minutes"
   }
 }

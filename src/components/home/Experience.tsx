@@ -6,6 +6,9 @@
 // Motion: a record is several data-rv blocks, so each part rises when it is reached. The head block draws its .rule
 // (P4), then header, title line, note and bullets rise (P3, 40ms stagger capped at 6), and the role's Mark draws 420ms
 // after the reveal (P5). Then the "Projects" label, each project, and the Stack line are blocks of their own.
+// Projects sit in a native <details>, open in the HTML (no JS and reduced motion show everything). Desktop: always open,
+// the summary hidden, the mono label above the list. Phones: the summary is the label plus the project names in one run;
+// TraceFollow closes every fold at load (CSS shows them closed from first paint, so nothing moves) and one tap opens one.
 // Desktop header: company left, dates right, then "title · place". Phones (G13): one mono line "dates · place"
 // above the company. Each role header carries its logo slot (experience/Logo: a monogram until logos.json lists a file).
 // TraceFollow is the client part: Scene A and the timeline camera on desktop, the evidence strip (and its camera)
@@ -59,7 +62,11 @@ export default function Experience() {
             </div>
 
             {r.projects.length > 0 && (
-              <div className={s.prj}>
+              <details className={s.prj} open>
+                <summary className={s.sum} {...rv()}>
+                  <span className={s.sh} {...ri(0)}>Projects <span className={s.pc}>{r.projects.length}</span><i className={s.chev} aria-hidden="true" /></span>
+                  <span className={s.nm} {...ri(1)}>{r.projects.map(p => p.name).join(' · ')}</span>
+                </summary>
                 <p className={s.pl} {...rv()}><span {...ri(0)}>Projects <span className={s.pc}>{r.projects.length}</span></span></p>
                 <ul className={s.pjs}>
                   {r.projects.map(p => (
@@ -74,7 +81,7 @@ export default function Experience() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </details>
             )}
 
             <div {...rv()}>

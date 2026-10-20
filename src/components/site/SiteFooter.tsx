@@ -8,7 +8,7 @@ export default function SiteFooter() {
     <footer className="site-foot">
       <div className="wrap foot">
         <span>{resume.name} · {resume.location}</span>
-        {process.env.NEXT_PUBLIC_TRACKER_URL ? <span>This site counts visits (page, referrer, approximate location). No cookies.</span> : null}
+        {process.env.NEXT_PUBLIC_TRACKER_URL ? <span>This site counts visits: pages and sections viewed, clicks, time on page, referrer, device, approximate location. No cookies.</span> : null}
         <span>{new Date().getFullYear()}</span>
       </div>
     </footer>

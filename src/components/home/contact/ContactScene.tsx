@@ -1,29 +1,30 @@
 'use client'
-// Contact scene, scroll option C "The record closes": the intro run backwards, scrubbed by the scroll position.
-// Behind the pinned contact frame, the record (his resume lines from the intro, record.json, dim, evidence marked) comes
-// back as the two halves the intro split apart. They close in from the top and the bottom of the screen and shut on a
-// seam that lies under the email, while the axis cursor runs from 2018 to now. The closed record folds into the seam,
-// the seam contracts to the width of the email (the verdict line), and the cursor drops from "now" onto its open end.
+// Contact scene, scroll option C "The record closes": the intro run backwards.
+// Behind the contact content, the record (his resume lines from the intro, record.json, dim, evidence marked) comes
+// back as the two halves the intro split apart. They close in from the top and the bottom and shut on a seam that lies
+// under the email, while the axis cursor runs from 2018 to now. The closed record folds into the seam, the seam
+// contracts to the width of the email (the verdict line), and the cursor drops from "now" onto its open end.
 //
-// k: -0.22 just before the frame pins, 0 when it pins, 1 when it unpins or the page ends (on phones the short frame
-// is still pinned when the page ends). The scene follows the scroll with a short
-// scrub (time constant 0.28s) and runs both ways. A jump (deep link, nav, reload) snaps to the scroll position;
-// #contact lands at the end of the stage (scroll-margin-top in Contact.module.css), so it shows the finished state.
-// Renders the record columns (React, after the first measure: their number depends on the frame width) and the drop.
-// Only runs on the stage (html.mo, STAGE matches, the frame is sticky); otherwise the section stays static and this
-// renders nothing visible. STAGE is re-evaluated on change (reduced motion turned on, a window made short): off the
-// stage the scene stops and removes every inline style it wrote, so the static section is exactly the CSS one.
-// Reads the scroll through the shared driver, writes transforms and opacity only.
+// k runs from K0 to 1. Two ways, picked by the CSS (Contact.module.css):
+// - the stage (the frame is sticky): scrubbed by the scroll position. k is K0 just before the frame pins, 0 when it
+//   pins, 1 when it unpins or the page ends. The scene follows the scroll with a short scrub (time constant 0.28s)
+//   and runs both ways. A jump (deep link, nav, reload) snaps to the scroll position; #contact lands at the end of the
+//   stage (scroll-margin-top), so it shows the finished state.
+// - no pin (phones, short screens): played once, in PLAY seconds, when the email's bottom reaches 85% of the
+//   viewport, then it stays finished. A #contact load shows it finished.
+// Renders the record columns (React, after the first measure: their number depends on the record's width) and the
+// drop. Reads the scroll through the shared driver, writes transforms and opacity only. Reduced motion turned on at
+// runtime (motion/reduce): the scene stops and removes every inline style it wrote, so the section is the static one.
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { onReduce } from '@/components/motion/reduce'
 import { subscribe, remeasure } from '@/components/motion/scroll'
 import s from '../Contact.module.css'
 import REC from './record.json'
 
 const N = REC.length
-// the stage's media query: the same as the stage blocks in Contact.module.css
-const STAGE = '(prefers-reduced-motion: no-preference) and (min-height: 521px)'
 const SPD = [21, 27, 17, 31, 24, 19, 29]
 const K0 = -0.22
+const PLAY = 2.2
 
 const cl = (x: number) => (x < 0 ? 0 : x > 1 ? 1 : x)
 const seg = (t: number, a: number, d: number) => cl((t - a) / d)
@@ -58,22 +59,24 @@ function Entry({ e: [label, text, mark] }: { e: string[] }) {
   )
 }
 
-// the scene on the stage (r the record, dr the drop, fr the frame, sec the section); returns its stop
+// the scene (r the record, dr the drop, fr the frame, sec the section); returns its stop
 function run(r: HTMLElement, dr: HTMLElement, fr: HTMLElement, sec: HTMLElement, setW: (w: number) => void, colsRef: { current: Col[] }) {
   const q = (c: string) => sec.querySelector<HTMLElement>(`.${c}`)!
   const box = q(s.box), axis = q(s.axis), cur = q(s.cur), cap = q(s.cap), land = q(s.land), links = q(s.links), seam = q(s.seam)
   const tag = cur.firstElementChild as HTMLElement, head = sec.querySelector<HTMLElement>('.sec-h')!
   const halves = Array.from(r.querySelectorAll<HTMLElement>(`.${s.half}`)), edges = Array.from(r.querySelectorAll<HTMLElement>(`.${s.edge}`))
-  let M: { W: number; H: number; Ys: number; bl: number; bw: number; start: number; end: number; doc: number } | null = null
+  let M: { pin: boolean; W: number; H: number; Ys: number; bl: number; bw: number; start: number; end: number; doc: number; reach: number } | null = null
   let els: HTMLElement[][] = [[], []], w0 = 0, shown = '', pv = -9, sv = -9, raf = 0, last = 0, dirty = false
+  // no pin: when the play started, and whether it finished (for good)
+  let t0 = 0, fin = location.hash === '#contact'
 
-  // layout is read here only: on subscribe, font load, size changes and new columns; never per frame
-  // H: the record's height, one screen (on phones the frame is shorter than the record)
+  // layout is read here only: on subscribe, font load, size changes and new columns; never per frame.
+  // The record's own box is the scene's space: the frame on the stage, the whole section without a pin.
   function measure() {
-    const W = fr.clientWidth, H = r.clientHeight
+    const W = r.clientWidth, H = r.clientHeight
     if (W !== w0) { w0 = W; setW(W) }
     r.style.setProperty('--rf', `${W < 640 ? 15 : W < 1100 ? 17 : 18}px`)
-    const f = fr.getBoundingClientRect(), br = box.getBoundingClientRect(), ar = axis.getBoundingClientRect()
+    const f = r.getBoundingClientRect(), br = box.getBoundingClientRect(), ar = axis.getBoundingClientRect()
     // the seam: under the email, where the verdict line will be
     const Ys = Math.round(br.bottom - f.top - 5)
     halves[0].style.clipPath = `inset(0 0 ${H - Ys}px 0)`
@@ -91,8 +94,8 @@ function run(r: HTMLElement, dr: HTMLElement, fr: HTMLElement, sec: HTMLElement,
     r.style.setProperty('--b1', `${Math.round(links.getBoundingClientRect().bottom - f.top + 8)}px`)
     els = halves.map(h => Array.from(h.children) as HTMLElement[])
     const top = sec.getBoundingClientRect().top + scrollY
-    M = { W, H, Ys, bl: br.left - f.left, bw: box.offsetWidth, start: top, end: top + sec.offsetHeight - fr.offsetHeight,
-      doc: document.documentElement.scrollHeight }
+    M = { pin: getComputedStyle(fr).position === 'sticky', W, H, Ys, bl: br.left - f.left, bw: box.offsetWidth, start: top,
+      end: top + sec.offsetHeight - fr.offsetHeight, doc: document.documentElement.scrollHeight, reach: br.bottom + scrollY }
     dirty = true
   }
 
@@ -134,7 +137,7 @@ function run(r: HTMLElement, dr: HTMLElement, fr: HTMLElement, sec: HTMLElement,
     cap.style.transform = `scale(${back(seg(k, 0.91, 0.06)).toFixed(3)})`
   }
 
-  // scrub: ease toward the scroll position; jump when far away (a reload or a jump link)
+  // the stage: ease toward the scroll position; jump when far away (a reload or a jump link)
   function step() {
     raf = 0
     const t = performance.now(), dt = last ? Math.min(0.1, (t - last) / 1000) : 0.016
@@ -146,10 +149,26 @@ function run(r: HTMLElement, dr: HTMLElement, fr: HTMLElement, sec: HTMLElement,
     else last = 0
   }
 
-  // per scroll frame: off the stage the position stays clamped, so nothing runs. The end is the unpin or the last
-  // scroll position, whichever comes first (vh from the driver: a phone's URL bar moves the last position)
+  // no pin: the play, once
+  function play() {
+    raf = 0
+    const p = t0 ? cl((performance.now() - t0) / (PLAY * 1000)) : 0
+    if (p >= 1) fin = true
+    draw(fin ? 1 : K0 + (1 - K0) * p)
+    if (!fin && t0) raf = requestAnimationFrame(play)
+  }
+
+  // per scroll frame. The stage: off the stage the position stays clamped, so nothing runs. The end is the unpin or
+  // the last scroll position, whichever comes first (vh from the driver: a phone's URL bar moves the last position).
   function frame(y: number, vh: number) {
     if (!M) return
+    // new geometry (or a switch between the two ways): restart the drawing from the current state
+    if (dirty) { cancelAnimationFrame(raf); raf = 0 }
+    if (!M.pin) {
+      if (!t0 && !fin && y >= M.reach - 0.85 * vh) { t0 = performance.now(); dirty = true }
+      if (dirty) { dirty = false; play() }
+      return
+    }
     const end = Math.max(M.start + 1, Math.min(M.end, M.doc - vh - 1))
     const p = Math.max(K0, Math.min(1, (y - M.start) / (end - M.start)))
     if (p === pv && !dirty) return
@@ -163,7 +182,7 @@ function run(r: HTMLElement, dr: HTMLElement, fr: HTMLElement, sec: HTMLElement,
     off()
     cancelAnimationFrame(raf)
     for (const el of [r, dr, seam, cur, tag, land, cap, ...halves, ...edges]) el.removeAttribute('style')
-    setW(0)   // drops the record columns (and their transforms) until the stage is back
+    setW(0)   // drops the record columns (and their transforms) until the scene runs again
   }
 }
 
@@ -188,15 +207,9 @@ export default function ContactScene() {
   useEffect(() => {
     const r = rec.current, dr = drop.current, fr = r?.parentElement, sec = fr?.parentElement
     if (!r || !dr || !fr || !sec || !document.documentElement.classList.contains('mo')) return
-    const mq = matchMedia(STAGE)
-    let stop: (() => void) | undefined
-    const sync = () => {
-      stop?.()
-      stop = mq.matches && getComputedStyle(fr).position === 'sticky' ? run(r, dr, fr, sec, setW, colsRef) : undefined
-    }
-    sync()
-    mq.addEventListener('change', sync)
-    return () => { mq.removeEventListener('change', sync); stop?.() }
+    const stop = run(r, dr, fr, sec, setW, colsRef)
+    const offReduce = onReduce(stop)
+    return () => { offReduce(); stop() }
   }, [])
 
   return (

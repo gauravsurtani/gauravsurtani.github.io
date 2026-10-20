@@ -12,17 +12,22 @@
 //   (600ms --e-land, visually full by about 2.95s), holds it, and fades it from 3480 to 3800ms. Cleanup at 3800ms.
 // - Brief (under the full-screen intro, public/intro, once per browser session): CSS draws the text, the CTAs and the
 //   card in about 0.7s; the bars, caps and claim marks stay held. The intro's reveal ("gi-out" event, or
-//   window.__giOut if it came before hydration) is the hand-off: the sweep alone runs 300ms later, or, after a skip
-//   (detail true / __giOut 2), everything lands at once. Failsafe: the hand-off runs anyway at 6.5s.
+//   window.__giOut if it came before hydration) is the hand-off: the sweep alone runs 150ms later on a shorter clock
+//   (B_*: 700ms sweep, the span drawn back, held and faded by 450ms after it; entrance.css shortens the span's and the
+//   pings' CSS to match), so the page is at rest about 4.5s after load. After a skip (detail true / __giOut 2),
+//   everything lands at once. Failsafe: the hand-off runs anyway at 6.5s.
 // - Skip: wheel, touchstart, pointerdown, keydown or a 40px scroll. Every CSS animation still waiting starts now, and
 //   all of them land on one 180ms clock (updatePlaybackRate); the sweep jumps to its end with 180ms transitions.
 //   An input from before the start is not a skip: the input that ended the intro is what handed off to this.
 // - Replay (#replay): restarts every CSS animation (class off, reflow, class on) with the nav left in place.
+// - Reduced motion turned on (onReduce): the sweep, its timers and listeners stop, and the hero and card are left as a
+//   reduced-motion load draws them (no inline styles, no state classes).
 // - Cites: claim hover/focus lights its evidence rows and the paired note; claim click lands on the record. Row hover
 //   (mouse, not while scrolling) previews the row and tints its claims; row click lands. The next scroll clears it.
 // Scene A (TraceFollow) stays out while api.state.intro or api.state.preview is true; remeasure() hands it back.
 import { useEffect } from 'react'
 import { land } from '@/components/motion/land'
+import { onReduce } from '@/components/motion/reduce'
 import { remeasure, subscribe } from '@/components/motion/scroll'
 import { getTraceApi } from './trace-api'
 
@@ -31,6 +36,9 @@ const SWEEP = 1100      // ms on the CSS clock
 const DUR = 1400
 const HOLD = 980        // verdict start -> span fade: the 600ms draw is visually full by ~450ms, then held 500ms
 const END = SWEEP + DUR + HOLD + 320   // 3800: the span's 320ms fade ends; every CSS beat (nav 3000 + 700) is over
+// brief: the hand-off from the full-screen intro (its own CSS beats ended at ~0.7s). Wait after the reveal, sweep, hold
+// (the span's 300ms draw is visually full by ~220ms), fade (entrance.css: band 300/200ms, pings 400ms)
+const B_WAIT = 150, B_DUR = 700, B_HOLD = 250, B_FADE = 200
 const SKIPS = ['wheel', 'touchstart', 'pointerdown', 'keydown'] as const
 const clamp = (x: number) => (x < 0 ? 0 : x > 1 ? 1 : x)
 
@@ -60,7 +68,7 @@ export default function Entrance() {
 
     let W = ov.clientWidth
     let running = false, raf = 0, timer = 0, preview = false, lastY = -1
-    let NOW = 2026.8, el0 = 0, t0 = 0, sweepStart = SWEEP, end = END, y0 = 0, year = 0
+    let NOW = 2026.8, el0 = 0, t0 = 0, sweepStart = SWEEP, end = END, y0 = 0, year = 0, dur = DUR, hold = HOLD
     let S: number[] = [], E: number[] = []
     let done: { [k: string]: boolean } = {}
     const X = (y: number) => (y - T0) / (NOW - T0)
@@ -78,7 +86,7 @@ export default function Entrance() {
     const tick = (ts: number) => {
       const el = el0 + Math.max(0, ts - t0)
       if (el < sweepStart) { raf = requestAnimationFrame(tick); return }    // the CSS beats run on their own until then
-      const k = clamp((el - sweepStart) / DUR)
+      const k = clamp((el - sweepStart) / dur)
       const cur = T0 + (1 - (1 - k) ** 2) * (NOW - T0)
       if (k < 1) {
         cursor.classList.add('on')
@@ -110,7 +118,7 @@ export default function Entrance() {
         band.classList.add('vd')
         api.bandTo(X(FIRST), 1)                                             // the verdict: draw back to May 2018
       }
-      if (done.all && el >= sweepStart + DUR + HOLD) {
+      if (done.all && el >= sweepStart + dur + hold) {
         // the span fades (a 320ms CSS transition): no frame work is left, so the loop stops here (before 3.5s)
         band.classList.remove('on')
         timer = window.setTimeout(() => finish(false), Math.max(0, end - el))
@@ -122,8 +130,9 @@ export default function Entrance() {
     const onSkip = (e: Event) => { if (e.timeStamp >= t0) finish(true) }
     const listen = (on: boolean) => SKIPS.forEach(e => (on ? window.addEventListener(e, onSkip, { passive: true }) : window.removeEventListener(e, onSkip)))
 
-    // wait: the hand-off from the intro; the sweep starts that many ms from now, whatever the CSS clock says
+    // wait: the hand-off from the intro (brief); the sweep starts that many ms from now, whatever the CSS clock says
     const start = (wait?: number) => {
+      const brief = wait !== undefined
       running = true
       done = {}
       year = 0
@@ -140,7 +149,9 @@ export default function Entrance() {
       el0 = wait !== undefined ? SWEEP - wait : clock ? Number(clock.currentTime) || 0 : fcp ? performance.now() - fcp.startTime : 0
       t0 = performance.now()
       sweepStart = Math.max(SWEEP, el0)                                     // late hydration: the sweep starts now
-      end = Math.max(END, sweepStart + DUR + HOLD + 320)
+      dur = brief ? B_DUR : DUR
+      hold = brief ? B_HOLD : HOLD
+      end = brief ? sweepStart + dur + hold + B_FADE : Math.max(END, sweepStart + DUR + HOLD + 320)
       y0 = scrollY
       listen(true)
       // far too late for a sweep, or a skip already landed the hidden states (html.skip): land it all, never redraw
@@ -288,9 +299,17 @@ export default function Entrance() {
       clearTimeout(timer); timer = 0
       if (running || !d.classList.contains('brief')) return
       if (fast) d.classList.add('skip')                                     // start() lands it all
-      start(300)
+      start(B_WAIT)
     }
     const onGiOut = (e: Event) => handOff(!!(e as CustomEvent<boolean>).detail)
+
+    // ---- reduced motion turned on (html.mo is gone): land it all now, then drop every state the opening wrote ----
+    const offReduce = onReduce(() => {
+      removeEventListener('gi-out', onGiOut)
+      finish(true)
+      claims.forEach(c => c.classList.add('on'))
+      cleanup()
+    })
 
     // ---- mount ----
     const giOut = (window as Window & { __giOut?: number }).__giOut
@@ -302,6 +321,7 @@ export default function Entrance() {
     }
 
     return () => {
+      offReduce()
       removeEventListener('gi-out', onGiOut)
       finish(true)
       if (timer) cleanup()

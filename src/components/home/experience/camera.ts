@@ -56,10 +56,11 @@ export function shot(r: number, p: Plan): Shot {
   if (r < start) return out({ on: false })
   if (r < inside) return out({ view: lerp(full, roleView(0), sm((r - start) / (inside - start))), band: [S[0], E[0]] })
 
-  // the pull-back starts where the last bar is done. Desktop: 20% of a screen before the last record's bottom, over 30%
-  // (the runway holds the card until it ends). Phones: 32% before, over 26%, done before the strip leaves at that bottom.
+  // the pull-back starts where the last bar is done. Desktop: 20% of a screen before the last record's bottom, over 60%
+  // (a ~17x zoom-out needs the room; the runway holds the card until it ends). Phones: 32% before, over 26%, done
+  // before the strip leaves at that bottom.
   const e1 = Math.max(R[n - 1][0] + IN(n - 1) + 40, R[n - 1][1] - vh * (desk ? 0.2 : 0.32))
-  const vdLen = vh * (desk ? 0.3 : 0.26)
+  const vdLen = vh * (desk ? 0.6 : 0.26)
   for (let i = 0; i < n; i++) {
     const h0 = R[i][0] + IN(i), h1 = i < n - 1 ? R[i][1] - OUT(i) : e1
     if (r < h1) { f[i] = clamp((r - h0) / (h1 - h0)); return out({ view: roleView(i), cur: i, pos: i, band: [S[i], E[i]] }) }
@@ -75,4 +76,16 @@ export function shot(r: number, p: Plan): Shot {
 
   const t = sm((r - e1) / vdLen)
   return out({ view: lerp(roleView(n - 1), full, t), cur: -1, pos: n - 1, vd: t, band: [Math.min(...S), now] })
+}
+
+const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+// The card header while the camera films: its view as dates, "Mar – Dec 2025", "Apr 2025 – now", or years once the view
+// is wider than 2.5 years ("2021 – now"). The full view reads "2018 – now", the resting header.
+export function range(v0: number, v1: number, now: number) {
+  const a = Math.floor(v0 * 12 + 1e-6), b = Math.ceil(v1 * 12 - 1e-6) - 1     // first and last month in view
+  const end = v1 > now - 1 / 24 ? 'now' : null
+  if (v1 - v0 > 2.5) return `${Math.floor(a / 12)} – ${end ?? Math.floor(b / 12)}`
+  const m = (i: number) => `${MON[i % 12]} ${Math.floor(i / 12)}`
+  if (end) return `${m(a)} – now`
+  return Math.floor(a / 12) === Math.floor(b / 12) ? `${MON[a % 12]} – ${m(b)}` : `${m(a)} – ${m(b)}`
 }

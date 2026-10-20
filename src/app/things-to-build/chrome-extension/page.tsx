@@ -52,7 +52,7 @@ export default function ChromeExtensionSpec() {
           <ul className={`tags ${d.text}`} aria-label="Technology Stack" {...ri(0)}>{STACK.map(t => <li key={t} className="tag">{t}</li>)}</ul>
         </Rec>
         <Rec h="Status">
-          <p className={d.text} {...ri(0)}><span className="st">Specification Complete — Ready to Build</span></p>
+          <p className={d.text} {...ri(0)}><span className="st">Planned</span></p>
         </Rec>
       </div>
     </div>

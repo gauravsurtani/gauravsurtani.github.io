@@ -1,7 +1,7 @@
 // Self-check for camera.ts (no framework): node src/components/home/experience/camera.check.mjs
 // Real row dates, made-up record geometry. Prints "camera ok" or throws.
 import assert from 'node:assert/strict'
-import { shot } from './camera.ts'
+import { range, shot } from './camera.ts'
 
 // DLAI, Blog2Podcast, Tassel, Bexorg, NASA, SJSU, Ascendion, LIBS, Accenture, Enthralltech
 const S = [2025.667, 2026.167, 2025.417, 2024.333, 2023.917, 2023.5, 2021.917, 2021, 2018.75, 2018.333]
@@ -44,10 +44,19 @@ let e1 = R[n - 1][0]
 while (shot(e1, plan).cur !== -1) e1++
 assert.ok(shot(e1, plan).f.every(f => f === 1), 'every bar is written when the pull-back starts')
 assert.ok(e1 <= Math.max(R[n - 1][0] + 160, R[n - 1][1] - 900 * (desk ? 0.2 : 0.32)), `the pull-back starts at ${e1}`)
-// desktop: done 10% of a screen after the last record (the runway holds the card); phones: by the time the strip leaves
-const end = shot(R[n - 1][1] + (desk ? 90 : 0), plan)
+// desktop: done 40% of a screen after the last record (the runway holds the card); phones: by the time the strip leaves
+const end = shot(R[n - 1][1] + (desk ? 360 : 0), plan)
+// desktop: the pull-back is not done 35% of a screen after the last record (it takes 60% of a screen, not 30%)
+if (desk) assert.ok(shot(R[n - 1][1] + 315, plan).vd < 1, 'the desktop pull-back runs over 60% of a screen')
 assert.deepEqual(end.view, [2018, now])
 assert.equal(end.vd, 1)
 assert.ok(end.f.every(f => f === 1))
 }
+// the card header: the full view is the resting "2018 – now"; a role's view reads months, today as "now"
+assert.equal(range(2018, now, now), '2018 – now')
+assert.equal(range(2025.24, 2025.92, now), 'Mar – Dec 2025')
+assert.equal(range(2023.75, 2024.25, now), 'Oct 2023 – Mar 2024')
+assert.equal(range(2025.32, now, now), 'Apr 2025 – now')
+assert.equal(range(2021, now - 0.01, now), '2021 – now')
+assert.equal(range(2018, 2021.5, now), '2018 – 2021')
 console.log('camera ok')

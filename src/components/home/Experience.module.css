@@ -32,6 +32,8 @@
 .prj { margin-top: 26px; }
 .pl { margin-bottom: 12px; font: 500 12.5px/1 var(--f-mono); color: var(--ink-2); }
 .pc { margin-left: 4px; color: var(--muted); font-weight: 400; }
+/* the fold's summary: phones only (desktop keeps every fold open; TraceFollow re-opens one on a resize past 1024px) */
+.sum { display: none; }
 .pj { position: relative; padding: 0 0 22px 20px; margin-left: 3px; border-left: 1px solid var(--line-2); }
 .pjs > li:last-child .pj { padding-bottom: 4px; }
 .pj::before { content: ""; position: absolute; left: -4px; top: 7.5px; width: 7px; height: 7px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--muted); }
@@ -47,6 +49,24 @@
 .stk { margin-top: 18px; max-width: 72ch; font: 400 12.5px/1.75 var(--f-mono); color: var(--muted); }
 .sl { margin-right: 6px; font-weight: 500; color: var(--ink-2); }
 .si { white-space: nowrap; }
+
+/* Phones: the summary is the label (a 44px target), then the project names in one run while the fold is closed. */
+@media (max-width: 1023px) {
+  .pl { display: none; }
+  .sum { display: block; list-style: none; padding: 10px 0; margin: -10px 0; border-radius: 6px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .sum::-webkit-details-marker { display: none; }
+  .sh { display: flex; align-items: center; font: 500 12.5px/20px var(--f-mono); color: var(--ink-2); }
+  .chev { flex: none; width: 6px; height: 6px; margin: -3px 0 0 10px; border: solid var(--muted); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+  .nm { display: block; margin-top: 2px; max-width: 68ch; font-size: 14px; line-height: 1.5; color: var(--muted); }
+  .prj[open] > .sum { margin-bottom: 2px; }
+  .prj[open] .nm { display: none; }
+  .prj[open] .chev { margin-top: 3px; transform: rotate(-135deg); }
+  /* TraceFollow closes the folds at load (motion on) and then sets data-fold on the section. Until then html.mo shows
+     them closed, so closing them moves nothing. The 5s failsafe drops html.mo: a page whose JS never ran shows them. */
+  :global(html.mo) .exp:not([data-fold]) .prj > :not(summary) { display: none; }
+  :global(html.mo) .exp:not([data-fold]) .nm { display: block; }
+  :global(html.mo) .exp:not([data-fold]) .chev { margin-top: -3px; transform: rotate(45deg); }
+}
 
 @media (max-width: 760px) {
   .ph { display: block; padding-top: 18px; }
@@ -64,11 +84,12 @@
 }
 
 /* Timeline camera (option B, TraceFollow). Desktop: a runway after the records holds the card for the pull-back
-   to 2018 - now before it leaves. The pull-back ends 10% of a screen after the last record's bottom crosses the
+   to 2018 - now before it leaves. The pull-back ends 40% of a screen after the last record's bottom crosses the
    reading line (42%, camera.ts); the sticky card (top 50vh - 196px, 440px tall) starts to leave when the section's
-   bottom reaches its bottom. 23vh + 250px keeps the card in place until about 5% of a screen after the pull-back. */
-@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) {
-  :global(html.mo) .exp { padding-bottom: calc(23vh + 250px); }
+   bottom reaches its bottom. 53vh + 250px keeps the card in place until about 5% of a screen after the pull-back.
+   Under 540px tall the card is not pinned (trace.css), so there is no runway. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 1024px) and (min-height: 540px) {
+  :global(html.mo) .exp { padding-bottom: calc(53vh + 250px); }
 }
 /* The proof phrase: the intro's highlighter, scrubbed by scroll (TraceFollow sets data-scrub, and per word --h 0..1
    and --c, the pen caret). Reduced motion and no JS keep the shared underline. The tint sits behind the words. */

@@ -7,13 +7,17 @@
 // 4. Every skill item is in resume.md (case-insensitive).
 // 5. If out/ exists (after npm run build): no built page's visible text has a forbidden AI-tone word
 //    (whole words, case-insensitive). out/blog/<slug>.html is Gaurav's own writing and is skipped, and so is a post's
-//    frontmatter description wherever a page quotes it (the /blog tile).
+//    frontmatter description wherever a page quotes it (the /blog tile). No built page says "production" (see 8).
 // 6. src/ never calls api.github.com.
 // 7. Experience records (src/content/experience.json): every role, project, link, stack item and number on the page
 //    exists in resume.md or in the old portfolio's experience data (content/experience-v1.txt). Also: every resume
 //    role has a record and keeps resume.json's header and bullets; an earlier role that resume.md lists keeps its
 //    title and years; dates match the timeline months (s, e) and run newest first; no [[mark]] and no deployment-status
-//    words in the added text.
+//    words in the added text. A project linked to one of his repos (its href is that repo's homepage or GitHub URL in
+//    src/lib/constants.ts, the data behind the home and /projects cards, taken from the repo README) may also use that
+//    repo's technologies and description, so its stack stays the card's.
+// 8. The bare word "production" is a deployment-status word: no Experience record and no built page uses it, except
+//    the PROD_OK phrases below.
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -24,6 +28,13 @@ const md = links(fs.readFileSync(at('resume.md'), 'utf8'))
 const mdLower = md.toLowerCase()
 const R = JSON.parse(fs.readFileSync(at('src/content/resume.json'), 'utf8'))
 const fails = []
+
+// 8. Two earlier roles use "production" in the old portfolio data's own domain sense (Accenture: production data
+// analysis; LIBS: production management, production team). Their wording is left as is and allowed here, by record
+// and phrase; the owner decides whether it stays. Anything else that says "production" fails.
+const PROD_OK = { 'r-acc': ['production data analysis'], 'r-libs': ['production management', 'production team'] }
+const PROD = /\bproduction\b/i
+const unprod = (t, phrases) => phrases.reduce((x, ph) => x.replace(new RegExp(ph, 'gi'), ' '), t)
 
 // 1
 const summary = R.summary.map(s => (typeof s === 'string' ? s : s.text)).join('')
@@ -73,6 +84,8 @@ if (fs.existsSync(OUT)) {
     const own = OWN.reduce((t, d) => t.split(d).join(' '), text)
     const hits = [...new Set((own.match(FORBIDDEN) ?? []).map(w => w.toLowerCase()))]
     if (hits.length) fails.push(`5 out/${rel}: ${hits.join(', ')}`)
+    const prod = unprod(own, Object.values(PROD_OK).flat()).match(new RegExp(`.{0,40}${PROD.source}.{0,40}`, 'i'))
+    if (prod) fails.push(`8 out/${rel} says "production": "${prod[0].replace(/\s+/g, ' ').trim()}"`)
   }
 } else {
   console.log('note: out/ not found, check 5 skipped (run npm run build first)')
@@ -91,6 +104,9 @@ const flat = s => s.toLowerCase().replace(/[^a-z0-9]/g, '')
 const FLAT = `${flat(md)}|${flat(OLD)}`
 const nums = s => s.match(/\d+(?:[.,]\d+)*/g) ?? []
 const NUMS = new Set([...nums(md), ...nums(OLD)])
+// the constants.ts entry of the repo a project links to (its homepage or GitHub URL), as text
+const CONST = fs.readFileSync(at('src/lib/constants.ts'), 'utf8').split(/\n  \{\n/)
+const repoOf = href => CONST.find(c => c.includes(`homepage: '${href}'`) || c.includes(`github: '${href}'`)) ?? ''
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 const FULL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 const HEAD = ['k', 'label', 'short', 'company', 'companyHref', 'title', 'place', 'when', 'sr', 's', 'e', 'bullets']
@@ -133,7 +149,8 @@ for (const x of X) {
     if (!OLD.includes(`name: '${p.name}'`)) fails.push(`${at7} project not in the old portfolio: "${p.name}"`)
     if (!p.desc) fails.push(`${at7} project "${p.name}" has no description`)
   }
-  for (const it of r.stack) if (!FLAT.includes(flat(it))) fails.push(`${at7} stack item not in resume.md or the old portfolio: "${it}"`)
+  const REPOS = flat(r.projects.map(p => (p.href ? repoOf(p.href) : '')).join('|'))
+  for (const it of r.stack) if (!FLAT.includes(flat(it)) && !REPOS.includes(flat(it))) fails.push(`${at7} stack item not in resume.md, the old portfolio or a linked repo: "${it}"`)
   const text = [r.note ?? '', ...(isRole ? [] : r.bullets), ...r.projects.flatMap(p => [p.desc, ...p.points]), ...r.stack].join('\n')
   const urls = [...text.matchAll(/\]\(([^)]+)\)/g)].map(u => u[1]).concat(r.projects.map(p => p.href).filter(Boolean))
   for (const u of urls) if (!inSrc(u.replace(/^https?:\/\//, ''))) fails.push(`${at7} link not in resume.md or the old portfolio: ${u}`)
@@ -144,6 +161,7 @@ for (const x of X) {
   if (text.includes('[[')) fails.push(`${at7} has a [[mark]] outside the resume bullets`)
   const bad = text.match(/\b(in production|staging|landed|since 2024)\b/i)
   if (bad) fails.push(`${at7} uses a deployment-status or dropped phrase: "${bad[0]}"`)
+  if (PROD.test(unprod(text, PROD_OK[r.id] ?? []))) fails.push(`8 ${r.id} says "production" (only PROD_OK phrases are allowed)`)
 }
 
 if (fails.length) {

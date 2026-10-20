@@ -1,13 +1,14 @@
 // Home About (server). Spec 2.1 and WP2.
 // Frozen: id="about", tabIndex={-1} and data-cite="dlai". Scene A cites DeepLearning.AI while About is read.
 // Motion: "Evidence docket" (about/Docket.tsx drives it; the hidden states are in About.module.css). The section is a
-// sticky stage, scroll-linked both ways: the claim (the lede) stays on screen while the Building-now ledger is filed
-// (two records one at a time, the rest as one cascade). Per record the slot opens, its proof is lifted in large as a
-// quote, an amber sweep runs across it, the quote flies into its slot and becomes the proof, then the state pill
-// stamps. A thread runs from the record to the claim words it backs (about/claims.json) and those words get the amber
-// evidence underline. The rule above the ledger is the evidence meter. All words, wrappers and the quote layer are rendered here; Docket only measures and
-// writes styles. Without JS or with reduced motion the section is static, with no track. When the ledger is already in
-// view at load (deep link, restored scroll) the records are static on the same pinned track, so the height never changes.
+// sticky stage, scroll-linked both ways: the claim (the lede) stays on screen while the Building-now ledger is filed.
+// The first record is filed in full: its slot opens, its proof is lifted in large as a quote, an amber sweep runs
+// across it, the quote flies into its slot and becomes the proof, then the state pill stamps. The other records follow
+// as one cascade, swept in place in their slots. A thread runs from each record to the claim words it backs
+// (about/claims.json) and those words get the amber evidence underline. The rule above the ledger is the evidence
+// meter. All words, wrappers and the quote layer are rendered here; Docket only measures and writes styles. Without
+// JS or with reduced motion the section is static, with no track. When the ledger is already in view at load (deep
+// link, restored scroll) the records are static on the same pinned track, so the height never changes.
 import { Fragment, type CSSProperties } from 'react'
 import Link from 'next/link'
 import { resume } from '@/content/resume'
@@ -83,7 +84,6 @@ export default function About() {
               <div className={s.nowH}>
                 <h3 className="h3">Building now</h3>
               </div>
-              <p className={s.creed}>{state.method.rule}</p>
               <ul className={s.rows}>
                 {now.map(n => (
                   <li key={n.name} className={s.row}>
@@ -101,21 +101,19 @@ export default function About() {
           </dl>
         </div>
 
-        {/* the quote layer: each proof lifted in large, and the citation threads (shown only while the docket runs) */}
-        {state && (
+        {/* the quote layer: the first record's proof lifted in large, and the citation threads (only while the docket runs) */}
+        {now[0] && (
           <div className={s.fly} aria-hidden="true">
             <svg className={s.th}>
               {now.map((n, i) => claimed.has(i) && (
                 <g key={n.name} data-th={i}><path /><circle r="2.5" /></g>
               ))}
             </svg>
-            {now.map((n, i) => (
-              <div key={n.name} className={s.q} data-q={i}>
-                <i className={s.qm}>{'“'}</i>
-                <span className={s.qt}><Words text={proofOf(n)} cls={s.w} /></span>
-                <i className={s.qm}>{'”'}</i>
-              </div>
-            ))}
+            <div className={s.q} data-q={0}>
+              <i className={s.qm}>{'“'}</i>
+              <span className={s.qt}><Words text={proofOf(now[0])} cls={s.w} /></span>
+              <i className={s.qm}>{'”'}</i>
+            </div>
           </div>
         )}
       </Docket>

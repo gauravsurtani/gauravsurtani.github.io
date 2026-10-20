@@ -1,6 +1,6 @@
 // /about (server). SPEC 2.3 and WP6: PageHeader, then two columns at 1024px and up.
 // Left: the story (3 paragraphs, no heading of its own: the page header names it) and "Building now" (content/building.json
-// rows that have a vetted label and proof in about/rows.json, the same rows home shows), then the creed.
+// rows that have a vetted label and proof in about/rows.json, the same rows home shows).
 // Right, sticky: the facts list. No deployment-status words anywhere on the page (the home rule).
 // Motion: mask h2s (P3), rise on reach (P3), record rules (P4).
 // On load the page h1 masks in first (PageHeader), then the story follows at +140ms and, at 1024px and up, the facts
@@ -65,7 +65,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {state && now.length > 0 && (
+          {now.length > 0 && (
             <section className={s.now} aria-labelledby="now-h">
               <div className={`sec-h ${s.h}`} {...rv()}>
                 <MaskHeading as="h2" id="now-h" className="h2">Building now</MaskHeading>
@@ -86,10 +86,6 @@ export default function AboutPage() {
                   </li>
                 ))}
               </ul>
-              <div className={s.creed} {...rv()}>
-                <div className="rule" />
-                <p className={s.line} {...ri(0)}>{state.method.rule}</p>
-              </div>
             </section>
           )}
         </div>

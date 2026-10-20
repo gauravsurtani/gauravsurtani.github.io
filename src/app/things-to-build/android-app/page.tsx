@@ -10,14 +10,14 @@ import MaskHeading from '@/components/motion/MaskHeading'
 import { ri, rv } from '@/components/motion/reveal'
 import d from '@/app/projects/[slug]/detail.module.css'
 
-const TITLE = 'Tech Blog Catchup – Android App'
+const TITLE = 'Blog2Podcast Android app'
 const DEK = 'A NotebookLM-style audio experience for engineering blogs.'
 
 export const metadata: Metadata = pageMeta(TITLE, DEK, '/things-to-build/android-app')
 
 const FEATURES = [
   ['URL Input', 'Simple text field to paste blog URLs'],
-  ['Share Extension', 'Android system intent to Share to Tech Blog Catchup'],
+  ['Share Extension', 'Android system intent to Share to Blog2Podcast'],
   ['LLM Script Generation', 'Transform technical text into dialogue scripts'],
   ['TTS Audio Synthesis', 'Generate MP3 podcasts using ElevenLabs or OpenAI'],
   ['Podcast Player', 'Standard controls with background playback'],
@@ -52,7 +52,7 @@ export default function AndroidAppSpec() {
           <ul className={`tags ${d.text}`} aria-label="Technology Stack" {...ri(0)}>{STACK.map(t => <li key={t} className="tag">{t}</li>)}</ul>
         </Rec>
         <Rec h="Status">
-          <p className={d.text} {...ri(0)}><span className="st">Specification Complete — Ready to Build</span></p>
+          <p className={d.text} {...ri(0)}><span className="st">Planned</span></p>
         </Rec>
       </div>
     </div>

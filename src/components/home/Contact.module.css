@@ -1,6 +1,8 @@
 /* Home Contact, scroll option C "The record closes" (ContactScene drives it). The static section first: it is all
-   there is without JS or with reduced motion (axis, cursor at now, the amber line and dot drawn). */
+   there is without JS or with reduced motion (axis, cursor at now, the amber line and dot drawn), and it is the scene's
+   end state: the email fills the column, so the line ends, with its dot, right under the "now" tick. */
 .contact { padding-bottom: clamp(72px, 12vh, 140px); }
+.inner { container-type: inline-size; }   /* the column the address fills (.mail) */
 
 /* Bookend axis, 2018 to now, with the timeline card's geometry (trace.css): a year sits at (y - 2018) / (--now - 2018).
    The clip keeps the cursor and its trail inside the axis while the scene runs it in from 2018. */
@@ -20,17 +22,16 @@
 
 .row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
 
-/* the line and the dot are positioned on this box, which is exactly as wide as the address */
-.box { position: relative; display: inline-block; max-width: 100%; }
-/* phones where the address wraps after the @ (it is 347px wide at 28px): shrink the box to the longer line, so the
-   line does not run on past the text to the gutter */
-@media (max-width: 378px) { .box { width: min-content; } }
+/* the line and the dot are positioned on this box: the column, which the address fills */
+.box { position: relative; display: block; width: 100%; }
 
-/* min-height and padding: a 44px target at any size, and room under the descenders for the line.
-   break-word, not anywhere: same breaks, but it keeps the min-content width at the longer line (see .box). */
+/* The email fills the column: the open end of the record (the address is about 13.6em wide in the serif). The 1.25rem
+   floor (under the size at 320px) lets browser zoom still enlarge it once the column gets narrow; past it, it wraps.
+   min-height and padding: a 44px target at any size, and room under the descenders for the line. */
 .mail { display: inline-block; min-height: 44px; padding: 4px 0 calc(.12em + 6px); color: var(--ink); text-decoration: none;
   font-family: var(--f-serif); font-optical-sizing: auto; font-weight: 400;
-  font-size: clamp(28px, 4.2vw, 52px); line-height: 1.12; letter-spacing: -.015em; overflow-wrap: break-word; }
+  font-size: max(1.25rem, min(calc(100cqw / 13.6), 104px)); line-height: 1.12; letter-spacing: -.02em;
+  overflow-wrap: break-word; }
 .mail:focus-visible { outline-color: var(--ink); border-radius: 4px; }
 
 /* the verdict line: 2px amber under the address, and the open-cap dot at its end (same look as the timeline caps).
@@ -45,25 +46,21 @@
 
 .links { display: flex; flex-wrap: wrap; column-gap: 24px; margin-top: 24px; }
 
-/* The record (ContactScene) exists only on the stage */
+/* The record (ContactScene) exists only while the scene runs */
 .rec, .drop { display: none; }
 
-/* The stage: only while motion is allowed (html.mo) on a screen at least 521px tall; a shorter screen keeps the static
-   section, because the pinned frame would clip it. ContactScene runs on the same query (STAGE in ContactScene.tsx).
-   The content is pinned in one full-width frame, the email set full width, for 0.9 screens of travel: the ::after
-   spacer under the frame. The height comes from CSS at the first paint, so nothing shifts. A jump to
-   #contact (nav, deep link) lands at the end of the stage, where the scene is finished. */
-@media (prefers-reduced-motion: no-preference) and (min-height: 521px) {
-  :global(html.mo) .contact { padding: 0;
-    scroll-margin-top: calc(-90vh - var(--navh) - 20px); scroll-margin-top: calc(-90svh - var(--navh) - 20px); }
-  :global(html.mo) .contact::after { content: ""; display: block; height: 90vh; height: 90svh; }
-  :global(html.mo) .frame { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center;
-    padding: var(--navh) 0 12px; overflow: hidden; container-type: inline-size; }
+/* The scene, while motion is allowed (html.mo): the record behind the content, the cursor's trail and the drop.
+   Two ways to run it (ContactScene picks by whether the frame is sticky):
+   - the stage (a screen at least 641px wide and 521px tall): the frame is pinned, the email set full width, for 0.6
+     screens of travel (the ::after spacer under it), and the record covers the screen. The height comes from CSS at
+     the first paint, so nothing shifts. A jump to #contact (nav, deep link) lands at the end of the stage, where the
+     scene is finished.
+   - anywhere else (phones, short screens): no pin and no spacer, so no empty screen. The section is as tall as its
+     content; the scene plays once, in time, when the reader reaches the email, with the record over the section,
+     which clips it (it never paints on Skills or the footer). */
+@media (prefers-reduced-motion: no-preference) {
+  :global(html.mo) .contact { overflow: clip; }
   :global(html.mo) .inner { position: relative; z-index: 1; width: 100%; }
-  /* the email fills the column: the open end of the record (the address is about 13.6em wide in the serif) */
-  :global(html.mo) .mail { font-size: min(calc((min(100cqw, var(--wrap)) - 2 * var(--gut)) / 13.6), 104px); letter-spacing: -.02em; }
-  :global(html.mo) .box { display: block; width: 100%; }
-  :global(html.mo) .axis { margin-bottom: clamp(14px, 2.4vh, 28px); }
   /* the cursor's trail while it runs to now (--cm from the scene) */
   :global(html.mo) .cur::before { content: ""; position: absolute; right: 0; top: 4px; height: 20px; width: min(260px, 30%); opacity: var(--cm, 0);
     background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 26%, transparent)); }
@@ -94,14 +91,12 @@
   :global(html.mo) .drop { display: block; position: absolute; top: 0; left: 0; z-index: 1; width: 1px; background: var(--accent);
     transform-origin: 50% 0; transform: scaleY(0); pointer-events: none; }
 }
-/* phones: the frame is only as tall as its content, from a fixed top padding, so no centred empty screen sits above
-   "Contact". The record still covers the screen (.rec is one screen tall); the section clips it, so it never paints on
-   Skills, the footer or past the screen edges. The page ends before this short frame can unpin, so the scene ends at
-   the bottom of the page (ContactScene) and the spacer is longer: about 0.8 screens of scroll from pin to page end. */
-@media (prefers-reduced-motion: no-preference) and (min-height: 521px) and (max-width: 640px) {
-  :global(html.mo) .contact { overflow: clip;
-    scroll-margin-top: calc(-125vh - var(--navh) - 20px); scroll-margin-top: calc(-125svh - var(--navh) - 20px); }
-  :global(html.mo) .contact::after { height: 125vh; height: 125svh; }
-  :global(html.mo) .frame { height: auto; padding-top: calc(var(--navh) + 32px); overflow: visible; }
-  :global(html.mo) .rec { bottom: auto; height: 100vh; height: 100svh; }
+/* the stage */
+@media (prefers-reduced-motion: no-preference) and (min-height: 521px) and (min-width: 641px) {
+  :global(html.mo) .contact { padding: 0; overflow: visible;
+    scroll-margin-top: calc(-60vh - var(--navh) - 20px); scroll-margin-top: calc(-60svh - var(--navh) - 20px); }
+  :global(html.mo) .contact::after { content: ""; display: block; height: 60vh; height: 60svh; }
+  :global(html.mo) .frame { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; justify-content: center;
+    padding: var(--navh) 0 12px; overflow: hidden; }
+  :global(html.mo) .axis { margin-bottom: clamp(14px, 2.4vh, 28px); }
 }

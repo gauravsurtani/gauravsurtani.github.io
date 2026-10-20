@@ -62,7 +62,14 @@
     stack = root.querySelector('.gi-st'), nameEl = root.querySelector('.gi-v'), titleEl = root.querySelector('.gi-t'), uEl = root.querySelector('.gi-u');
 
   var lastA = -1, lastDim = '', S0 = null, REV = 3, raf = 0, rev = null, ended = false, built = false, W, H, small, cols = [], picks = [], nameW = [], titleW = [], U = null, Ys = 0,
-    role = document.querySelector('#h-name + p');
+    role = document.querySelector('#h-name + p'), loc = [];
+
+  /* reduced motion turned on while the intro is up: it goes now and the hero is left as a reduced-motion load draws it.
+     Before hydration nobody else is listening yet (src/components/motion/reduce.ts), so drop the motion classes here too;
+     after it, Entrance's own onReduce lands the card. */
+  var rm = matchMedia('(prefers-reduced-motion: reduce)');
+  function onRm(e) { if (e.matches) { d.classList.remove('mo', 'intro', 'brief'); end(); } }
+  if (rm.addEventListener) rm.addEventListener('change', onRm);
 
   /* any input skips to a fast reveal. Passive and never cancelled: the wheel, touch or key that skips also scrolls the page */
   var EV = ['wheel', 'touchstart', 'keydown', 'pointerdown'];
@@ -85,7 +92,7 @@
   Promise.race([fontsReady, new Promise(function (r) { setTimeout(r, 1400); })]).then(begin, begin);
 
   function begin() {
-    if (S0 !== null) return;
+    if (S0 !== null || ended) return;
     S0 = now();
     REV = Math.max(2.8, 3.2 - S0); /* the reveal starts about 3.2 s after navigation */
     go();
@@ -123,6 +130,7 @@
     var hn = qsa(document, '#h-name .tk'), hr = qsa(document, '#h-name + p .tk'), rt = [];
     for (var a = 0; a < hr.length; a++) { rt.push(hr[a]); if (/evaluation/.test(hr[a].textContent)) break; }
     if (!hn.length || !/evaluation/.test(rt.length ? rt[rt.length - 1].textContent : '')) { hn = []; rt = []; }
+    loc = rt.length ? hr.slice(rt.length) : []; /* "· San Francisco Bay Area": the rest of the role line, which does not fly */
     var nTxt = hn.length ? hn.map(function (e) { return e.textContent; }) : ['Gaurav ', 'Surtani'],
       tTxt = rt.length ? rt.map(function (e) { return e.textContent; }) : ['AI ', 'Engineer', ', ', 'LLM ', 'applications ', 'and ', 'evaluation'];
     function words(list) {
@@ -304,7 +312,8 @@
         w.el.style.opacity = 1; w.el.style.filter = '';
       });
       /* the title moves as one block onto the role line's first word. If the role wraps inside the title's words
-         (phones), the block cannot land word for word, so it cross-fades into the real role on the way */
+         (phones), the block cannot land word for word, so it fades out as the evidence line stretches (gone before the split
+         uncovers the card under it) and the real role fades in once the name is above it */
       titleW.forEach(function (w) { w.el.style.opacity = 1; w.el.style.transform = ''; });
       var r0 = rect(titleW[0].el.firstChild), tb = rect(titleEl), t0 = titleW[0].tw, rr = rect(t0), tops = titleW.map(function (w) { return Math.round(rect(w.tw).top); });
       rev.tt = {tx: rr.left - r0.left, ty: rr.top - r0.top, s: parseFloat(getComputedStyle(t0).fontSize) / titleW[0].f,
@@ -339,9 +348,13 @@
       var fade = 1 - seg(k, .64, .14);
       nameEl.style.opacity = fade;
       if (tt.cf) {
-        titleEl.style.opacity = 1 - seg(k, .1, .3);
+        titleEl.style.opacity = 1 - seg(k, .02, .1);
         if (role) role.style.setProperty('opacity', seg(k, .55, .25).toFixed(3), 'important'); /* once the name is above it */
-      } else titleEl.style.opacity = fade;
+      } else {
+        titleEl.style.opacity = fade;
+        /* the title lands word for word; the rest of the role line fades in beside it as the real line shows */
+        loc.forEach(function (e) { e.style.opacity = seg(k, .64, .25).toFixed(3); });
+      }
     } else {
       nameEl.style.opacity = titleEl.style.opacity = 1 - seg(k, 0, .35);
     }
@@ -354,6 +367,8 @@
     raf = 0; unlisten();
     d.classList.remove('gi-sh');
     if (role) role.style.removeProperty('opacity');
+    loc.forEach(function (e) { e.style.removeProperty('opacity'); });
+    if (rm.removeEventListener) rm.removeEventListener('change', onRm);
     if (root.parentNode) root.parentNode.removeChild(root);
     d.classList.remove('gi', 'gi-up');
   }

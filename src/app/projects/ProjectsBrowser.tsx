@@ -44,7 +44,7 @@ function Card({ r, tech }: { r: Repo; tech: string }) {
   const details = detailsOf(r)
   const links = [
     r.github && { label: 'GitHub', href: r.github, external: true },
-    r.homepage && { label: r.homepage.includes('npmjs.com') ? 'npm' : 'Live', href: r.homepage, external: true },
+    r.homepage && { label: r.homepage.includes('npmjs.com') ? 'npm' : new URL(r.homepage).hostname.replace(/^www\./, ''), href: r.homepage, external: true },
     details && { label: 'Details', href: details },
   ].filter(Boolean) as L[]
   // the selected technology leads the tags, so a match is visible on the tile

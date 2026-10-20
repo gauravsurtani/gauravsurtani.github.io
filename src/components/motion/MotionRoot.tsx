@@ -8,7 +8,8 @@
 // - "Above" observer: a block anywhere above the viewport (a jump, a deep link, a restored scroll passed it) gets
 //   data-in at once with data-now (transitions off for 2 frames). A jump never lands among hidden content.
 // - MutationObserver: blocks added later (client navigation, filter results), or a reused node that gains data-rv,
-//   are picked up automatically. Nothing else needs to call anything: render data-rv/data-ri markup (see reveal.ts).
+//   are picked up automatically; blocks removed before they were revealed are unobserved and their timers cleared.
+//   Nothing else needs to call anything: render data-rv/data-ri markup (see reveal.ts).
 // - focusin: keyboard focus inside a block that is still hidden (below the 85% line) reveals it at once.
 // - Without html.mo (reduced motion, or the failsafe fired): every block gets data-in at once. Reduced motion turned on
 //   later (reduce.ts removes html.mo): every block still hidden gets data-in at once and the observers stop.
@@ -31,16 +32,19 @@ export default function MotionRoot() {
     window.__mr = 1
     const pending = new Set<Element>()             // watched, not revealed yet: re-observed when the observers are rebuilt
     const net = new Map<Element, number>()          // safety-net timers
-    const reveal = (el: Element, instant: boolean) => {
-      if (el.hasAttribute('data-in')) return
-      if (instant) el.setAttribute('data-now', '')
-      el.setAttribute('data-in', '')
+    const drop = (el: Element) => {                // stop watching a block: revealed, or removed from the page
       pending.delete(el)
       rio.unobserve(el)
       above.unobserve(el)
       full.unobserve(el)
       clearTimeout(net.get(el))
       net.delete(el)
+    }
+    const reveal = (el: Element, instant: boolean) => {
+      if (el.hasAttribute('data-in')) return
+      if (instant) el.setAttribute('data-now', '')
+      el.setAttribute('data-in', '')
+      drop(el)
       if (instant) requestAnimationFrame(() => requestAnimationFrame(() => el.removeAttribute('data-now')))
     }
     // Fast reach: a block that scrolled in (not one already in view when observed) gets data-fast (no stagger, 200ms)
@@ -100,10 +104,15 @@ export default function MotionRoot() {
       root.querySelectorAll('[data-rv]:not([data-in])').forEach(watch)
     }
     scan(document)
-    const mo = new MutationObserver(ms => ms.forEach(m => {
-      if (m.type === 'attributes') { if (m.target instanceof Element) scan(m.target) }
-      else m.addedNodes.forEach(n => n instanceof Element && scan(n))
-    }))
+    // removed subtrees (a client navigation away from unseen blocks): drop their blocks, so nothing keeps them alive
+    const mo = new MutationObserver(ms => {
+      let gone = false
+      ms.forEach(m => {
+        if (m.type === 'attributes') { if (m.target instanceof Element) scan(m.target) }
+        else { m.addedNodes.forEach(n => n instanceof Element && scan(n)); gone ||= m.removedNodes.length > 0 }
+      })
+      if (gone) pending.forEach(el => el.isConnected || drop(el))
+    })
     mo.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['data-rv'] })
     const onFocus = (e: FocusEvent) => {
       const b = (e.target as Element).closest?.('[data-rv]:not([data-in])')
