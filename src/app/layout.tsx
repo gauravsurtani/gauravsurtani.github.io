@@ -26,12 +26,13 @@ export const metadata: Metadata = {
   title: { default: TITLE, template: '%s · Gaurav Surtani' },
   description: DESCRIPTION,
   icons: {
+    // ?v=2: the GS monogram replaced a photo icon; a new URL makes browsers drop their cached copy
     icon: [
-      { url: '/icon/favicon.ico' },
-      { url: '/icon/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/icon/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon/favicon.ico?v=2' },
+      { url: '/icon/favicon-16x16.png?v=2', sizes: '16x16', type: 'image/png' },
+      { url: '/icon/favicon-32x32.png?v=2', sizes: '32x32', type: 'image/png' },
     ],
-    apple: [{ url: '/icon/apple-touch-icon.png', type: 'image/png' }],
+    apple: [{ url: '/icon/apple-touch-icon.png?v=2', type: 'image/png' }],
   },
   manifest: '/manifest.json',
   openGraph: {
