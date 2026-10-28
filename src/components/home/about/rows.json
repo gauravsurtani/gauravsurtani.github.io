@@ -1,0 +1,22 @@
+{
+  "Career agent": {
+    "label": "Building",
+    "proof": "helps candidates find their next role and returns a growth report"
+  },
+  "Sourcing tool": {
+    "label": "In use",
+    "proof": "migrated from Railway to AWS with zero-downtime deploys"
+  },
+  "AI interviewer": {
+    "label": "In use",
+    "proof": "ties every skill score to a verified transcript quote"
+  },
+  "Jobs collector": {
+    "label": "Built",
+    "proof": "tracks careers pages at 1,400+ companies, 99,000+ jobs collected"
+  },
+  "gaurav-os": {
+    "label": "Running",
+    "proof": "refreshes itself every ten minutes"
+  }
+}

@@ -1,0 +1,139 @@
+/* Timeline card (Trace.tsx). Global sheet, every selector scoped to .trace-col / .trace.
+   G2 sizes (480px column, 34px rows, 13.5px labels, 10px bars), every gridline incl. 2018, labels centered on their
+   lines, CSS-calc geometry from --now. The opening's hidden states and keyframes live in entrance.css; this sheet only
+   holds the resting look and the transitions JS toggles (cursor, band, caps, dims, indicator, note underline).
+
+   Geometry: a year v sits at (v - --t0) / --span of the track, --span = --now - 2018. --now is a decimal year set on
+   <html> (head script; build-time fallback), so current roles always end today with no hydration shift. */
+
+.trace-col { min-width: 0; }
+.trace { --t0: 2018; --span: calc(var(--now, 2026.8) - var(--t0)); --lbl: 120px; --rh: 34px; --axh: 28px; --pr: 12px;
+  position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 14px 16px 16px; }
+/* the shadow is its own layer, so the opening can fade it in after the card lands (entrance.css) */
+.trace::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; box-shadow: var(--shadow); pointer-events: none; }
+
+.trace .t-head { display: flex; align-items: center; justify-content: space-between; height: 32px; margin-bottom: 8px; }
+.trace .t-title { font: 500 12.5px/1 var(--f-mono); color: var(--muted); }
+
+/* replay: 32px button, 44px hit area, tooltip on hover/focus. JS-only, hidden on touch and under reduced motion. */
+.trace .replay { position: relative; width: 32px; height: 32px; margin-right: -6px; display: grid; place-items: center; border-radius: 8px; color: var(--muted);
+  transition: color var(--d2), background-color var(--d2); }
+.trace .replay::before { content: ""; position: absolute; inset: -6px; }
+.trace .replay:hover { color: var(--ink); background: var(--bg); }
+.trace .replay svg { transition: transform 520ms var(--e-io); }
+.trace .replay:hover svg { transform: rotate(-200deg); }
+.trace .tip::before { content: attr(data-t); }
+.trace .tip { position: absolute; right: calc(100% + 6px); top: 50%; padding: 4px 8px; border-radius: 6px; background: var(--ink); color: var(--bg);
+  font: 500 12px/1.2 var(--f-sans); white-space: nowrap; opacity: 0; transform: translate(4px, -50%); pointer-events: none;
+  transition: opacity var(--d2), transform var(--d2) var(--e-out); }
+.trace .replay:hover .tip, .trace .replay:focus-visible .tip { opacity: 1; transform: translate(0, -50%); }
+html:not(.mo) .trace .replay { display: none; }   /* no JS, reduced motion, or the failsafe fired */
+@media (hover: none) { .trace .replay { display: none; } }
+@media (prefers-reduced-motion: reduce) { .trace .replay { display: none; } }
+
+/* axis, gridlines, cited span, sweep cursor */
+.trace .tb { position: relative; }
+.trace .axis { display: grid; grid-template-columns: var(--lbl) 1fr; height: var(--axh); }
+.trace .tk-row { position: relative; margin-right: var(--pr); }
+.trace .yr { position: absolute; top: 0; left: calc((var(--y) - var(--t0)) / var(--span) * 100%); transform: translateX(-50%);
+  font: 400 11.5px/1 var(--f-mono); color: var(--muted); transition: opacity 120ms; }
+.trace .yr.odd { display: none; }
+.trace .yr.under { opacity: 0; transition-duration: 60ms; }   /* the sweep's year chip is passing over this label */
+.trace .ov { position: absolute; top: 0; bottom: 0; left: var(--lbl); right: var(--pr); pointer-events: none; }
+.trace .gl { position: absolute; top: calc(var(--axh) - 8px); bottom: 0; left: calc((var(--y) - var(--t0)) / var(--span) * 100%); width: 1px; background: var(--line); }
+.trace .band { position: absolute; top: calc(var(--axh) - 8px); bottom: 0; left: 0; width: 100%; border-top: 2px solid var(--accent);
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 20%, transparent), transparent 92%); transform-origin: 0 50%; opacity: 0;
+  transition: opacity 320ms var(--e-soft), transform 480ms var(--e-io); }
+.trace .band.on { opacity: 1; }
+.trace .band.live { transition: opacity 200ms; }
+.trace .band.vd { transition: opacity 320ms var(--e-soft), transform 600ms var(--e-land); }   /* the verdict: 2024 draws back to 2018 */
+/* sweep cursor: 2px line with a 48px amber wake behind it (clipped at 2018). --x is set per frame by Entrance. */
+.trace .cursor { position: absolute; top: 14px; bottom: 0; left: -1px; width: 2px; background: var(--accent); opacity: 0; transform: translateX(var(--x, 0px));
+  transition: opacity 360ms; }
+.trace .cursor::before { content: ""; position: absolute; top: 0; bottom: 0; right: 100%; width: 48px; background: linear-gradient(to left, var(--accent), transparent);
+  opacity: .35; clip-path: inset(0 0 0 max(0px, calc(47px - var(--x, 0px)))); }
+.trace .cursor.on { opacity: 1; transition: opacity 120ms; }
+.trace .cursor b:empty { display: none; }
+.trace .cursor b { position: absolute; top: -16px; left: 1px; transform: translateX(-50%); padding: 1px 5px; border-radius: 4px; background: var(--surface);
+  border: 1px solid var(--accent); font: 500 12px/1.3 var(--f-mono); color: var(--accent-ink); white-space: nowrap; }
+
+/* rows */
+.trace .rows { position: relative; }
+.trace .row { position: relative; display: grid; grid-template-columns: var(--lbl) 1fr; align-items: center; height: var(--rh); }
+/* the label is a link to the record (Entrance turns the click into land()). Its ::after covers the row, so the whole
+   row is the target (touch too) and carries the focus ring. */
+.trace .lbl { font-size: 13.5px; line-height: 1.2; color: var(--ink-2); text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  padding-right: 10px; border-radius: 3px; }
+.trace .lbl::after { content: ""; position: absolute; inset: 0 -8px; z-index: 1; border-radius: 8px; }   /* the row indicator's box */
+.trace .lbl:focus-visible { outline: none; }
+.trace .lbl:focus-visible::after { outline: 2px solid var(--accent); outline-offset: -2px; }
+.trace .track { position: relative; height: 100%; margin-right: var(--pr); }
+.trace .lbl, .trace .track { transition: opacity 260ms var(--e-soft); }
+.trace .bar { position: absolute; top: 50%; left: calc((var(--s) - var(--t0)) / var(--span) * 100%);
+  width: calc((var(--e, var(--now, 2026.8)) - var(--s)) / var(--span) * 100%); min-width: 4px; height: 10px; margin-top: -5px; border-radius: 5px;
+  background: var(--bar); transform-origin: 0 50%; }
+/* amber layer over the graphite fill: on for the cited row, and while the sweep writes the bar (.wr); it crossfades out */
+.trace .bar::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: var(--accent); opacity: 0; transition: opacity 260ms var(--e-soft); }
+.trace .row.act .bar::after, .trace .row.wr .bar::after { opacity: 1; }
+.trace .row.wr .bar::after { transition: none; }
+.trace .cap, .trace .pt { position: absolute; top: 50%; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; pointer-events: none; }
+/* the open cap sits at the end of a current role; the ping point at the start of every bar (where the evidence begins) */
+.trace .cap { left: calc((var(--now, 2026.8) - var(--t0)) / var(--span) * 100%); background: var(--accent); box-shadow: 0 0 0 2px var(--surface);
+  transition: opacity 120ms, transform 300ms var(--e-snap); }
+.trace .pt { left: calc((var(--s) - var(--t0)) / var(--span) * 100% + 5px); }
+.trace .cap::after, .trace .pt::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); opacity: 0; }
+.trace .ping::after { animation: ping var(--d5) var(--e-out); }   /* P9: one shot; trace-api removes .ping on animationend */
+/* the pen tip: while the sweep writes a bar, its ping point rides the leading edge (Entrance sets the translateX) */
+.trace .pt::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 2px var(--surface); opacity: 0;
+  transition: opacity 160ms; }
+.trace .row.wr .pt::before { opacity: 1; transition: none; }
+
+/* row indicator (Scene A) and the cited state */
+.trace .ind { position: absolute; left: -8px; right: -8px; top: 0; height: var(--rh); border-radius: 8px; background: var(--accent-tint); opacity: 0; pointer-events: none;
+  transition: opacity 260ms; }
+.trace .ind::before { content: ""; position: absolute; left: 0; top: 7px; bottom: 7px; width: 2px; border-radius: 2px; background: var(--accent); }
+.trace.pv .ind { transition: opacity 260ms, transform 300ms var(--e-io); }
+/* dim the graphics, not the words: inactive labels keep 4.5:1 (.72 of --ink-2 on --surface: 4.8 light, 6.0 dark) */
+.trace.focus .row:not(.act) .track { opacity: .45; }
+.trace.focus .row:not(.act) .lbl { opacity: .72; }
+.trace .row.act .lbl { color: var(--ink); }
+/* the whole row clicks through to the record where the label is a link (1024px and up) */
+@media (hover: hover) and (pointer: fine) and (min-width: 1024px) { html.js .trace .row { cursor: pointer; } }
+
+/* the phone copy of the hero notes, as the card footer. A claim cite draws the paired note's underline (P4 style). */
+.trace .t-notes { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); display: grid; gap: 2px; font-size: 12px; line-height: 1.4; color: var(--muted); }
+.trace .t-notes li { display: grid; grid-template-columns: 14px minmax(0, 1fr); }
+.trace .t-notes .n { font: 500 11px/1.65 var(--f-mono); color: var(--accent-ink); }
+.trace .t-notes .nt { position: relative; justify-self: start; align-self: start; transition: color var(--d2); }
+.trace .t-notes .nt::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1.5px; background: var(--accent);
+  transform: scaleX(0); transform-origin: right; transition: transform 300ms var(--e-out); }
+.trace .t-notes li.hl .nt { color: var(--ink-2); }
+.trace .t-notes li.hl .nt::after { transform: scaleX(1); transform-origin: left; }
+
+@media (min-width: 1024px) {
+  /* Scene B (pure CSS): the static position equals the sticky offset, so the card never jumps when it sticks.
+     --th = the card's height, measured at 1024, 1280 and 1440: 440px (header 32 + 8, axis 28, 10 rows of 34, padding, border). */
+  .trace-col { --th: 440px; --tt: max(24px, calc((100svh - var(--navh) - var(--th)) / 2 - 8px)); padding-top: var(--tt); }
+  .trace { position: sticky; top: calc(var(--navh) + var(--tt)); }
+  .trace .t-notes { display: none; }
+}
+/* too short to pin the card under the nav (64 + 24 + 440 + a 12px margin): it stays in the page, so no row is out of
+   reach (Experience drops its runway at the same height) */
+@media (min-width: 1024px) and (max-height: 539px) {
+  .trace-col { padding-top: 24px; }
+  .trace { position: relative; top: auto; }
+}
+@media (max-width: 1023px) {
+  /* phones: the whole card (with the notes footer) fits the first screen at 390x844. 24px rows: each row is a link
+     to its record, and 24px is the smallest target that needs no spacing (WCAG 2.5.8). */
+  .trace { --lbl: 104px; --rh: 24px; --axh: 24px; padding: 8px 14px 10px; }
+  .trace .t-head { height: 28px; margin-bottom: 2px; }
+  .trace .lbl { font-size: 12.5px; padding-right: 8px; }
+}
+@media (max-width: 419px) {
+  .trace { --lbl: 96px; }
+  .trace .lbl { font-size: 0; }
+  /* the full label stays the link's name: the short one is shown, not read */
+  .trace .lbl::before { content: attr(data-short); content: attr(data-short) / ""; font-size: 12.5px; }
+}
+@media (max-width: 359px) { .trace .yr.mid { display: none; } }

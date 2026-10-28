@@ -4,10 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   transpilePackages: ['react-markdown', 'remark-gfm'],
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;

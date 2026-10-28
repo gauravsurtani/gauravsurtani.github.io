@@ -1,0 +1,4 @@
+/* 404: the PageHeader, then one row of links. Bottom padding matches the other pages before the footer. */
+.nf { padding-bottom: clamp(72px, 12vh, 140px); }
+.links { display: flex; flex-wrap: wrap; gap: 0 32px; }
+.links a { font-size: 17px; }

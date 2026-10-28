@@ -1,0 +1,12 @@
+{
+  "r-dlai": {"mono": "DL", "logo": "png"},
+  "r-b2p": {"mono": "B2P", "logo": "svg"},
+  "r-tassel": {"mono": "T", "logo": "png", "fill": true},
+  "r-bexorg": {"mono": "B", "logo": "png", "fill": true},
+  "r-nasa": {"mono": "NASA", "logo": "png"},
+  "r-sjsu": {"mono": "SJSU", "logo": "png"},
+  "r-asc": {"mono": "AS", "logo": "png", "fill": true},
+  "r-libs": {"mono": "L", "logo": null},
+  "r-acc": {"mono": "AC", "logo": "png"},
+  "r-ent": {"mono": "E", "logo": null}
+}

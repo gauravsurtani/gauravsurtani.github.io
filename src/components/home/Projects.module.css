@@ -1,0 +1,55 @@
+/* Home project tiles. One column under 1024px, a 2x2 grid at 1024px and up. The column gap stays over 32px so the
+   two 16px hover bleeds of neighbouring tiles never touch. */
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 48px; row-gap: 40px; }
+
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* the 2nd tile in a row is filed 90ms after the 1st (both reach the line together) */
+  .grid > :nth-child(2n) { --o: 90ms; }
+}
+
+/* ---- "Filed as exhibits" (Projects.tsx, projects/Filed.tsx) ----
+   The finished state is also the static one (no JS, reduced motion): the rule with its 2px amber verdict tick, and
+   the amber evidence mark on each tile's first link (npm, the live site or GitHub). */
+.rule { position: relative; background: var(--line-2); }
+.rule::after { content: ""; position: absolute; left: 0; top: -.5px; width: 28px; height: 2px; background: var(--accent); transform-origin: 0 50%; }
+.ev::before { top: 12px; bottom: 8px; left: 3px; right: 3px; height: auto; z-index: -1; border-radius: 2px;
+  background: color-mix(in srgb, var(--accent) 24%, transparent); box-shadow: inset 0 -2px 0 var(--accent); transform-origin: 0 50%; }
+.ev :global(.ext) { color: var(--accent-ink); }
+
+/* the title link's own box is 44px tall, a full touch target on its own (not only through the stretched ::before);
+   the negative margin gives the height back, so the line box and the look do not change */
+.name :global(.tile-a) { display: inline-block; padding-block: 11px; margin-block: -11px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* a settling tag is 1.1x: clip it at the screen edge (clip makes no scroll container) */
+  :global(html.mo) .sec { overflow-x: clip; }
+
+  /* not filed yet */
+  :global(html.mo) .tile:not([data-f]) .rule,
+  :global(html.mo) .tile:not([data-f]) .rule::after,
+  :global(html.mo) .tile:not([data-f]) .ev::before { transform: scaleX(0); }
+  :global(html.mo) .tile:not([data-f]) :is(.name, .meta, .desc, .links) { opacity: 0; transform: translateY(var(--rise)); }
+  :global(html.mo) .tile:not([data-f]) .tags > li { opacity: 0; transform: translateY(6px) scale(1.1); }
+
+  /* filing (data-f="in"; "now" gets the finished state with no transitions). Five beats after the tile's --o:
+     0 the rule draws | .1 name and description rise | .3 tags settle (40ms apart) | .5 links rise, .62 the amber
+     sweep crosses the proof link | .95 the tick lands */
+  .tile[data-f="in"] .rule { transition: transform var(--d4) var(--e-out) var(--o, 0s); }
+  .tile[data-f="in"] :is(.name, .meta, .desc, .links) { transition: opacity var(--d3) var(--e-soft), transform var(--d3) var(--e-out);
+    transition-delay: calc(var(--o, 0s) + var(--t)); }
+  .tile[data-f="in"] :is(.name, .meta) { --t: .1s; }
+  .tile[data-f="in"] .desc { --t: .14s; }
+  .tile[data-f="in"] .links { --t: .5s; }
+  .tile[data-f="in"] .tags > li { transition: opacity .2s var(--e-soft), transform var(--d3) var(--e-out);
+    transition-delay: calc(var(--o, 0s) + .3s + var(--n, 0) * var(--stag)); }
+  .tile[data-f="in"] .ev::before { transition: transform .36s var(--e-io) calc(var(--o, 0s) + .62s); }
+  .tile[data-f="in"] .rule::after { animation: tick .5s var(--e-soft) calc(var(--o, 0s) + .95s) both; }
+}
+
+/* the verdict tick lands: draws from the left, thickens on impact with an amber glow, settles */
+@keyframes tick {
+  0% { transform: scaleX(0); filter: none; }
+  45% { transform: scale(1.14, 2.6); filter: drop-shadow(0 0 6px var(--accent)); }
+  100% { transform: none; filter: none; }
+}
