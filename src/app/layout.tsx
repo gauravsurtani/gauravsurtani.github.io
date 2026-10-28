@@ -18,7 +18,7 @@ const serif = Newsreader({ subsets: ['latin'], axes: ['opsz'], style: ['normal']
 // real italic for post emphasis (.prose em, blockquote). Not preloaded: only blog posts use it.
 const serifItalic = Newsreader({ subsets: ['latin'], axes: ['opsz'], style: ['italic'], variable: '--font-newsreader-italic', display: 'optional', preload: false })
 
-const TITLE = 'Gaurav Surtani · AI Engineer, LLM applications and evaluation'
+const TITLE = 'Gaurav Surtani · AI Engineer, Product Builder'
 const DESCRIPTION = 'AI engineer with eight years in full-stack, data and ML engineering, building LLM applications.'
 
 export const metadata: Metadata = {

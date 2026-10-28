@@ -128,11 +128,11 @@
 
     /* the verdict: name and title copy the hero's own tokens so each word can fly onto its twin */
     var hn = qsa(document, '#h-name .tk'), hr = qsa(document, '#h-name + p .tk'), rt = [];
-    for (var a = 0; a < hr.length; a++) { rt.push(hr[a]); if (/evaluation/.test(hr[a].textContent)) break; }
-    if (!hn.length || !/evaluation/.test(rt.length ? rt[rt.length - 1].textContent : '')) { hn = []; rt = []; }
+    for (var a = 0; a < hr.length && hr[a].textContent.trim() !== '\u00b7'; a++) rt.push(hr[a]); /* the title ends at the "·" */
+    if (!hn.length || !rt.length || rt.length === hr.length) { hn = []; rt = []; }
     loc = rt.length ? hr.slice(rt.length) : []; /* "· San Francisco Bay Area": the rest of the role line, which does not fly */
     var nTxt = hn.length ? hn.map(function (e) { return e.textContent; }) : ['Gaurav ', 'Surtani'],
-      tTxt = rt.length ? rt.map(function (e) { return e.textContent; }) : ['AI ', 'Engineer', ', ', 'LLM ', 'applications ', 'and ', 'evaluation'];
+      tTxt = rt.length ? rt.map(function (e) { return e.textContent; }) : ['AI ', 'Engineer', ', ', 'Product ', 'Builder'];
     function words(list) {
       return list.map(function (s, i) { var sp = /\s$/.test(s) && i < list.length - 1 ? ' ' : ''; return '<span class="gi-w"><span>' + esc(s.trim()) + '</span></span>' + sp; }).join('');
     }
