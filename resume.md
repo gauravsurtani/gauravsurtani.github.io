@@ -1,5 +1,5 @@
 # Gaurav Surtani
-AI Engineer, LLM applications and evaluation
+AI Engineer, Product Builder
 
 San Francisco Bay Area | [gaurav.surtani.tech@gmail.com](mailto:gaurav.surtani.tech@gmail.com) | [gauravsurtani.github.io](https://gauravsurtani.github.io) | [linkedin.com/in/gaurav-surtani](https://linkedin.com/in/gaurav-surtani) | [github.com/gauravsurtani](https://github.com/gauravsurtani)
 
