@@ -21,7 +21,7 @@
       "name": "AI interviewer",
       "state": "in-use",
       "what": "",
-      "proof": "ties every skill score to a verified transcript quote",
+      "proof": "each score shows the quote it came from",
       "next": ""
     },
     {

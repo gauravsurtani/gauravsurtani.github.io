@@ -1,7 +1,7 @@
 [
   ["Summary","AI engineer with eight years in full-stack, data and ML engineering, building LLM applications.","building LLM applications"],
   ["DeepLearning.AI · Sep 2025 – Present","Built and maintain the recruiter sourcing and review tool: migrated it from Railway to AWS with zero-downtime deploys, added bulk actions for 1,000 candidates, and cut LLM scoring costs.","cut LLM scoring costs"],
-  ["DeepLearning.AI · Sep 2025 – Present","Built the AI technical interviewer used in live hiring, with evidence-based grading that ties every skill score to a verified transcript quote, so hiring managers can decide from the report alone.","ties every skill score to a verified transcript quote"],
+  ["DeepLearning.AI · Sep 2025 – Present","Built the AI technical interviewer used in live hiring. It scores candidates on what they say, and each score shows the quote it came from, so a recruiter can check it.","each score shows the quote it came from"],
   ["Accenture · 2018 – 2020","Software Engineer"],
   ["Tassel · Jun 2025 – Sep 2025","Built a multi-agent transliteration chain on OpenAI that converts each student’s name into its native-language script, so an ElevenLabs native voice pronounces it correctly in ceremony announcements.","multi-agent transliteration chain"],
   ["Bexorg · May 2024 – May 2025","Built a real-time data visualization platform on Neo4j and BigQuery with role-based access for 40+ users, cutting retrieval time 45%.","real-time data visualization platform"],
