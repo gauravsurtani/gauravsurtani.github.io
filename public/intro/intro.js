@@ -13,7 +13,7 @@
   var REC = [
     ['Summary', 'AI engineer with eight years in full-stack, data and ML engineering, building LLM applications.', 'building LLM applications'],
     [DLAI, 'Built and maintain the recruiter sourcing and review tool: migrated it from Railway to AWS with zero-downtime deploys, added bulk actions for 1,000 candidates, and cut LLM scoring costs.', 'cut LLM scoring costs'],
-    [DLAI, 'Built the AI technical interviewer used in live hiring, with evidence-based grading that ties every skill score to a verified transcript quote, so hiring managers can decide from the report alone.', 'ties every skill score to a verified transcript quote'],
+    [DLAI, 'Built the AI technical interviewer used in live hiring. It scores candidates on what they say, and each score shows the quote it came from, so a recruiter can check it.', 'each score shows the quote it came from'],
     ['Accenture · 2018 – 2020', 'Software Engineer'],
     [TAS, 'Built a multi-agent transliteration chain on OpenAI that converts each student’s name into its native-language script, so an ElevenLabs native voice pronounces it correctly in ceremony announcements.', 'multi-agent transliteration chain'],
     [BEX, 'Built a real-time data visualization platform on Neo4j and BigQuery with role-based access for 40+ users, cutting retrieval time 45%.', 'real-time data visualization platform'],
@@ -35,7 +35,7 @@
     ['San Jose State University', 'MS, Artificial Intelligence']
   ];
   /* which evidence is picked first, and the order the picked quotes stack in (top to bottom) */
-  var PRI = ['ties every skill score to a verified transcript quote', 'building LLM applications', 'LLM evaluation', 'founding and sole engineer',
+  var PRI = ['each score shows the quote it came from', 'building LLM applications', 'LLM evaluation', 'founding and sole engineer',
     'multi-agent transliteration chain', 'Analyzed flight-path adherence', 'natural-language analytics tool', 'real-time anomaly detection', 'Designed and built the Valence Career Agent',
     'cut LLM scoring costs', 'published dlai-mcp-server on npm', 'real-time data visualization platform', 'Automated data validation', 'daily AI-narrated podcasts',
     'segments graduation ceremony recordings', 'on-demand scaling', 'Resolved critical pipeline bottlenecks', 'to power role recommendations'];

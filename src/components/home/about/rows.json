@@ -9,7 +9,7 @@
   },
   "AI interviewer": {
     "label": "In use",
-    "proof": "ties every skill score to a verified transcript quote"
+    "proof": "each score shows the quote it came from"
   },
   "Jobs collector": {
     "label": "Built",

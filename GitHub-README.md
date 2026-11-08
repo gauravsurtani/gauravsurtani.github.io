@@ -11,7 +11,7 @@ AI engineer with eight years in full-stack, data and ML engineering, building LL
 
 Founding AI Engineer at DeepLearning.AI, Sep 2025 to present. I built its three AI recruiting products:
 
-- **AI technical interviewer**, used in live hiring. Every skill score ties to a verified transcript quote, so hiring managers can decide from the report alone.
+- **AI technical interviewer**, used in live hiring. It scores candidates on what they say, and each score shows the quote it came from, so a recruiter can check it.
 - **Recruiter sourcing and review tool**, which I also maintain. I migrated it from Railway to AWS with zero-downtime deploys.
 - **Valence Career Agent**, which helps candidates find their next role. It runs a technical assessment and returns a growth report.
 

@@ -14,7 +14,7 @@ AI engineer with eight years in full-stack, data and ML engineering, building LL
 ### DeepLearning.AI — Founding AI Engineer
 *Sep 2025 – Present | San Francisco Bay Area*
 
-- Built the AI technical interviewer used in live hiring, with evidence-based grading that ties every skill score to a verified transcript quote, so hiring managers can decide from the report alone.
+- Built the AI technical interviewer used in live hiring. It scores candidates on what they say, and each score shows the quote it came from, so a recruiter can check it.
 - Built and maintain the recruiter sourcing and review tool: migrated it from Railway to AWS with zero-downtime deploys, added bulk actions for 1,000 candidates, and cut LLM scoring costs.
 - Designed and built the Valence Career Agent, which helps candidates find their next role: it learns their goal, background and job constraints, runs a technical assessment, and returns a growth report with a positioning statement, answer coaching and a three-part growth plan.
 - Built a job-data pipeline tracking careers pages at 1,400+ companies, with 99,000+ jobs collected and 78,000+ live, to power role recommendations.
